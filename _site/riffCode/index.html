@@ -572,7 +572,7 @@ LEFT JOIN ChordProg AS chord ON chord.id = master.chordProg_id
 WHERE subgenre_tbl.name = 'Americana'
 GROUP BY chord.prog
 ORDER BY COUNT(*) DESC
-LIMIT 11
+LIMIT 10
 ;
 ''')
 
