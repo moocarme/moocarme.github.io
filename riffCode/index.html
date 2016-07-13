@@ -579,22 +579,26 @@ import sqlite3
 conn = sqlite3.connect('chordProgdb2.sqlite')
 cur = conn.cursor()
 
-cur.execute('''
-SELECT chord.prog, COUNT(*)
-FROM Song AS master
-LEFT JOIN Genre AS subgenre_tbl ON subgenre_tbl.id = master.subgenre_id
-LEFT JOIN Genre ON genre.id = master.genre_id
-LEFT JOIN ChordProg AS chord ON chord.id = master.chordProg_id
-WHERE subgenre_tbl.name = 'Americana'
-GROUP BY chord.prog
-ORDER BY COUNT(*) DESC
-LIMIT 10
-;
-''')
+def main():
+	cur.execute('''
+	SELECT chord.prog, COUNT(*)
+	FROM Song AS master
+	LEFT JOIN Genre AS subgenre_tbl ON subgenre_tbl.id = master.subgenre_id
+	LEFT JOIN Genre ON genre.id = master.genre_id
+	LEFT JOIN ChordProg AS chord ON chord.id = master.chordProg_id
+	WHERE subgenre_tbl.name = 'Americana'
+	GROUP BY chord.prog
+	ORDER BY COUNT(*) DESC
+	LIMIT 10
+	;
+	''')
 
-top10Americana= cur.fetchall()
-conn.commit
-print(list(top10Americana))</code></pre>
+	top10Americana= cur.fetchall()
+	conn.commit
+	print(list(top10Americana))
+
+if __name__=="__main__":
+	main()</code></pre>
 <pre><code>[(u'DGDG', 7), (u'CGAmC', 6), (u'GCGC', 6), (u'GEmGEm', 6), (u'B7EAE', 5), (u'CFCF', 5), (u'EEEE', 5), (u'DADA', 4), (u'DEmCG', 4), (u'DGCG', 4)]</code></pre>
 </div>
 </div>
@@ -792,45 +796,49 @@ def strClean(strList):
 
 # = Web scraper ==================================================
 
-baseurl = urllib.urlopen('http://www.anycountrymusiclyrics.com/').read()
+def main():
+	baseurl = urllib.urlopen('http://www.anycountrymusiclyrics.com/').read()
 
-# = Get all links by artist first letter
-artistAlphaLinks = []
-for link in BeautifulSoup(baseurl, parseOnlyThese=SoupStrainer('a')):
-    if link.has_attr('href') and '.com/artist' in link['href']:
-        print link['href']
-        artistAlphaLinks.append(link['href'])
+	# = Get all links by artist first letter
+	artistAlphaLinks = []
+	for link in BeautifulSoup(baseurl, parseOnlyThese=SoupStrainer('a')):
+	    if link.has_attr('href') and '.com/artist' in link['href']:
+	        print link['href']
+	        artistAlphaLinks.append(link['href'])
 
-# = Get all links of artists 
-artistLinks = []
-for alphaLink in artistAlphaLinks:    
-    newurl = urllib.urlopen(alphaLink).read()
-    for link in BeautifulSoup(newurl, parseOnlyThese=SoupStrainer('a')):
-        if link.has_attr('href') and '.com/show/artist' in link['href']:
-            print link['href']
-            artistLinks.append(link['href'])
-print(len(artistLinks))
+	# = Get all links of artists 
+	artistLinks = []
+	for alphaLink in artistAlphaLinks:    
+	    newurl = urllib.urlopen(alphaLink).read()
+	    for link in BeautifulSoup(newurl, parseOnlyThese=SoupStrainer('a')):
+	        if link.has_attr('href') and '.com/show/artist' in link['href']:
+	            print link['href']
+	            artistLinks.append(link['href'])
+	print(len(artistLinks))
 
-# = Get all links of songs 
-songLinks = []
-for artistLink in artistLinks:    
-    newArtisturl = urllib.urlopen(artistLink).read()
-    for link in BeautifulSoup(newArtisturl, parseOnlyThese=SoupStrainer('a')):
-        if link.has_attr('href') and '.com/lyrics/' in link['href']:
-            print link['href']
-            songLinks.append(link['href'])
-print(len(songLinks))
+	# = Get all links of songs 
+	songLinks = []
+	for artistLink in artistLinks:    
+	    newArtisturl = urllib.urlopen(artistLink).read()
+	    for link in BeautifulSoup(newArtisturl, parseOnlyThese=SoupStrainer('a')):
+	        if link.has_attr('href') and '.com/lyrics/' in link['href']:
+	            print link['href']
+	            songLinks.append(link['href'])
+	print(len(songLinks))
 
-# = Get the lyrics of all songs 
-songLyrics = []
-for songLink in songLinks:
-    songSoup = BeautifulSoup(urllib.urlopen(songLink).read())    
-    songData = songSoup.findAll(text=True)
-    songResult = filter(visible, songData)
-    songLyrics.append(strClean(songResult)) ## Extend -> one long list, append -> list length of songs
+	# = Get the lyrics of all songs 
+	songLyrics = []
+	for songLink in songLinks:
+	    songSoup = BeautifulSoup(urllib.urlopen(songLink).read())    
+	    songData = songSoup.findAll(text=True)
+	    songResult = filter(visible, songData)
+	    songLyrics.append(strClean(songResult)) ## Extend -> one long list, append -> list length of songs
 
-# = dump in pickle file
-pickle.dump(songLyrics, open("songLyrics.p","wb"))
+	# = dump in pickle file
+	pickle.dump(songLyrics, open("songLyrics.p","wb"))
+
+if __name__=="__main__":
+	main()
 </code>
 </pre>
 </div>
@@ -866,34 +874,38 @@ import pickle
 
 # = Post-scrape ===============================================================
 
-# = grab from pickle file
-songLyrics = pickle.load(open("songLyrics.p", "rb"))
+def main():
+	# = grab from pickle file
+	songLyrics = pickle.load(open("songLyrics.p", "rb"))
 
-# = compress into onle long list
-flatSongLyrics = [item for sublist in songLyrics for item in sublist]
+	# = compress into onle long list
+	flatSongLyrics = [item for sublist in songLyrics for item in sublist]
 
-# = remove stopwords
-flatSongLyrics_noStopwords = [word for word in flatSongLyrics if word not in (stopwords.words('english'))]
+	# = remove stopwords
+	flatSongLyrics_noStopwords = [word for word in flatSongLyrics if word not in (stopwords.words('english'))]
 
-# = the word 'chorus' remains, so we remove
-flatSongLyrics_noStopwords[:]  = [x for x in flatSongLyrics_noStopwords if x != 'chorus']
+	# = the word 'chorus' remains, so we remove
+	flatSongLyrics_noStopwords[:]  = [x for x in flatSongLyrics_noStopwords if x != 'chorus']
 
-#Count all instances of words that are not stop words
-wordCount = Counter(flatSongLyrics_noStopwords)
+	#Count all instances of words that are not stop words
+	wordCount = Counter(flatSongLyrics_noStopwords)
 
-# = sort dictionary by value
-sortedKeys, sortedVals = [], []
-for key, value in sorted(wordCount.iteritems(), key=lambda (k,v): (v,k)):
-    sortedKeys.append(key.title())
-    sortedVals.append(value)
-# = have to reverse since the sort is in ascending order
-sortedKeys.reverse(); sortedVals.reverse()
+	# = sort dictionary by value
+	sortedKeys, sortedVals = [], []
+	for key, value in sorted(wordCount.iteritems(), key=lambda (k,v): (v,k)):
+	    sortedKeys.append(key.title())
+	    sortedVals.append(value)
+	# = have to reverse since the sort is in ascending order
+	sortedKeys.reverse(); sortedVals.reverse()
 
-# = Plot in bar chart        
-plt.figure(44); plt.clf(); res = 40
-plt.bar(range(res), sortedVals[:res]/sum(sortedVals)*100., align='center')
-plt.xticks(range(res), sortedKeys[:res], rotation = 60)
-plt.xlabel('Lyric'); plt.ylabel('Count (%)')
+	# = Plot in bar chart        
+	plt.figure(44); plt.clf(); res = 40
+	plt.bar(range(res), sortedVals[:res]/sum(sortedVals)*100., align='center')
+	plt.xticks(range(res), sortedKeys[:res], rotation = 60)
+	plt.xlabel('Lyric'); plt.ylabel('Count (%)')
+
+if __name__=="__main__":
+	main()
 </code>
 </pre>
 </div>
@@ -1022,31 +1034,36 @@ def createVerse(mydict, verseLen, lyricLen):
 
 # = Post-scrape ===============================================================
 
-# = grab from pickle file
-songLyrics = pickle.load(open("songLyrics.p", "rb"))
+def main():
+	# = grab from pickle file
+	songLyrics = pickle.load(open("songLyrics.p", "rb"))
 
-# = Country-Robo lyric machine ===============================================
-# = Uses a naive-Bayes approach to choose the likely next word to create a lyric
+	# = Country-Robo lyric machine ===============================================
+	# = Uses a naive-Bayes approach to choose the likely next word to create a lyric
 
-# = Create dictionary of dictionary to see what words come are likely to come after each one
-lyricDict= {}
-for song in songLyrics:
-    for word in range(len(song)-1):
-        try:
-            lyricDict.setdefault(song[word], {})[song[word+1]] += 1
-        except KeyError: # if key doesnt exist
-            lyricDict.setdefault(song[word], {})[song[word+1]] = 1
+	# = Create dictionary of dictionary to see what words come are likely to come after each one
+	lyricDict= {}
+	for song in songLyrics:
+	    for word in range(len(song)-1):
+	        try:
+	            lyricDict.setdefault(song[word], {})[song[word+1]] += 1
+	        except KeyError: # if key doesnt exist
+	            lyricDict.setdefault(song[word], {})[song[word+1]] = 1
 
 
-lyricLen = 10 # number of words in lyric
-chorusLen = 4  # number of lyrics in chorus/verse
-random.seed(120) # for repetibility, set alternate seed for different song
+	lyricLen = 10 # number of words in lyric
+	chorusLen = 4  # number of lyrics in chorus/verse
+	random.seed(120) # for repetibility, set alternate seed for different song
 
-chorus = createVerse(lyricDict, chorusLen,lyricLen)
-verse1 = createVerse(lyricDict, chorusLen,lyricLen)
-verse2 = createVerse(lyricDict, chorusLen,lyricLen)
-mySong = verse1 + '\n\r\n' + chorus + '\n\r\n' + verse2 + '\n\r\n' + chorus 
-print(mySong)
+	chorus = createVerse(lyricDict, chorusLen,lyricLen)
+	verse1 = createVerse(lyricDict, chorusLen,lyricLen)
+	verse2 = createVerse(lyricDict, chorusLen,lyricLen)
+	mySong = verse1 + '\n\r\n' + chorus + '\n\r\n' + verse2 + '\n\r\n' + chorus 
+	print(mySong)
+
+if __name__=="__main__":
+	main()
+	
 # Actual Lyric '27 seconds on a party bone is the party for me' XD XD XD
 </code>
 </pre>
