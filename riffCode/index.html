@@ -414,52 +414,53 @@ def getGenreDict():
     return GenreDict
 # ============================================================================
 
-# = Set up SQL 
-conn = sqlite3.connect('chordProgdb2.sqlite')
-cur = conn.cursor()
-cur.executescript('''
-/*
-Uncomment out the bottom section is want to reset the tables
-*/
+def main()
+	# = Set up SQL 
+	conn = sqlite3.connect('chordProgdb2.sqlite')
+	cur = conn.cursor()
+	cur.executescript('''
+	/*
+	Uncomment out the bottom section is want to reset the tables
+	*/
 
-/*
-DROP TABLE IF EXISTS Artist;
-DROP TABLE IF EXISTS ChordProg;
-DROP TABLE IF EXISTS Genre;
-DROP TABLE IF EXISTS Song;
+	/*
+	DROP TABLE IF EXISTS Artist;
+	DROP TABLE IF EXISTS ChordProg;
+	DROP TABLE IF EXISTS Genre;
+	DROP TABLE IF EXISTS Song;
 
-CREATE TABLE Artist (
-    id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-    name    TEXT UNIQUE
-);
+	CREATE TABLE Artist (
+	    id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	    name    TEXT UNIQUE
+	);
 
-CREATE TABLE ChordProg (
-    id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-    prog   TEXT UNIQUE
-);
+	CREATE TABLE ChordProg (
+	    id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	    prog   TEXT UNIQUE
+	);
 
-CREATE TABLE Genre (
-    id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-    name    TEXT UNIQUE
-    
-);
+	CREATE TABLE Genre (
+	    id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	    name    TEXT UNIQUE
+	    
+	);
 
-CREATE TABLE Song (
-    id  INTEGER NOT NULL PRIMARY KEY 
-        AUTOINCREMENT UNIQUE,
-    title TEXT,
-    artist_id INTEGER,
-    chordProg_id  INTEGER,
-    genre_id INTEGER,
-    subgenre_id INTEGER
-);
-*/
-''')
+	CREATE TABLE Song (
+	    id  INTEGER NOT NULL PRIMARY KEY 
+	        AUTOINCREMENT UNIQUE,
+	    title TEXT,
+	    artist_id INTEGER,
+	    chordProg_id  INTEGER,
+	    genre_id INTEGER,
+	    subgenre_id INTEGER
+	);
+	*/
+	''')
 
-# ============================================================================
+	# ============================================================================
 
 
-def main():
+
     allGenresDict = getGenreDict()
     #to find all genres: allGenresDict.keys()
     
