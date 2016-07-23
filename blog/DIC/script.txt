@@ -1,0 +1,7 @@
+The goal of my project is to develop a data product that will use machine learning to predict the number of injuries that occur on a given intersection. I will use this model to provide cost-effective solutions that will minimize the number of traffic-related injuries, while maintaining efficient traffic flow, a win-win for all road users.
+
+New York City's vision zero has shown that simply reducing the speed limit is inffective in reducing the number of injuries, what has shown to work is customised solutions for specific intersections.
+
+In enginnering features for my model I will consider properties of the infrastructure, such as the number of lanes, whether there are one-way, or two-way, streets; and also the economic activity, such as proximity to the subway, and number of surrounding bars or restaurants.
+
+Identifying features with high leverage will optimise solutions that considers not only the number of traffic injuries, but cost to implement, and impact to traffic flow. This project will impact the way current streets are redesigned, and how new streets are built, and impact how all users interact with their citys streets.  
