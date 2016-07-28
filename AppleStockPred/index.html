@@ -233,7 +233,7 @@ sample estimates:
 </p>
 <p>The p-value is less than 0.05, so we can say that the relationship is statistically significant, so should act as a good predictor for my model.</p>
 <p><br></p>
-<h4>Google News</h4>
+<h4>Sentiment Analysis of Google News</h4>
 <p>While google trends may be able to tell us when peple are interested in a company, it does not tell us peoples sentiment about the company. For example, people may be entering <i>"How to I sell all of my Apple stock"</i>, or <i>"How do I buy buckets and buckets of Apple stock"</i>. Google trends may see this as equivalent, but obviously our position may be different dependent on the sentiment. To overome this I will use the <a href="https://developers.google.com/news-search/v1/reference">Google News API</a> to gather news from various News sources such as <a href="http://finance.yahoo.com/">Yahoo finance</a>, <a href="http://www.reuters.com/">Reuters</a>, and <a href="http://seekingalpha.com/">Seeking Alpha</a> and perform a sentiment analysis on the news titles that may act as an indicator of the stock arket returns</p>
 <p>The sentiment analysis iterates over the news titles and returns sentiment values. The method uses a sentiment dictionary developed in the Nebraska Literary Lab. If we look at the sentiment analysis for the Apple company:
 </p>
@@ -279,7 +279,7 @@ sample estimates:
 -5.959825e-05  4.098916e-02 
 </code></pre>
 </p>
-<p>Again, the p-value is less than 0.05, so we can say that the relationship is statistically significant, and will compliemnt the google trend as predictors for the model.</p>
+<p>Again, the p-value is less than 0.05, so we can say that the relationship is statistically significant, and will compliment the google trend as predictors for the model.</p>
 <p><br></p>
 <h4>Time-Series Model</h4>
 <p>We will attempt to predict the stock market price using the ARIMA model, in which the stock market return is a weighted linear sum of the <span class="math inline">\(n\)</span> last daily stock returns. The ARIMA model has <span class="math inline">\(p\)</span> auto-regressive terms, <span class="math inline">\(d\)</span> differencing operations, and <span class="math inline">\(q\)</span> moving average terms. To select the best number of parameters we will run through all combinations in parameter space and pick the best one.</p>
