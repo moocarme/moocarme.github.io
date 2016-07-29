@@ -63,7 +63,7 @@ h6 {
 .table th:not([align]) {
   text-align: left;
 }
-
+iframe { border: 2px #2C3E50 solid; }
 
 
 </style>
@@ -1084,9 +1084,12 @@ if __name__=="__main__":
 </code></pre>
 <p><br></p>
 <p>We can see a song comes out but gramatically, it could be worked on. You can try for yourself on the flask app hosted on heroku below. You can either generate a random verse or chorus or give it some inspiration: </p>
-<button onclick="refreshIframe();">Refresh Iframe</button>
-<iframe width="100%" height="520" frameborder="0" src="https://sintest1.herokuapp.com/" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
-
+<script type="text/javascript">
+function reload() {
+    document.getElementById('CMLFrame').src += '';
+} btn.onclick = reload;</script>
+<button onclick = "reload()" id="btn" value="refresh" />Refresh Iframe</button>
+<iframe id= 'CMLFrame' width="100%" height="220" src="https://sintest1.herokuapp.com/" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen style = "border: 2px #2C3E50 solid;"></iframe>
 
 <p>To implement this better I have impletented a training model using recurrent neural networks, which can be found on my blog post <a href="../blog/RNNCountryLyrics">here</a>, that more accurately recreates the gramatical syntax of country music lyrics.</p>
 <p><br></p>
