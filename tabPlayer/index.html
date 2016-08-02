@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title></title>    
+    
+    <!-- Including alphaTab -->
+    <script type="text/javascript" src="lib/alphaTab/AlphaTab.js"></script>
+
+    <!-- jQuery Plugin -->
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>    
+    <script type="text/javascript" src="lib/alphaTab/jquery.alphaTab.js"></script>
+   
+    <!-- Including alphaSynth -->
+    <script type="text/javascript" src="lib/swfobject/swfobject.js"></script>
+    <script type="text/javascript" src="lib/alphaSynth/AlphaSynth.js"></script>
+    
+    <!-- alphaSynth Plugin -->
+    <script type="text/javascript" src="lib/alphaTab/jquery.alphaTab.alphaSynth.js"></script>
+    
+    <!-- Demo Styles and Scripts -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="support/demo.css" />
+    <style type="text/css">
+    .barCursor {
+        opacity: 0.25;
+        background:#FFF200;
+    }
+
+    .beatCursor {
+        opacity: 0.75;
+        background:#4040FF;
+    }
+    </style>
+</head>
+<body>
+    <!-- Toolbar containing the buttons -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">
+              <img alt="alphaTab" src="support/alphaTab.png" />
+              Player Demo
+          </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <!-- Player controls -->
+          <ul class="nav navbar-nav">
+            <li><button id="playPause" disabled="disabled" class="btn btn-link navbar-btn glyphicon glyphicon-play"></button></li>
+            <li><button id="stop"  disabled="disabled" class="btn btn-link navbar-btn glyphicon glyphicon-stop"></button></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <!-- Loading indicator for soundfont -->
+            <li id="soundFontProgressMenuItem">
+                <p class="navbar-text">SoundFont</p>
+                <div class="progress">
+                  <div class="progress-bar" id="soundFontProgress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                    0%
+                  </div>
+                </div>
+            </li>
+            <!-- Buttons for changing the layout -->
+            <li class="active"><a href="#" id="page" data-layout="page" data-scrollmode="vertical">Page</a></li>
+            <li><a href="#" id="horizontalBarwise" data-layout="horizontal" data-scrollmode="horizontal-bar">Horizontal (Barwise)</a></li>
+            <li><a href="#" id="horizontalOffscreen" data-layout="horizontal" data-scrollmode="horizontal-offscreen">Horizontal (Offscreen)</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    <div id="alphaTab" data-file="files/test.gp5" data-tracks="0"></div>
+    
+    <script type="text/javascript">
+        var playerReady = false;
+        var playerState = 0;
+        var at = $('#alphaTab');
+        
+        //
+        // 1. Load alphaTab
+        at.alphaTab(); 
+        
+        // 
+        // 2. Initialize Player and Setup Player UI
+        var as = at.alphaTab('playerInit'); // init alphaSynth
+        
+        as.On('ready', function(r) {
+            // load default data
+            as.LoadSoundFontUrl('lib/alphaSynth/default.sf2');
+        });
+        as.On('soundFontLoad', function(loaded, full) {
+            var percentage = ((loaded / full) * 100)|0;
+            $('#soundFontProgress').css('width', percentage + '%').text(percentage + '%');
+        });
+        as.On('soundFontLoaded', function() {
+            $('#soundFontProgressMenuItem').hide();
+        });
+        as.On('readyForPlay', function(r) {
+            playerReady = r;
+            updateControls();
+        });
+        as.On('playerStateChanged', function(s) {
+            playerState = s;
+            updateControls();
+        });
+        
+        $('#playPause').click(function() { 
+            if(playerState == 1) {
+                as.Pause();
+            }
+            else {
+                as.Play();
+            }
+        });
+        $('#stop').click(function() { 
+            as.Stop(); 
+        });
+        
+        function updateControls() {
+            if(!playerReady) {
+                $('#loadingInfo').show()
+                $('#controls button').attr('disabled', 'disabled');
+            }
+            else {
+                $('#loadingInfo').hide()
+                $('#playPause').prop('disabled', false);
+                $('#stop').prop('disabled', false);
+                $('#playPause').removeAttr('disabled');
+                switch(playerState) {
+                    case 0: // stopped
+                    $('#playPause').removeClass('glyphicon-pause').addClass('glyphicon-play');
+                    break;
+                    case 1: // playing
+                    $('#playPause').removeClass('glyphicon-play').addClass('glyphicon-pause');
+                    $('#stop').removeAttr('disabled').removeClass('disabled');
+                    break;
+                    case 2: // paused
+                    $('#playPause').removeClass('glyphicon-pause').addClass('glyphicon-play');
+                    $('#stop').removeAttr('disabled').removeClass('disabled');
+                    break;
+                }
+            }
+        }     
+        
+        $('a[data-layout]').click(function(e) {
+            $('a[data-layout]').closest('li').removeClass('active');
+            $(this).closest('li').addClass('active');
+            
+            e.preventDefault();
+            
+            var layout = $(this).data('layout');
+            var scrollmode = $(this).data('scrollmode');
+            // update renderer
+            var renderer = at.alphaTab('renderer');
+            renderer.Settings.Layout.Mode = layout;
+            renderer.Invalidate();
+            
+            // update player
+            var cursorOptions = at.alphaTab('cursorOptions');
+            cursorOptions.autoScroll = scrollmode;
+            $('body,html').animate({
+                scrollTop: 0 
+            }, 300);
+
+            at.alphaTab('playerCursorUpdateBeat', cursorOptions.currentBeat);
+        });
+        
+        //
+        // 3. Add cursors (optional)
+        at.alphaTab('playerCursor'); 
+    
+    </script>
+    
+</body>
+</html>         
