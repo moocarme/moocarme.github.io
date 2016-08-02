@@ -187,11 +187,8 @@ color: #2C3E50;}
 <p><br></p>	
 
 <div id="google-trends-as-a-predictor" class="section level2">
-	<h3>Hypothesis</h3>
-<p>Here I hypothesize that trends in stock market returns can be predicted by the relative changes in amount terms related to the stock index is searched on search engines, and by sentiment derived by news headlines realted to publicy-traded companies. I will use google trends since it gathers the total number of searches relative to the total search volume in google, and text-mine google news headlines for the sentiment as my "signals" to indicate buy-sell positions.</p>
-<p><br></p>
 <h3>Results</h3>
-<p>Overall I found pretty good results and the model ran in about 29% of the time when the signals (goole trend and news sentiments) are incorporated to the ARIMA-GARCH model compared to without. </p>
+<p>Overall I found pretty good results and the model ran in about 29% of the time when the signals (google trend and news sentiments) are incorporated to the ARIMA-GARCH model compared to without. </p>
 <p>To use, simply choose the company, and the graphs will update, showing the google trend index, representing the popularity of the search of that company on google, the google news index, which uses text analysis to determine the sentiment of news headlines related to the company, where positive indexes correlate to positive sentiments and vice versa. Also shown on the top row is the stock price. The bottom row shows the output of the ARIMA-GARCH model, showing the buying position, 1 represents having possession of stock, and 0 without, short positions are represented by -1. The total profit per share of stock is also shown with comparision to a 'buy and hold' strategy. The <a href="#ModelDeets">model details</a> are shown below.</p>
 <p><br></p>
  <hr>
@@ -199,6 +196,9 @@ color: #2C3E50;}
 
 <hr>
 <h3 id="ModelDeets">Model Details</h3>
+<h3>Hypothesis</h3>
+<p>Here I hypothesize that trends in stock market returns can be predicted by the relative changes in amount terms related to the stock index is searched on search engines, and by sentiment derived by news headlines realted to publicy-traded companies. I will use google trends since it gathers the total number of searches relative to the total search volume in google, and text-mine google news headlines for the sentiment as my "signals" to indicate buy-sell positions.</p>
+<p><br></p>
 <h4>Method</h4>
 <p>I test the hypothesis on the Apple stock since it is very popular and often searched term on google, and news stories are plentiful. I will quantify these inputs and use them as signals to increase the performance of my model. The time series model I will use is an autoregressive intergrated moving average (ARIMA) model, this model will take <span class="math inline">\(x\)</span> number of days of time series data and use it to forecast a given number of days ahead.</p>
 
