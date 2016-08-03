@@ -187,8 +187,10 @@ color: #2C3E50;}
 <p><br></p>	
 
 <div id="google-trends-as-a-predictor" class="section level2">
+<h3>Goal</h3>
+<p>Stock market prices vary according to the <a href="http://www.wsj.com/articles/the-tesla-effect-elon-musks-tweet-saps-samsungs-battery-1465384221">court of public opinion</a>. With this knowledge my goal is to build a trading simulator that incorporate internet-generated sentiment to a better forecast stock market returns using a time-series model based on <a href="https://en.wikipedia.org/wiki/Autoregressive_integrated_moving_average">ARIMA</a> and <a href="https://en.wikipedia.org/wiki/Autoregressive_conditional_heteroskedasticity">GARCH</a> models.</p>
 <h3>Results</h3>
-<p>Overall I found pretty good results and the model ran in about 29% of the time when the signals (google trend and news sentiments) are incorporated to the ARIMA-GARCH model compared to without. </p>
+<p>Overall I found good results and the model ran in about 29% of the time when the signals (google trend and news sentiments) are incorporated to the ARIMA-GARCH model compared to without. </p>
 <p>To use, simply choose the company, and the graphs will update, showing the google trend index, representing the popularity of the search of that company on google, the google news index, which uses text analysis to determine the sentiment of news headlines related to the company, where positive indexes correlate to positive sentiments and vice versa. Also shown on the top row is the stock price. The bottom row shows the output of the ARIMA-GARCH model, showing the buying position, 1 represents having possession of stock, and 0 without, short positions are represented by -1. The total profit per share of stock is also shown with comparision to a 'buy and hold' strategy. The <a href="#ModelDeets">model details</a> are shown below.</p>
 <p><br></p>
  <hr>
