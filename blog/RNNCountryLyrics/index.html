@@ -192,6 +192,13 @@ color: #2C3E50;}
  ain’t muddy and shes a little moments like hes alright now
 </code></pre>
 <p><br></p>
+<script type="text/javascript">
+function reload() {
+    document.getElementById('CMLFrame').src += '';
+} btn.onclick = reload;</script>
+<button onclick = "reload()" id="btn" value="refresh" />Refresh Iframe</button>
+<iframe id= 'CMLFrame' width="100%" height="220" src="https://sintest1.herokuapp.com/" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen style = "border: 2px #2C3E50 solid;"></iframe>
+<p><br></p>
 <p>We can see that it sort of sounds like a country song, but gramatically, it doesn't quite make sense. Also I have to manually specify the the number of words in a line, and the number of lines in a verse/chorus.</p>
 <p>To tackle these problems, recurrent neural networks (RNNs) are a good choice since, like artificial neural networks used for classification, they are able to generate their own features, but they differ in that they feed previous time steps into the current one. This additional feature of RNNs may enable them to pick up on the grammatical syntax of country music lyrics, and also features pertaining to the number of lines, and the chorus/verse structure.</p>
 <p>The complete code can be found on github <a href="https://github.com/moocarme/Recurrent-Neural-Networks">here</a>.</p>
