@@ -43,6 +43,7 @@ a:hover { text-decoration: none; }
 strong { font-weight: bold; }
 li { line-height: 24px; border-bottom: none; }
 p.enlarge { font-size: 144%; padding-right: 0em; line-height: 24px; }
+p.medium { font-size: 124%; padding-right: 0em; line-height: 20px; }
 p.enlarge span { color: #000 }
 h4.enlarge1 { font-size: 122%; text-transform: uppercase; color: white }
 .contact-info { margin-top: 7px; }
@@ -56,8 +57,8 @@ a#pdf { display: block; float: left; background: #666; color: white; padding: 6p
 a#pdf:hover { background: #222; }
 
 .job { position: relative; margin-bottom: 1em; padding-bottom: 1em; border-bottom: 1px solid #ccc; }
-.job h4 { position: absolute; top: 0.45em; right: 0 }
-.job p { margin: 0.75em 0 3em 0; }
+.job h4 { position: absolute; top: 0em; right: 0 }
+.job p { margin: 0.75em 0 .4em 0; }
 
 .last { border: none; }
 .skills-list {  }
