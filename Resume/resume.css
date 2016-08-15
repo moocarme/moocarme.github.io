@@ -58,7 +58,7 @@ a#pdf { display: block; float: left; background: #666; color: white; padding: 6p
 a#pdf:hover { background: #222; }
 
 .job { position: relative; margin-bottom: 1em; padding-bottom: 1em; border-bottom: 1px solid #ccc; }
-.job h6 { position: absolute; top: 0em; right: 0 }
+.job h6	 { position: absolute; top: 0em; right: 0 }
 .job p { margin: 0.75em 0 .4em 0; }
 
 .last { border: none; }
