@@ -182,11 +182,11 @@ color: #2C3E50;}
 </header>
 <p><br></p>	
 <h2>Goal</h2>
-<p>The goal is to build a music recommendation system that can provide custom playlists for individual users based on collaborative and metadata filtering. Currently music service providers have generic (and popular), mood-based playlists, that are the same for all users. Here, I suggest improvements to these playlists by offering custom playlists for each user based on song metadata.</p>
+<p>The goal is to build a music recommendation system that can provide custom playlists for individual users based on collaborative and metadata filtering. Currently music service providers have generic (and popular), mood-based playlists, that are the same for all users. Here, I suggest improvements to these playlists by offering custom options for each user based on song metadata.</p>
 <p>The complete code can be found on github <a href="https://github.com/moocarme/Music-Recommendation-System">here</a>.</p>
 <p><br></p>
 <h3>Approach</h3>
-<p>I will first determine the the best method to recommend songs to users based on the most listened songs, song-song similarity, and user-user similarity. This will form the basis of the playlist creator. The specific playlist will then be constructed from these songs, since the ultimate goal is to create a playlist of songs the user like. The songs will be chosen based on the type of playlist, i.e., workout, chillout, discover new artists, etc, and the songs are chosen based on their metadata.</p>
+<p>I will first determine the the best method to recommend songs to users based on the most listened songs, song-song similarity, and user-user similarity. This will form the basis of the playlist creator. The specific playlist will then be constructed from these songs, since the ultimate goal is to create a playlist of songs the user likes. The songs will be chosen based on the type of playlist, i.e., workout, chillout, discover new artists, etc, and the songs are chosen based on their metadata.</p>
 <p>The data comes from the <a href="http://labrosa.ee.columbia.edu/millionsong/pages/getting-dataset">Million Song Dataset</a> which has metadata on 1 million songs. The metadata comes from the <a href="http://the.echonest.com/">The Echo Nest</a>, that is know taken over by <a href="https://developer.spotify.com/spotify-echo-nest-api/">Spotify</a> earlier in 2016. The dataset of users listener histories comes from <a href="https://www.kaggle.com/c/msdchallenge">kaggle</a> that had a competition on the subject a few years ago. The listening history was kept hidden by kaggle, so half the total data was not available to me, however this can be supplemented by the million song dataset that can be found on the <a href="https://archive.ics.uci.edu/ml/datasets/YearPredictionMSD">UCI Machine Learning Repository</a>. However for a single machine the kaggle dataset with 110000 unique users and 149029 unique songs is enough to test hypotheses.</p>
 <p></p>
 <p><br></p>
@@ -638,7 +638,7 @@ getBaseline_AveragePrecision(user){
 mAP_baseline <- pbsapply(seq(nrow(multMat2)), getUser_Average_Precision)
 </code></pre>
 <p><br></p>
-<h3>Strategy - Recommend songs by finding similar songs to songs in users playlist</h3>
+<h3>Strategy - Recommend songs by finding similar songs to songs in users list of listened songs</h3>
 <p>Two songs are similar if they have many users in common that listen to both.</p>
 <p>This is achieved in R by creating a sparse matrix, and performing the operations on the sparse matrix.</p>
 <pre class="r"><code># Create data frames of the unique songs and users
@@ -673,7 +673,7 @@ sparse_rating_df <- sparseMatrix(i = as.numeric(train_data_2$UID),
                                  j = as.numeric(train_data_2$SID), 
                                  x = train_data_2$Relative.Plays)</code></pre>
 <p><br></p>
-<p>The method used to recommend the songs will be to recommend songs that are similar to songs already in the users playlist. This is shown using the Venn diagram below.</p>
+<p>The method used to recommend the songs will be to recommend songs that are similar to songs already in the users list of listened songs. This is shown using the Venn diagram below.</p>
 <p><br></p>
 <center><img src="figs/songSim.png" width="500" align="center"></center>
 <p><br></p>
@@ -695,7 +695,7 @@ gettop500simSong <- function(song){
 
 # Get average precision of user via song similarity
 getSong_Average_Precision<- function(user){
-  # Get the visible song in users playlist	
+  # Get the visible song in users song list	
   songs <- train_data_2 %>%
     filter(UID == user) %>%
     select(SID)
@@ -707,7 +707,7 @@ getSong_Average_Precision<- function(user){
 
   # Go through songs and get 500 most similar songs
   top500total <- ldply(songs$SID, gettop500simSong) %>%
-    anti_join(songs, by = 'SID') %>% # remove songs already in users playlist
+    anti_join(songs, by = 'SID') %>% # remove songs already in users song list
     distinct() %>%                   # remove duplicates
     arrange(desc(Similarity)) %>%    # order by similarity
     top_n(500, Similarity)           # take top 500
@@ -722,7 +722,7 @@ getSong_Average_Precision<- function(user){
 
 mAP <- mean(pbsapply(seq(nrow(multMat1)), getSong_Average_Precision))</code></pre>
 <p><br></p>
-<h3>Strategy - Recommend songs by finding similar users and selecting songs in their playlist </h3>
+<h3>Strategy - Recommend songs by finding similar users and selecting songs in their list of listened songs </h3>
 <p>Two users are similar if they have listened to many of the same songs. The user-user similarity is calculated in a similar way to the item-item similarity. After each users recommendations the songs are ordered in termes of total plays. The Venn diagram of the strategy is shown below.</p>
 <p><br></p>
 <center><img src="figs/userSim.png" width="500" align="middle"></center>
@@ -731,7 +731,7 @@ mAP <- mean(pbsapply(seq(nrow(multMat1)), getSong_Average_Precision))</code></pr
 <pre class = 'r'><code># User similarity matrix
 multMat2 <- sparse_rating_df %*% t(sparse_rating_df)
 
-# Function that recommends songs based on 2 users playlists
+# Function that recommends songs based on 2 users song list
 recommend_by_user <- function(user1, user2){
   # Get song intersection of 2 users
   user1.songs <- train_data %>% 
@@ -852,7 +852,7 @@ var myChart = new Chart(ctx, {
 <h3>Discovering new artists</h3>
 <p>Since item/item similarity was gave the best results and was much quicker to process this is the stratey we will continue with, though the same recommendation methods can be used with the user/user similarity.</p>
 <p>Since there are no correct answers, evaluation metrics are redundant, and A/B/n testing would be more appropriate.</p>
-<p>To discover new artists we follow a similar method however in the top 500 similar artists we will order in the list in terms of artist ascending familiarity, and suggest those at the top first. The 'artist familiarity' corresponds to how well known in artist is. You can look at familiarity as the likelihood that any person selected at random will have heard of the artist. Kanye West has a familiarity close to 1, while a band like ‘Hot Rod Shopping Cart’ has a familiarity close to zero. In this way songs are both similar to songs in the users playlist, and unlikely to be heard by the user.</p>
+<p>To discover new artists we follow a similar method however in the top 500 similar artists we will order in the list in terms of artist ascending familiarity, and suggest those at the top first. The 'artist familiarity' corresponds to how well known in artist is. You can look at familiarity as the likelihood that any person selected at random will have heard of the artist. Kanye West has a familiarity close to 1, while a band like ‘Hot Rod Shopping Cart’ has a familiarity close to zero. In this way songs are both similar to songs in the users lists of listened songs, and unlikely to be heard by the user.</p>
 <p>This can be achieved using the R code below.</p>
 <pre class = 'r'><code>discoverNewSongs<- function(user){
   # Get users songs 	
@@ -865,9 +865,9 @@ var myChart = new Chart(ctx, {
     usersongs$SID <- as.integer(levels(usersongs$SID))[usersongs$SID]
   }
 
-  # Get top 500 similar songs for each song in user playlist
+  # Get top 500 similar songs for each song in user song list
   top500total <- ldply(usersongs$SID, gettop500simSong) %>% 
-    dplyr::anti_join(usersongs, by = 'SID') %>%                 # remove songs already in playlist
+    dplyr::anti_join(usersongs, by = 'SID') %>%                 # remove songs already in song list
     dplyr::distinct() %>%                                       # remove duplicates
     dplyr::top_n(500, Similarity) %>%                           # take top 500 based on similarity
     dplyr::left_join(songs, by = c('Song_ID' = 'song_id')) %>%  # join with metadata dataset
@@ -890,7 +890,7 @@ downbeatSongs<- function(user){
     usersongs$SID <- as.integer(levels(usersongs$SID))[usersongs$SID]
   }
 
-  # Get top 500 similar songs for each song in user playlist
+  # Get top 500 similar songs for each song in user song list
   top500total <- ldply(usersongs$SID, gettop500simSong) %>%                
     dplyr::distinct() %>%                                 # Remove duplicates
     dplyr::top_n(500, Similarity) %>%                     # get 500 most popular songs
@@ -913,7 +913,7 @@ upbeatSongs<- function(user){
     usersongs$SID <- as.integer(levels(usersongs$SID))[usersongs$SID]
   }
 
-  # Get top 500 similar songs for each song in user playlist
+  # Get top 500 similar songs for each song in user song list
   top500total <- ldply(usersongs$SID, gettop500simSong) %>%
     dplyr::distinct() %>%                                 # Remove duplicates
     dplyr::top_n(500, Similarity) %>%                     # get 500 most popular songs
@@ -925,7 +925,7 @@ upbeatSongs<- function(user){
   return(top500total)
 }</code></pre>
 <p><br></p>
-<p>In this application it doesn't matter if the songs are already in the users playlist, unlike for recommending new music.</p>
+<p>In this application it doesn't matter if the songs are already in the users list of listened songs, unlike for recommending new music.</p>
 <p>This serves as a good template for A/B/n testing, creating indices based on a variety of metadata may also be used, for example a workout index may be defined as the <span class = 'math'>\(WI = \log(tempo\times danceability)\)</span>, where the danceabilty is defined from the <a href="https://developer.spotify.com/spotify-echo-nest-api/">Spotify/echonest API</a>. A/B testing can by varying the indices created, selecting songs based on the indices. The best index can be determined based on user feedback, such as number of plays, shares, or follows of the playlist. </p>
 <p><br></p>
 <h2>Conclusion</h2>
