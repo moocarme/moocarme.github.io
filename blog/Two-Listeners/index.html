@@ -204,11 +204,12 @@ color: #2C3E50;}
 <p><br></p> 
 <div id="google-trends-as-a-predictor" class="section level2">
 <h2>Goal</h2>
-<p>To classify music streaming users dependent on their listening histories. I hypothesize that there are two types of listener: those that search for artists and and listen to songs from them, and those that listen to playlists. Users may not cluster into two distinct categories, but may fall in a spectrum between the two. Classifying where users fall on this spectrum can help in optimizing advertisements that keep users on the music streaming site.</p>
+<p>To classify music streaming users dependent on their listening histories. I hypothesize that there are two types of listener: those that search for artists and and listen to songs from them, and those that listen to playlists. Users may not cluster into two distinct categories, but may fall in a spectrum between the two. Classifying where users fall on this spectrum can help optimize advertisements that keep users streaming music.</p>
 <p><br></p>
 <img src="/img/two-listeners.jpg" alt="two-listeners" style="width:100%;">
+<p><br></p>
 <h3>Method</h3>
-<p>Playlists are composed of many songs, by many different artists. Users that listen many playlists, will have a listening history that contains many different artists, with a low number of plays for each artist- I will call them <b>playlist listeners</b>. Alternatively, users that like to have complete control over their listening profiles are likely to choose an artist, listen to an album, and repeat - I will call them <b>album listeners</b>. Their total listening history is likely to have a low number of artists, and a large number of plays per artist. Every user can be classified as a combination of these two fundamental listening profiles.</p>
+<p>Playlists are composed of many songs, by many different artists. As such, users that listen to many playlists will have a listening history that contains many different artists, with a low number of plays for each artist- I call them <b>playlist listeners</b>. Alternatively, users that like to have complete control over their listening profiles are likely to choose an artist, listen to an album, rinse and repeat - I call them <b>album listeners</b>. Their total listening history is likely to have a low number of artists, and a large number of plays per artist. Every user can be classified as a combination of these two fundamental user listening profiles.</p>
 <p><br></p>
 <h4>The Dataset</h4>
 <p>The data of user listening histories comes from the <a href="http://labrosa.ee.columbia.edu/millionsong/pages/getting-dataset">Million Song Dataset</a> (MSD), which contains 3Gb of 1 million user listening triplets in the form: User ID, Song ID, Number of Plays. To get the artist names for each song, the metadata comes from the SQL database on the MSD website that comes from <a href="http://the.echonest.com/">The Echo Nest</a> (now taken over by Spotify). Since the metadata idetifies by Track ID, different to Song ID, we need to join tables via a SQL database of linking the Song and Track IDs.</p>
@@ -223,16 +224,20 @@ color: #2C3E50;}
 <p><span class="math">\(\text{Play Index} =\log(\frac{\text{Total Artists}}{\text{Mean Artist Plays}})\) </span></p>	
 </div>
 <p><br></p>
-<p>We can plot the distribution of the <i>Play Index</i>, a larger <i>Play Index</i> corresponds to more playlist listening, and a smaller <i>Play Index</i> corresponds to more album listening.</p>
+<p>We can plot the distribution of the <i>play index</i>, a larger <i>play index</i> corresponds to more playlist listening, and a smaller <i>play index</i> corresponds to more album listening.</p>
 <p><br></p>
 <img src="figs/PlayIndex.png" alt="Total Artists vs Mean Plays" style="width:100%;">
 <p><br></p>
-<p>We can see that the distribution is negatively skewed with the mean (red line) lying at 1.6916. This corresponds to ratio of <span class="math">\(\frac{Total Artists}{Mean Artist Plays}\) </span> of 5.428181, i.e., if a user has listened to 100 songs, the it might contain 25 artists, with each artist having been played 4 or 5 times.</p>
-<p>The skewness is of the distribution is -0.8136788 which indicates that there are more hardcore album listeners that listen to a small number of artists than there are hardcore playlist listeners that listen to a very large number of artists. Which means there are very few users are listening to a completely different playlists with no common artists all the time. Rather users listen to a combination of playlist and album listening, or listening to similar playlists with common artists, or listening to the same playlist multiple times. </p>
-<p></p>
+<p>We can see that the distribution is negatively skewed, with the mean (red line) lying at 1.6916. This corresponds to ratio of <span class="math">\(\frac{Total Artists}{Mean Artist Plays}\) </span> of 5.428181, i.e., if a user has listened to aroud 100 songs, it might contain about 25 artists, with each artist having been played 4 or 5 times.</p>
+<p>One user has listened <i>only</i> to William Fitzsimmons, and listened to just 10 songs, in one album, a total of 741 times. This user is the epitome an album listener. On the other end of the spectrum one user has has listned to 883 unique artists, with a 2.08 mean plays per artist. This user is a playlist listener. </p>
+<p>The skewness is of the distribution is -0.8136788 which indicates that there are more hardcore album listeners, than there are hardcore playlist listeners. Which means there are very few users are listening to a completely different playlists with no common artists all the time. Rather, the majority of users listening profiles are a combination of playlist and album listening, though they could also be listening to similar playlists with common artists, or listening to the same playlist multiple times, that would a similar listening profile. </p>
+<p>To more accurately compute the <i>play index</i>, along with the number of plays of each song, would be whether the song was played as part of a playlist. The play index would be modified to:</p>
+<div style="text-align: center;">
+	<p><span class="math">\(\text{Play Index} =\log(\frac{\text{Playlist Song Plays}}{1-\text{Playlist Song Plays}})\) </span> </p>
+</div>
 <p><br></p>
 <h2>Conclusion</h2>
-<p>In conlusion, determining a users <i>play index</i> is an easy quantifiable number with which to determine the listening properties of users. From the dataset of a over a million users and a million songs most users are on the playlist listening end of the spectrum, opposed to album listeners. By identifying a users listening profile, user-specific advertising can be optimiszed. For example, if a user is a falls more on the playlist side of the listeing spectrum, characterized by a large <i>play index</i>, suggesting different playlists is likely to be more successful than if it were suggested to an album listener. Conversely, new artists, or new albums from artists, would be more successful users that fall more on album listeners end of the spectrum.</p>
+<p>In conclusion, determining a users <i>play index</i> is an easy quantifiable number with which to determine the listening properties of users. From the dataset of a over a million users and a million songs most users are on the playlist listening end of the spectrum, opposed to album listeners. By identifying a users listening profile, user-specific advertising can be optimiszed. For example, if a user is a falls more on the playlist side of the listeing spectrum, characterized by a large <i>play index</i>, suggesting different playlists is likely to be more successful than if it were suggested to an album listener. Conversely, new artists, or new albums from artists, would be more successful users that fall more on album listeners end of the spectrum.</p>
 <!--<h3>Scraper to get all guitar pro files</h3>
 
 <div class="panel-group">
