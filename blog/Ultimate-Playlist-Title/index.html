@@ -204,18 +204,18 @@ color: #2C3E50;}
 <p><br></p> 
 <div id="google-trends-as-a-predictor" class="section level2">
 <h2>Goal</h2>
-<p>A good playlist title is essential for letting users know what to expect from a playlist before listening. From my experience, users do not spend long deciding whether they are going to listen to a playlist, I'd estimate around a couple of seconds or less. Therefore I believe that playlist title is extremely important in determining a playlists' total number of plays. </p>
-<p>To determine the impact of a playlist title on it success I will use Spotifys great API to obtain pertinent information on a variety of playlists. To determine a playlists' success I will use the number of followers, and make the assumption that it is proportional to the total number of plays. I will use text analytics to look at the type of words (i.e, verbs, nouns, adjectives) that make up playlists titles and perform regression to determine what kinds of words make up popular playlists.</p>
-<p>Though I hypothesize that the title of the playlist is an indicator of playlist success, I want to also acknowledge other factors of success that are not considered in this analysis. Such factors include: the songs the playlist is composed of; the position of the playlist on the page (those at the top of the list are likely to get chosen more); the playlist image; the playlist description; the number of current followers; amongst others. <b><big>The goal of this analysis would be to come up with a series of actions a copywright could use to create playlist names based on the previous success of others.</big></b></p>
+<p>A good playlist title is essential for letting users know what to expect from a playlist before listening. From my experience, users do not spend long deciding whether they are going to listen to a playlist, I'd estimate a couple of seconds or less. Therefore the playlist title is extremely important in determining a playlists' total number of plays- if users o not like the playlist title, for whatever reason, they won't listen to the playlist. </p>
+<p>To determine the impact of a playlist title on its success I will use Spotifys great API to obtain pertinent information on a variety of playlists including its title. To determine a playlists' success I will use the number of followers, and make the assumption that it is proportional to the total number of plays. I will use text analytics to look at the type of words (i.e, verbs, nouns, adjectives) that make up playlists titles and perform regression to determine what kinds of words make up popular playlists.</p>
+<p>Though I hypothesize that the title of the playlist is an indicator of playlist success, I want to also acknowledge other factors of success that are not considered in this analysis. Such factors include: the songs the playlist is composed of; the position of the playlist on the page (those at the top of the list are likely to get chosen more); the playlist image; the playlist description; the number of current followers; amongst others. </p>
+<p><b><big>The goal of this analysis would be to come up with a series of actions a copywright could use to create playlist names based on the previous success of others.</big></b></p>
 
-<p><br></p>
-<p>A wordcloud from playlist titles.</p>
 <img src="figs/playlist_wordcloud.png" alt="wordcloud" style="width:100%;">
+<p>A wordcloud from playlist titles.</p>
 
 <p><br></p>
 <h3>Exploratory data analysis</h3>
 <p>Though this may not directly help to solve the problem, I always find it important to get a general feel for the data to help generate key insights, not just for this problem, but as a potential starting point for future problems. This may also help find any issues and discrepancies in the data, such as null values or misclassified categories that may appear.</p>
-<p>Data analysis is performed in Python, and complete code can be found on github <a href="https://github.com/moocarme/Music-Recommender">here</a>.</p>
+<p>Data analysis is performed in Python, and complete code can be found on github <a href="https://github.com/moocarme/Music-Recommendation-System">here</a>.</p>
 <p>We can look at the mean number of followers for a each category:</p>
 <p><br></p>
 <script src="/node_modules/chart.js/dist/Chart.js"></script>
@@ -336,13 +336,13 @@ var myChart = new Chart(ctx, {
 <img src="figs/fig:followers_by_NumChars.png" alt="Followers_Vs_Chars" style="width:100%;">
 <p><br></p>
 <p>The p-value for the relation is 4.72975e-05, indicating that the trend is statistically significant and the slope is 13178.879 indicating that for every character added you may expect a decrease by over 13,000 followers. So keep the title short and sweet. </p>
-<p>The outlier is a playlist named 'Today's Top Hits', with almost 10 million followers (9946355), and may be one of the reasons the 'top lists', category has a very large number of mean followers. If we look at Spotify's web player, we can see that this playlist is right at the top, as well as featured on the homepage, also the number of followers agrees roughly with the Spotify API call (I wanted to do a quick sanity check because 10 million followers!!!). Whether being at the top of the list generates more followers or the the number of followers determines placement in the list is unclear though. What we can see though is that placement on the list is not simply in order of number of followers, but the playlist with most number of followers is in the left. I'm sure this is on purpose somehow.</p>
+<p>The outlier is a playlist named 'Today's Top Hits', with almost 10 million followers (9,946,355), and may be one of the reasons the 'top lists', category has a very large number of mean followers. If we look at Spotify's web player, we can see that this playlist is right at the top, as well as featured on the homepage, also the number of followers agrees roughly with the Spotify API call (I wanted to do a quick sanity check because 10 million followers!!!). Whether being at the top of the list generates more followers or the the number of followers determines placement in the list is unclear though. What we can see though is that placement on the list is not simply in order of number of followers, but the playlist with most number of followers is in the left. I'm sure this is on purpose somehow.</p>
 <p><br></p>
 <img src="figs/spotify_top.png" alt="spotify_list" style="width:100%;">
 <p><br></p>
 <h3>Word Types</h3>
-<p>In order to determine the best combination of types of words I will use the natural language toolkit (NLTK), since it has a large number of specialised functions that will be useful for this application. For each playlist title I tokenize the title, separating it into individual words, phrases and symbols. Following, each token is classified to the type of word, for example "big" is classified as an adjective. I sum the frequency of each type of word and input it into a pandas dataframe, in hich each row is an observation, in this case a playlist title, and each column is a feature, or type of word. The entries of the dataframe will be positive integers starting at zero. </p>
-<p>The natural language toolkit can separate the words into a numner of different types. These types of words will be features of the regression model. Examples of th types of words are shown below:</p>
+<p>In order to determine the best combination of types of words I use the natural language toolkit (NLTK), since it has a large number of specialised functions that will be useful for this application. For each playlist title I tokenize the title, separating it into individual words, phrases and symbols. Following, each token is classified to the type of word, for example "big" is classified as an adjective. I sum the frequency of each type of word and input it into a pandas dataframe, in which each row is an observation, in this case a playlist title, and each column is a feature, or type of word. The entries of the dataframe will be positive integers starting at zero, that represent the frequency of word type in each playlist title. </p>
+<p>The natural language toolkit can separate the words into a number of different types. These types of words will be features of the regression model. Examples of the types of words are shown below:</p>
 <p><br></p>
  <table style="width:70%" align="center" >
   <tr>
@@ -574,11 +574,11 @@ var myChart = new Chart(ctx, {
 });
 </script> 
 <p><br></p>
-<p>We can see that many of the playlist titles are nouns followed by adjectives. Examples of the most common type, nouns, are 'session', 'soul', 'party', 'soultronic', 'country', 'gold', 'chillin', 'dirt', 'road', 'coffeehouse'. We can see some words are made up, so gets classified as a noun, also words like 'chillin', which are colloquial, get classified as a noun, when they should perhaps be a verb. In this case maybe a more colloqial corpus may be more suitable to classify words, since it seems nouns are a catch-all.</p>
+<p>We can see that many of the playlist titles are nouns followed by adjectives. Examples of the most common type, nouns, are 'session', 'soul', 'party', 'soultronic', 'country', 'gold', 'chillin', 'dirt', 'road', 'coffeehouse'. We can see some words are made up, so gets classified as a noun, also words like 'chillin', which are colloquial, get classified as a noun, when they should perhaps be a verb. 'gold' as well may refer to an adjective, rather than the noun. In this case maybe a more colloquial corpus may be more suitable to classify words, since it seems nouns are a catch-all.</p>
 <p><br></p>
 <h3>Regression</h3>
-<p>I use multi-variate linear regression to determine the relative slope of each kind of word in a title. I use linear regression since my goal is to create actionable results that are easily interpretable.</p>
-<p>To perform the regression I use an 80/20 train-test split. In which I fit the data on the training dataset and evaluate on the test dataset. I will use residual sum of squares between the predicted and actual number of followers in the test set to determine the score for the regression model. With simple linear regression using oridinary least squares (OLS) I get a residual of 2.32439e+11 which I will use as a baseline of which to compare other models. The OLS minimized according to the function:</p>
+<p>I use multivariate linear regression to determine the relative slope of each kind of word in a title. I use linear regression since my goal is to create actionable results that are easily interpretable.</p>
+<p>To perform the regression I use an 80/20 train-test split. In which I fit the data on the training dataset and evaluate on the test dataset. I will use residual sum of squares between the predicted and actual number of followers in the test set to determine the score for the regression model. With simple linear regression using ordinary least squares (OLS) I get a residual of 2.32439e+11 which I will use as a baseline of which to compare other models. The OLS minimized according to the function:</p>
 <div style="text-align: center;">
 <p><span class="math">\(min_w \lVert Xw-y\rVert_2^2\) </span></p>	
 </div>
@@ -611,10 +611,10 @@ var myChart = new Chart(ctx, {
 <div style="text-align: center;">
 <p><span class="math">\(min_w \frac{1}{2n_{samples}}\lVert Xw-y\rVert^2_2 + \alpha\rho\lVert w\rVert^2_1 + \frac{\alpha(1-\rho)}{2}\lVert w\rVert^2_2\) </span></p>	
 </div>
-<p>Now we vary both <span class = 'math'>\(\alpha_1\)</span> and the ratio of the two alphas and find the combination of the two that provide the largest score on the test dataset.</p>
+<p>Now we vary both <span class = 'math'>\(\alpha\)</span> and the ratio of the two alphas, <span class = 'math'>\(\rho\)</span>, where <span class = 'math'>\(\alpha\)</span> corresponds to the lasso <span class = 'math'>\(\alpha\)</span>, and find the combination of the two that provide the largest score on the test dataset.</p>
 <img src="figs/ENetscores.png" alt="ENet score" style="width:100%;">
 <p><br></p>
-<p>We can see that we can get an optimised score depending on the value of alpha 1 and the ratio of the two values. The optimised ratio obtained was 0.894737, with <span class = 'math'>\(\alpha_1\)</span> being 1000, which intuitively is mostly lasso regression with a bit of ridge, and the residual is 1.57383e+11, the lowest so far. </p>
+<p>We can see that we can get an optimised score depending on the value of <span class = 'math'>\(\alpha\)</span> and the ratio of the two alphas. The optimised ratio obtained was 0.894737, with <span class = 'math'>\(\alpha\)</span> being 887.2, which intuitively is mostly lasso regression with a bit of ridge, and the residual is 1.57383e+11, the lowest so far. </p>
 <p><br></p>
 <h2>Results</h2>
 <p>Now we have an optimized model we can look at the coefficients to see how the different types of words affect the number of followers. We are most interested in the coefficients with the highest magnitudes, since they will have the highest leverage - adding or removing these words will have the most impact on the number of followers. Shown, are only those that have a coefficients above 100.</p>
@@ -672,7 +672,7 @@ var myChart = new Chart(ctx, {
 });
 </script> 
 <p><br></p>
-<p>Below are the most 5 most influential actions you can do to increase number of followers with examples. </p>
+<p>From these results we can directly make actionable recommendations. Below are the most 5 most influential actions you can do to increase number of followers with examples. </p>
 
 <p><br></p>
  <table style="width:100%" align="center" >
@@ -709,7 +709,7 @@ var myChart = new Chart(ctx, {
 </table>
 <p><br></p>
 <h2>Conclusion</h2>
-<p>In conclusion multivariate linear regression has been performed on playlist titles taken from Spotify's API. The results of the regression has identified features in popular playlists titles that can be used to create titles for future playlists, such as the addition of genitive markers and the reduction of characters. Overall it seems that titles should be short and sweet with little redundancy. Users want to spend as little time choosing a playlist and more time listening to it, so the quicker you can help them reach their decision, the better. </p>
+<p>In conclusion, multivariate linear regression has been performed on playlist titles taken from Spotify's API. The results of the regression has identified features in popular playlists titles that can be used to create titles for future playlists, such as the addition of genitive markers and the reduction of characters. Overall the data suggests that<b> titles should be short and sweet with little redundancy</b>. Users want to spend as little time choosing a playlist and more time listening to it, so the quicker you can help them reach their decision, the better. </p>
 <!--<h3>Scraper to get all guitar pro files</h3>
 
 <div class="panel-group">
