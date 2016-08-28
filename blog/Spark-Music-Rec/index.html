@@ -18,7 +18,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="generator" content="pandoc" />
 
-    <title>In Search of The Ultimate Playlist Title</title>    
+    <title>Making Music Predictions wih Apache Spark</title>    
     <!-- Icons -->
     <link rel="favicon-144-precomposed"  href="/img/profile.png">
     <link rel="shortcut icon" href="/img/profile.png">
@@ -168,6 +168,9 @@
     button.code-folding-btn:focus {
       outline: none;
     }
+    iframe{
+    	overflow:hidden;
+	}
     </style>
 
     <div class="container-fluid main-container">
@@ -195,7 +198,7 @@ color: #2C3E50;}
 </style>
 
 <div class="fluid-row" id="header">
-<h1 class="title toc-ignore">The two types of Listener</h1>
+<h1 class="title toc-ignore">Making Music Predictions wih Apache Spark</h1>
 <header>
     <hr class="star-light">
 </header>
@@ -203,41 +206,16 @@ color: #2C3E50;}
 
 <p><br></p> 
 <div id="google-trends-as-a-predictor" class="section level2">
-<h2>Goal</h2>
-<p>To classify music streaming users dependent on their listening histories. I hypothesize that there are two types of listener: those that search for artists and and listen to songs from them, and those that listen to playlists. Users may not cluster into two distinct categories, but may fall in a spectrum between the two. Classifying where users fall on this spectrum can help optimize advertisements that keep users streaming music.</p>
+	<h2>Goal</h2>
+<p><a href="http://spark.apache.org/">Apache Spark</a> is an open source cluster computing framework based on resilient distributed datasets (RDD). Due to the distributed nature of the framework it scales efficiently and well suited performing machine learning large datasets such as those used for music recommendation systems as they often include millions of users and millions of songs. <a href="https://community.cloud.databricks.com/">Databricks</a> is a company founded by the creators of Apache Spark which offers users access to big data processing using Spark.  </p>
+<p>I will use Spark to predict the number of listens of songs by users. This will form the basis of the music recommendation system. Once a model is created that performs well on a test dataset, I will apply the model to songs unlistened by the user, and given the number of predicted plays of the songs, recommend songs to the user in the order of descending number of predicted plays. </p>
 <p><br></p>
-<img src="/img/two-listeners.jpg" alt="two-listeners" style="width:100%;">
+<h2>Results</h2>
+<p> We use an alternating least squares model to predict song listens of given users. In the exploratory data analysis we find that there are many songs that have only been listened to once, so we have compared models that include and exclude those songs that have been listened to once. While the model including these songs returns a slightly lower RMSE on the test dataset, the model excluding them may give better recommendations, since the training set includes more songs may be more reflective of their listeneing profiles (since they listen to them more).</p>
+<p>
+Importantly due to Sparks efficiency to scale, this model can scale to many more users. For example Spotify has around 30 million active monthly users, which is only a magnitude more than the number of users considered in this dataset.</p>
 <p><br></p>
-<h3>Method</h3>
-<p>Playlists are composed of many songs, by many different artists. As such, users that listen to many playlists will have a listening history that contains many different artists, with a low number of plays for each artist- I call them <b>playlist listeners</b>. Alternatively, users that like to have complete control over their listening profiles are likely to choose an artist, listen to an album, rinse and repeat - I call them <b>album listeners</b>. Their total listening history is likely to have a low number of artists, and a large number of plays per artist. Every user can be classified as a combination of these two fundamental user listening profiles.</p>
-<p><br></p>
-<h4>The Dataset</h4>
-<p>The data of user listening histories comes from the <a href="http://labrosa.ee.columbia.edu/millionsong/pages/getting-dataset">Million Song Dataset</a> (MSD), which contains 3Gb of 1 million user listening triplets in the form: User ID, Song ID, Number of Plays. To get the artist names for each song, the metadata comes from the SQL database on the MSD website that comes from <a href="http://the.echonest.com/">The Echo Nest</a> (now taken over by Spotify). Since the metadata idetifies by Track ID, different to Song ID, we need to join tables via a SQL database of linking the Song and Track IDs.</p>
-<p>Data analysis is performed in R, and complete code can be found on github <a href="https://github.com/moocarme/Music-Recommendation-System/blob/master/twoListenerTypes.R">here</a>.</p>
-<p>We can look at the number of artists in a users listening history vs the mean number of plays for an artist.</p>
-<p><br></p>
-<img src="figs/MeanPlaysVSTotalArtists.png" alt="Total Artists vs Mean Plays" style="width:100%;">
-<p><br></p>
-<p>From the 2D histogram we can see that there are a larger number of users that fall in the lower region of the graph indicating larger number of total artists, and smaller number of mean plays per artist, so more users lie on the playlist listening part of the spectrum.</p>
-<p>To quantify this I use a <i>Play Index</i>:</p>
-<div style="text-align: center;">
-<p><span class="math">\(\text{Play Index} =\log(\frac{\text{Total Artists}}{\text{Mean Artist Plays}})\) </span></p>	
-</div>
-<p><br></p>
-<p>We can plot the distribution of the <i>play index</i>, a larger <i>play index</i> corresponds to more playlist listening, and a smaller <i>play index</i> corresponds to more album listening.</p>
-<p><br></p>
-<img src="figs/PlayIndex.png" alt="Total Artists vs Mean Plays" style="width:100%;">
-<p><br></p>
-<p>We can see that the distribution is negatively skewed, with the mean (red line) lying at 1.6916. This corresponds to ratio of <span class="math">\(\frac{Total Artists}{Mean Artist Plays}\) </span> of 5.428181, i.e., if a user has listened to aroud 100 songs, it might contain about 25 artists, with each artist having been played 4 or 5 times.</p>
-<p>One user has listened <i>only</i> to William Fitzsimmons, and listened to just 10 songs, in one album, a total of 741 times. This user is the epitome an album listener. On the other end of the spectrum one user has has listned to 883 unique artists, with a 2.08 mean plays per artist. This user is a playlist listener. </p>
-<p>The skewness is of the distribution is -0.8136788 which indicates that there are more hardcore album listeners, than there are hardcore playlist listeners. Which means there are very few users are listening to a completely different playlists with no common artists all the time. Rather, the majority of users listening profiles are a combination of playlist and album listening, though they could also be listening to similar playlists with common artists, or listening to the same playlist multiple times, that would a similar listening profile. </p>
-<p>To more accurately compute the <i>play index</i>, along with the number of plays of each song, would be whether the song was played as part of a playlist. The play index would be modified to:</p>
-<div style="text-align: center;">
-	<p><span class="math">\(\text{Play Index} =\log(\frac{\text{Playlist Song Plays}}{1-\text{Playlist Song Plays}})\) </span> </p>
-</div>
-<p><br></p>
-<h2>Conclusion</h2>
-<p>In conclusion, determining a users <i>play index</i> is an easy quantifiable number with which to determine the listening properties of users. From the dataset of a over a million users and a million songs most users are on the playlist listening end of the spectrum, opposed to album listeners. By identifying a users listening profile, user-specific advertising can be optimiszed. For example, if a user is a falls more on the playlist side of the listeing spectrum, characterized by a large <i>play index</i>, suggesting different playlists is likely to be more successful than if it were suggested to an album listener. Conversely, new artists, or new albums from artists, would be more successful users that fall more on album listeners end of the spectrum.</p>
+<iframe src="https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/3175648861028866/48824497172554/657465297935335/latest.html" height="22700" width="900" frameBorder="0" scrolling="no" style="overflow:hidden" ></iframe>
 <!--<h3>Scraper to get all guitar pro files</h3>
 
 <div class="panel-group">
