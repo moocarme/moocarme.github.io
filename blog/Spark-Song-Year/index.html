@@ -18,7 +18,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="generator" content="pandoc" />
 
-    <title>Making Music Predictions wih Apache Spark</title>    
+    <title>Predicting a Songs Release Year wih Apache Spark</title>    
     <!-- Icons -->
     <link rel="favicon-144-precomposed"  href="/img/profile.png">
     <link rel="shortcut icon" href="/img/profile.png">
@@ -198,7 +198,7 @@ color: #2C3E50;}
 </style>
 
 <div class="fluid-row" id="header">
-<h1 class="title toc-ignore">Making Music Predictions wih Apache Spark</h1>
+<h1 class="title toc-ignore">Predicting a Songs Release Year wih Apache Spark</h1>
 <header>
     <hr class="star-light">
 </header>
@@ -208,16 +208,14 @@ color: #2C3E50;}
 <div id="google-trends-as-a-predictor" class="section level2">
 	<h2>Goal</h2>
 <p><a href="http://spark.apache.org/">Apache Spark</a> is an open source cluster computing framework based on resilient distributed datasets (RDD). Due to the distributed nature of the framework it scales efficiently and well suited performing machine learning large datasets such as those used for music recommendation systems as they often include millions of users and millions of songs. <a href="https://community.cloud.databricks.com/">Databricks</a> is a company founded by the creators of Apache Spark which offers users access to big data processing using Spark.  </p>
-<p>I will use Spark to predict the number of listens of songs by users. This will form the basis of the music recommendation system. Once a model is created that performs well on a test dataset, I will apply the model to songs unlistened by the user, and given the number of predicted plays of the songs, recommend songs to the user in the order of descending number of predicted plays. </p>
+<p>I will use Spark to predict the year of a songs release using the audio data of the songs, such as the tempo of the song or the duration. This will form the basis of the music recommendation system. This the goal of this analysis to predict the year of a songs release given a set of audio features such as the tempo, duration, etc. The data comes from a subset of the <a href="http://labrosa.ee.columbia.edu/millionsong/">Million Song Dataset</a> from the <a href="https://archive.ics.uci.edu/ml/datasets/YearPredictionMSD">UCI Machine Learning Repository</a>.</p>
 <p><br></p>
 <h2>Results</h2>
-<p> We use an alternating least squares model to predict song listens of given users. In the exploratory data analysis we find that there are many songs that have only been listened to once, so we have compared models that include and exclude those songs that have been listened to once. While the model including these songs returns a slightly lower RMSE on the test dataset, the model excluding them may give better recommendations, since the training set includes more songs may be more reflective of their listeneing profiles (since they listen to them more).</p>
-<p>
-Importantly due to Sparks efficiency to scale, this model can scale to many more users. For example Spotify has around 30 million active monthly users, which is only a magnitude more than the number of users considered in this dataset.</p>
+<p> We use linear regression to predict the year of a songs release given audio data about the song and achieve RMSE valsues of around 15.124 on the test dataset. The lowest RMSE is achieved using linear regression without interaction between the features. This suggests that there is not much correlation between the features. The RMSE obtained beats the baseline by almost 7 years, which is pretty good for simple linear regression.</p>
 <p><br></p>
-<p>The analysis can be found on databricks <a href="https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/3175648861028866/48824497172554/657465297935335/latest.html">here</a>.</p>
+<p>The analysis can be found on databricks <a href="https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/3175648861028866/3427136292952836/657465297935335/latest.html">here</a>.</p>
 <p><br></p>
-<iframe src="https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/3175648861028866/48824497172554/657465297935335/latest.html" height="22700" width="900" frameBorder="0" scrolling="no" style="overflow:hidden" ></iframe>
+<iframe src="https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/3175648861028866/3427136292952836/657465297935335/latest.html" height="24500" width="900" frameBorder="0" scrolling="no" style="overflow:hidden" ></iframe>
 <!--<h3>Scraper to get all guitar pro files</h3>
 
 <div class="panel-group">
