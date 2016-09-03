@@ -183,11 +183,11 @@ color: #2C3E50;}
 <p><br></p>	
 <h2>Goal</h2>
 <p>The goal is to build a music recommendation system that can provide custom playlists for individual users based on collaborative and metadata filtering. Currently music service providers have generic (and popular), mood-based playlists, that are the same for all users. Here, I suggest improvements to these playlists by offering custom options for each user based on song metadata.</p>
-<p>The complete code can be found on github <a href="https://github.com/moocarme/Music-Recommendation-System">here</a>.</p>
+<p>The complete code can be found on github <a target='_blank' href="https://github.com/moocarme/Music-Recommendation-System">here</a>.</p>
 <p><br></p>
 <h3>Approach</h3>
 <p>I will first determine the the best method to recommend songs to users based on the most listened songs, song-song similarity, and user-user similarity. This will form the basis of the playlist creator. The specific playlist will then be constructed from these songs, since the ultimate goal is to create a playlist of songs the user likes. The songs will be chosen based on the type of playlist, i.e., workout, chillout, discover new artists, etc, and the songs are chosen based on their metadata.</p>
-<p>The data comes from the <a href="http://labrosa.ee.columbia.edu/millionsong/pages/getting-dataset">Million Song Dataset</a> which has metadata on 1 million songs. The metadata comes from the <a href="http://the.echonest.com/">The Echo Nest</a>, that is know taken over by <a href="https://developer.spotify.com/spotify-echo-nest-api/">Spotify</a> earlier in 2016. The dataset of users listener histories comes from <a href="https://www.kaggle.com/c/msdchallenge">kaggle</a> that had a competition on the subject a few years ago. The listening history was kept hidden by kaggle, so half the total data was not available to me, however this can be supplemented by the million song dataset that can be found on the <a href="https://archive.ics.uci.edu/ml/datasets/YearPredictionMSD">UCI Machine Learning Repository</a>. However for a single machine the kaggle dataset with 110000 unique users and 149029 unique songs is enough to test hypotheses.</p>
+<p>The data comes from the <a target='_blank' href="http://labrosa.ee.columbia.edu/millionsong/pages/getting-dataset">Million Song Dataset</a> which has metadata on 1 million songs. The metadata comes from the <a target='_blank' target='_blank' href="http://the.echonest.com/">The Echo Nest</a>, that is know taken over by <a target='_blank' href="https://developer.spotify.com/spotify-echo-nest-api/">Spotify</a> earlier in 2016. The dataset of users listener histories comes from <a target='_blank' href="https://www.kaggle.com/c/msdchallenge">kaggle</a> that had a competition on the subject a few years ago. The listening history was kept hidden by kaggle, so half the total data was not available to me, however this can be supplemented by the million song dataset that can be found on the <a target='_blank' href="https://archive.ics.uci.edu/ml/datasets/YearPredictionMSD">UCI Machine Learning Repository</a>. However for a single machine the kaggle dataset with 110000 unique users and 149029 unique songs is enough to test hypotheses.</p>
 <p></p>
 <p><br></p>
 <h3 id = "EDA">Exploratory Data Analysis</h3>
@@ -539,7 +539,7 @@ ggplot(data = filter(totdf2, year>1900),
 <p><b>Cumulative distribution function of the total number of users have listened to less than x total songs.</b> For example, the cumulative sum for 20 total songs is around 90,000, which means that 90,000 users have listened to at most 20 unique songs.</p> 
 <center><img class="img-responsive" src="figs/songs_per_user.png"   width="700" align="center"></center>
 <p><br></p>
-<p><b>Loudness versus year.</b> Although we acknowledge that comparing features over time may not help in recommending songs, it may be valuable for visualizing trends in data and discovering any possible insights. One relationship we see confirms the <a href="http://www.npr.org/2009/12/31/122114058/the-loudness-wars-why-music-sounds-worse">"loudness wars"</a>, that refers to the trend of increasing the audio levels of music. The concept derives from the principle that if the audio levels are higher than other songs, when played on the radio the song will be louder, and listeners may pay attention to the song more. This is captured below in the boxplot graph. </p> 
+<p><b>Loudness versus year.</b> Although we acknowledge that comparing features over time may not help in recommending songs, it may be valuable for visualizing trends in data and discovering any possible insights. One relationship we see confirms the <a target='_blank' href="http://www.npr.org/2009/12/31/122114058/the-loudness-wars-why-music-sounds-worse">"loudness wars"</a>, that refers to the trend of increasing the audio levels of music. The concept derives from the principle that if the audio levels are higher than other songs, when played on the radio the song will be louder, and listeners may pay attention to the song more. This is captured below in the boxplot graph. </p> 
 <center><img class="img-responsive" src="figs/loudness_per_year.png"   width="900" align="center"></center>
 <p><br></p>
 
@@ -926,7 +926,7 @@ upbeatSongs<- function(user){
 }</code></pre>
 <p><br></p>
 <p>In this application it doesn't matter if the songs are already in the users list of listened songs, unlike for recommending new music.</p>
-<p>This serves as a good template for A/B/n testing, creating indices based on a variety of metadata may also be used, for example a workout index may be defined as the <span class = 'math'>\(WI = \log(tempo\times danceability)\)</span>, where the danceabilty is defined from the <a href="https://developer.spotify.com/spotify-echo-nest-api/">Spotify/echonest API</a>. A/B testing can by varying the indices created, selecting songs based on the indices. The best index can be determined based on user feedback, such as number of plays, shares, or follows of the playlist. </p>
+<p>This serves as a good template for A/B/n testing, creating indices based on a variety of metadata may also be used, for example a workout index may be defined as the <span class = 'math'>\(WI = \log(tempo\times danceability)\)</span>, where the danceabilty is defined from the <a target='_blank' href="https://developer.spotify.com/spotify-echo-nest-api/">Spotify/echonest API</a>. A/B testing can by varying the indices created, selecting songs based on the indices. The best index can be determined based on user feedback, such as number of plays, shares, or follows of the playlist. </p>
 <p><br></p>
 <h2>Conclusion</h2>
 	<p>Overall, a successful recommendation system is made and has been applied to create custom mood-based playlists ready for A/B/n testing. It is shown that recommendation system based on item-item gives the largest mean average precision for the dataset. All strategies can be combined with different weights, however this in unrealistic with a single machine. Other methods to recommend songs is to find the user-user and item-item similarity via singular value decomposition, as this is fast and efficient, yet has a tendency to overfit, without regularization.</p>
@@ -937,7 +937,7 @@ upbeatSongs<- function(user){
     	<div class="img-centered">
     		 <div class="container" >
                 <ul class="nav navbar-nav navbar-left">
-                    <a class="navbar-brand" href="https://github.com/moocarme/Music-Recommendation-System"><h2>Source Code</h2>   </a>
+                    <a target='_blank' class="navbar-brand" href="https://github.com/moocarme/Music-Recommendation-System"><h2>Source Code</h2>   </a>
                 </ul>
             </div>
     </div>

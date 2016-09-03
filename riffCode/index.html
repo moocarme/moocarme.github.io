@@ -142,7 +142,17 @@ $(document).ready(function () {
   window.buildTabsets("TOC");
 });
 </script>
-
+<script type="text/javascript" src="/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="/js/jquery.collapsible.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+    //collapsible management
+        $('.collapsible').collapsible({
+            defaultOpen: 'section1,section3'
+        });
+    });
+</script>
+ 
 <!-- code folding -->
 <!-- Icons -->
 <link rel="favicon-144-precomposed"  href="../img/profile.png">
@@ -164,9 +174,141 @@ $(document).ready(function () {
  #bootstrap-overrides  hr.star-light:after {
 background-color: white;
 color: #2C3E50;}
+canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 90px;
+}
+.collapsible,
+.page_collapsible {
+    margin: 0;
+    padding:10px;
+    height:20px;
+
+    border-top:#f0f0f0 1px solid;
+    background: #cccccc;
+
+    font-family: Arial, Helvetica, sans-serif;
+    text-decoration:none;
+    text-transform:uppercase;
+    color: #000;
+    font-size:1em;
+}
+
+.collapse-open {
+    background:#000;
+    color: #fff;
+}
+
+.collapse-open span {
+    display:block;
+    float:right;
+    padding:10px;
+}
+
+.collapse-open span {
+    background:url(images/minus.png) center center no-repeat;
+}
+
+.collapse-close span {
+    display:block;
+    float:right;
+    background:url(images/plus.png) center center no-repeat;
+    padding:10px;
+}
 </style>
 
+<script type="text/javascript">
+    $(document).ready(function() {
 
+        //syntax highlighter
+        hljs.tabReplace = '    ';
+        hljs.initHighlightingOnLoad();
+
+        $.fn.slideFadeToggle = function(speed, easing, callback) {
+            return this.animate({opacity: 'toggle', height: 'toggle'}, speed, easing, callback);
+        };
+
+        //collapsible management
+        $('.collapsible').collapsible({
+            defaultOpen: 'section1',
+            cookieName: 'nav',
+            speed: 'slow',
+            animateOpen: function (elem, opts) { //replace the standard slideUp with custom function
+                elem.next().slideFadeToggle(opts.speed);
+            },
+            animateClose: function (elem, opts) { //replace the standard slideDown with custom function
+                elem.next().slideFadeToggle(opts.speed);
+            },
+            loadOpen: function (elem) { //replace the standard open state with custom function
+                elem.next().show();
+            },
+            loadClose: function (elem, opts) { //replace the close state with custom function
+                elem.next().hide();
+            }
+        });
+        $('.page_collapsible').collapsible({
+            defaultOpen: 'body_section1',
+            cookieName: 'body2',
+            speed: 'slow',
+            animateOpen: function (elem, opts) { //replace the standard slideUp with custom function
+                elem.next().slideFadeToggle(opts.speed);
+            },
+            animateClose: function (elem, opts) { //replace the standard slideDown with custom function
+                elem.next().slideFadeToggle(opts.speed);
+            },
+            loadOpen: function (elem) { //replace the standard open state with custom function
+                elem.next().show();
+            },
+            loadClose: function (elem, opts) { //replace the close state with custom function
+                elem.next().hide();
+            }
+
+        });
+
+        //assign open/close all to functions
+        function openAll() {
+            $('.page_collapsible').collapsible('openAll');
+        }
+        function closeAll() {
+            $('.page_collapsible').collapsible('closeAll');
+        }
+
+        //listen for close/open all
+        $('#closeAll').click(function(event) {
+            event.preventDefault();
+            closeAll();
+
+        });
+        $('#openAll').click(function(event) {
+            event.preventDefault();
+            openAll();
+        });
+
+    });
+</script>
+ <div class="page_collapsible" id="body-section6">Custom CSS<span></span></div>
+    <div class="container">
+        <div class="content">
+            <p>
+                In the above example HTML you will see a span, this is useful if you wish to
+                assign an open/close image.
+            </p>
+            <p>
+                This plugin will append a user defined (or default, see options above) class to
+                header of the collapsible.  You can use this to swap out the images or style
+                the different states of your collapsible.
+            </p>
+    <pre class="css"><code>.collapsible div.collapse-open {}
+.collapsible div.collapse-close {}
+.collapsible div.collapse-open span {}
+.collapsible div.collapse-close span {}
+    </code></pre>
+        </div>
+    </div>
 
 <div class="fluid-row" id="header">
 </div>
@@ -179,14 +321,14 @@ color: #2C3E50;}
 <hr>
 <p><br></p>	
 <h3>Hypothesis</h3>
-<p>I hypothesize that all country music sounds the same because of <i>similiarities in the components of songs</i>. Specifically, because many country music songs are composed with vocals and guitar, the way the guitar is played and the kinds of lyrics used in the songs may be key components in determining whether or not all country music does sound similar. The way the guitar is played can be determined by the <a href = "https://en.wikipedia.org/wiki/Chord_progression">chord progression</a>, and I hypothesize that many country songs all use the same chord progession, whereas in other genres of music, there will be a greater variation of the chord progressions used in songs. I also suspect that the lyrics have some similarity in the words used and a <a href = "https://en.wikipedia.org/wiki/Naive_Bayes_classifier">naive-Bayes analysis</a> may be suitable.</p>
-<p>The complete code can be found on github <a href="https://github.com/moocarme/Coding-Samples/tree/master/Python-Webscraping">here</a>.</p>
+<p>I hypothesize that all country music sounds the same because of <i>similiarities in the components of songs</i>. Specifically, because many country music songs are composed with vocals and guitar, the way the guitar is played and the kinds of lyrics used in the songs may be key components in determining whether or not all country music does sound similar. The way the guitar is played can be determined by the <a target="_blank" href = "https://en.wikipedia.org/wiki/Chord_progression">chord progression</a>, and I hypothesize that many country songs all use the same chord progession, whereas in other genres of music, there will be a greater variation of the chord progressions used in songs. I also suspect that the lyrics have some similarity in the words used and a <a target="_blank" href = "https://en.wikipedia.org/wiki/Naive_Bayes_classifier">naive-Bayes analysis</a> may be suitable.</p>
+<p>The complete code can be found on github <a target="_blank" href="https://github.com/moocarme/Coding-Samples/tree/master/Python-Webscraping">here</a>.</p>
 <p><br></p>
 <h4>Method</h4>
-<p>A chord progression is the different chords used in songs, as well as the order in which they are used. For example Pearl Jam's <a href = "https://www.youtube.com/watch?v=2z0cKtSlHOU">'Elderly woman...'</a> uses a chord progression D C G G for the much of the verse and chorus. Both the notes used and their respective order is needed. The assumption that the guitar plays the characteristic 'sound' of the song and can be infered from the data gained from the chord progression of the guitar.
+<p>A chord progression is the different chords used in songs, as well as the order in which they are used. For example Pearl Jam's <a target="_blank" href = "https://www.youtube.com/watch?v=2z0cKtSlHOU">'Elderly woman...'</a> uses a chord progression D C G G for the much of the verse and chorus. Both the notes used and their respective order is needed. The assumption that the guitar plays the characteristic 'sound' of the song and can be infered from the data gained from the chord progression of the guitar.
 </p>
 <p>
-A python webscraper mines guitar tabluture from the internet, specifically <a href="https://ultimate-guitar.com">ultimate-guitar.com</a> and reads them to obtain the chords used in songs. The python code retrives the chords that users of the site have entered. Because the guitar tablature is user submitted, only 5 star rated tablatures are used in standard tuning, for greatest accuracy. A 5 star rating is achieved when all users of the tablature rate the tab as 5-star. Mining the tablature for data on the various chord progressions played in songs, the end goal would be analyze different genres of music to show that country music shows less variation in the chords and chord progressions used compared to other genres of music.
+A python webscraper mines guitar tabluture from the internet, specifically <a target="_blank" href="https://ultimate-guitar.com">ultimate-guitar.com</a> and reads them to obtain the chords used in songs. The python code retrives the chords that users of the site have entered. Because the guitar tablature is user submitted, only 5 star rated tablatures are used in standard tuning, for greatest accuracy. A 5 star rating is achieved when all users of the tablature rate the tab as 5-star. Mining the tablature for data on the various chord progressions played in songs, the end goal would be analyze different genres of music to show that country music shows less variation in the chords and chord progressions used compared to other genres of music.
 </p>
 <p><br></p>
 <h3>Guitar tablature Example</h3>
@@ -283,7 +425,7 @@ Gtr IV (Eb Ab Db Gb Bb Eb) - 'acoustic'
 	</div>
 </div>
 <p>The above example is quite typical of the user-submitted guitar tablature. We can see that the there is a lot of extraneous data, but the chord progression we wold look for is located above the lines beginning "Gtr I", and the chord progression is A5 E5 F#5 D.</p>
-<p>The python webscraper built goes through all the tabs of a particular genre and grabs all the chords played in the song. The chord progression is obtained by simply finding the 4-chord combination that is most common. This chord progression is then added to an SQL database, along with the artist name, song title genre and subgenre. An example of sub-genre to a genre is bluegrass, which is a sub-genre to country. This relationship was taken from exploring how <a href="https://www.ultimate-guitar.com/">ultimate-guitar.com</a> specifies. Once database of all the chord progressions is obtained, a subsection can be queried from the list, i.e. accouding to subgenre, and it is sorted and plotted. A cumulative distribution is also obtained from the sorted list and is useful for determining global variation.
+<p>The python webscraper built goes through all the tabs of a particular genre and grabs all the chords played in the song. The chord progression is obtained by simply finding the 4-chord combination that is most common. This chord progression is then added to an SQL database, along with the artist name, song title genre and subgenre. An example of sub-genre to a genre is bluegrass, which is a sub-genre to country. This relationship was taken from exploring how <a target="_blank" href="https://www.ultimate-guitar.com/">ultimate-guitar.com</a> specifies. Once database of all the chord progressions is obtained, a subsection can be queried from the list, i.e. accouding to subgenre, and it is sorted and plotted. A cumulative distribution is also obtained from the sorted list and is useful for determining global variation.
 <p><br></p>
 
 <h3>Python script - Chords Webscraper</h3>
@@ -557,6 +699,7 @@ if __name__=='__main__':
 <ul><li><p>Group by chord progression.</p></li></ul>
 <ul><li><p>Order by their total count, descending.</p></li></ul>
 <ul><li><p>Select appropriate columns.</p></li></ul>
+
 <div class="panel-group">
       <h2 class="panel-title">
         <a data-toggle="collapse" href="#collapse_getSQL"><p>Click here</p></a>
@@ -610,9 +753,12 @@ if __name__=="__main__":
 <script>
     var myChart_chordProg = new Chart({...})
 </script>
-<canvas id="myChart_chordProg" width="150" height="150"></canvas>
+<canvas id="myChart_chordProg" width="60%" height="150"></canvas>
 <script>
+
 var ctx = document.getElementById("myChart_chordProg");
+ctx.width = 200;
+ctx.height = 100;
 var randomColorFactor = function() {
             return Math.round(Math.random() * 255);
         };
@@ -675,6 +821,8 @@ var myChart = new Chart(ctx, {
 <canvas id="myChart_chords" width="150" height="150"></canvas>
 <script>
 var ctx = document.getElementById("myChart_chords");
+ctx.width = 200;
+ctx.height = 100;
 var randomColorFactor = function() {
             return Math.round(Math.random() * 255);
         };
@@ -729,7 +877,7 @@ var myChart = new Chart(ctx, {
 <script src = "../riffCode/chord_cdf.js"></script>
 
 <p><br>
-We find that Chords involving variations of G, C, and D are very popular in country music and those three chords account for about 45% of the total chords, if we look at the top 8 chords (G, C, D, A, F, Am, Em, E) they account for almost 75%. For context there are over 800 various chord combinations (see: <a href = https://tabs.ultimate-guitar.com/m/misc/all_the_chords_crd.htm>here</a>). So we can see how these 8 chords and their various combinations can lead to music that may sound similar. </p>
+We find that Chords involving variations of G, C, and D are very popular in country music and those three chords account for about 45% of the total chords, if we look at the top 8 chords (G, C, D, A, F, Am, Em, E) they account for almost 75%. For context there are over 800 various chord combinations (see: <a target="_blank" href = "https://tabs.ultimate-guitar.com/m/misc/all_the_chords_crd.htm">here</a>). So we can see how these 8 chords and their various combinations can lead to music that may sound similar. </p>
 <p>When we compare the variation to other genres we can see that country music stands out with little variation in the chords used. From the previous cumulative distribution function we found that the variation of chord progressions is on par with other genres, but from this cumulative distribution function we find that the variation in actual chords is small. <big><b><i>Country music uses the same chords in many different combinations</i></b></big>. This may explain why many country music songs sound similar.</p>
 <!--<p>
 Compared to other genres such as Jazz, which incidentally has the same top 3 chords, in the same order, G-C-D yet only accounts for 37% of total chord usage. If we look to the top 8 chords, which again are the same chords, yet in a different order they account for 62% of all chords used.</p> -->
@@ -739,7 +887,7 @@ Compared to other genres such as Jazz, which incidentally has the same top 3 cho
 One issue I came across when scraping the website is that ultimate-guitar.com only allows 500 search results, yet there are over 20,000 5-star rated chord tabs for some of the genres, separating by sub genre, or even by artist may lead to a greater number of tabs to be processed and so trends may become clearer. This 500 search limit is probably for the user expereince, since I'm assuming no one want to search manually through 20,000 results. 500 a happy medium that is small enough to search manually through, yet large enough to provide good and varied results in the search.</p>
 <hr>
 <ul><p><big><i>"Three chords and the truth - that's what a country song is"</i></big></p></ul>
-<ul><ul><p><big>- <a href="http://willienelson.com/">Willie Nelson</a></big></p></ul></ul>
+<ul><ul><p><big>- <a target="_blank" href="http://willienelson.com/">Willie Nelson</a></big></p></ul></ul>
 <hr>
 <p><big>Here the reference is to chord progressions that are composed of 3 chords, which agrees with our analysis in which many of the top 20 chord progressions involved 3 or less chords.</big></p>
 <p><br></p>
@@ -748,7 +896,7 @@ One issue I came across when scraping the website is that ultimate-guitar.com on
 </header>
 <h1>Country Music Lyrics</h1>
 <p><br></p>
-<p>The hypothesis that country music sounds similar due similarity of the lyrics can also be examined. The country music lyrics are also scraped from the website <a href="http://www.anycountrymusiclyrics.com">www.anycountrymusiclyrics.com</a>. The scraper goes through all the songs on the website, and pulls the main text, which are the lyrics. Following, the lyrics are cleaned up, by converting them all to lowercase, removing punctuation and any extraneous spaces, and put into a list of lists, the outer list is for the various songs, and the inner list contains the words for each song, or a complete corpus. The list is then saved using the python pickle function, since the scraping takes about 35 minutes to run in total. This process was in general easier to scrape than the guitar tablature since there is more of a standard to submitting lyrics opposed to guitar tablature.</p> 
+<p>The hypothesis that country music sounds similar due similarity of the lyrics can also be examined. The country music lyrics are also scraped from the website <a target="_blank" href="http://www.anycountrymusiclyrics.com">www.anycountrymusiclyrics.com</a>. The scraper goes through all the songs on the website, and pulls the main text, which are the lyrics. Following, the lyrics are cleaned up, by converting them all to lowercase, removing punctuation and any extraneous spaces, and put into a list of lists, the outer list is for the various songs, and the inner list contains the words for each song, or a complete corpus. The list is then saved using the python pickle function, since the scraping takes about 35 minutes to run in total. This process was in general easier to scrape than the guitar tablature since there is more of a standard to submitting lyrics opposed to guitar tablature.</p> 
 
 <h3>Python script - Country Lyric Webscraper</h3>
 <div class="panel-group">
@@ -976,10 +1124,10 @@ var myChart = new Chart(ctx, {
 <canvas id="myChart_wordcdf" width="150" height="150"></canvas>
 <script src = "../riffCode/word_cdf.js"></script>
 <p><br></p>
-<p>In order to understand the context all the stop words have been removed, taken from the <a href = "www.nltk.org/nltk_data/">natural language toolkit</a>, and a more accurate description of the language of contry music is achieved. We find that the just 40 words are needed make up 22.48% of all lyrics, and only about 1000 words are needed to account for 80% of all words in country music. If we look at type of language of the words from the top 40 words, they are almost all heartbreak/love kind of songs, or could be used in that context. This idea is confirmed when we look at the <a href="http://www.radioveronica.us/classiccountry500.htm">Top 500 country songs</a>, we can see that many songs have title such as <i>"I Don't Call Him Daddy"</i> by Doug Supernaw, or <i>"We Danced"</i> by Brad Paisley, and we might be able to infer, after looking at the data our lyrics analysis, what kind of lyrics these songs may contain.</p>
+<p>In order to understand the context all the stop words have been removed, taken from the <a target="_blank" href = "www.nltk.org/nltk_data/">natural language toolkit</a>, and a more accurate description of the language of contry music is achieved. We find that the just 40 words are needed make up 22.48% of all lyrics, and only about 1000 words are needed to account for 80% of all words in country music. If we look at type of language of the words from the top 40 words, they are almost all heartbreak/love kind of songs, or could be used in that context. This idea is confirmed when we look at the <a target="_blank" href="http://www.radioveronica.us/classiccountry500.htm">Top 500 country songs</a>, we can see that many songs have title such as <i>"I Don't Call Him Daddy"</i> by Doug Supernaw, or <i>"We Danced"</i> by Brad Paisley, and we might be able to infer, after looking at the data our lyrics analysis, what kind of lyrics these songs may contain.</p>
 <p><br></p>
 <h3>Generating Country Music Lyrics</h3>
-	<p>We can take this approach further, and use a naive-Bayes approach to generate our own country music lyrics. By taking a word, we can use the nested dictionary to see what likely words follow that word. We can continue this until we get one lyric, which consists of 8-10 words. Typically, a chorus or verse consists of 4-6 lyrics. From this we can create a song.This process is similar to<a href="https://en.wikipedia.org/wiki/Markov_chain">Markov chains</a>, a random mathematical system in which the outcome of a state is based on the current state a system is in, and not the one that came before it. Here, the predictive text generator will only offer suggestions based on the last word entered. However this process differs from Markov chains, in that the user has to enter a word to begin with, or a random one is generated from the dictionary. </p>
+	<p>We can take this approach further, and use a naive-Bayes approach to generate our own country music lyrics. By taking a word, we can use the nested dictionary to see what likely words follow that word. We can continue this until we get one lyric, which consists of 8-10 words. Typically, a chorus or verse consists of 4-6 lyrics. From this we can create a song.This process is similar to<a target="_blank" href="https://en.wikipedia.org/wiki/Markov_chain">Markov chains</a>, a random mathematical system in which the outcome of a state is based on the current state a system is in, and not the one that came before it. Here, the predictive text generator will only offer suggestions based on the last word entered. However this process differs from Markov chains, in that the user has to enter a word to begin with, or a random one is generated from the dictionary. </p>
 <p><br></p>
 <h3>Python script - Country Song Generator</h3>
 <div class="panel-group">
@@ -1095,7 +1243,7 @@ function reload() {
 <p><br></p>
 <h2>Conclusion</h2>
 	<p>To conclude, we have seen that while chord progressions show as much variation as other genres, there is significantly less variation in the actual chords used in the chord progressions that may lead to the reason I believe that many country music sounds similar. Also, the language used in country music has little variation and the theme of the songs is also similar, and generated lyrics, if we take grammar out, is pretty convincing, and subscribes to the successful <i>"formula"</i> that has dominated country music.</p>
-	<p>In the end it's not just me that thinks all country music sounds the same, as Buzzfeed <a href="https://www.buzzfeed.com/maycie/this-video-proves-that-all-country-music-sounds-the-same?utm_term=.sl3kkr2QA#.cr5gg4ERe">reports</a>, song writer Gregory Todd <a href="https://www.youtube.com/channel/UCviDRYUvXRn7m9UrEx_nnVg">shows</a> that different country songs, from differnt artists, can be mixed the result can be seemless. </p>
+	<p>In the end it's not just me that thinks all country music sounds the same, as Buzzfeed <a target="_blank" href="https://www.buzzfeed.com/maycie/this-video-proves-that-all-country-music-sounds-the-same?utm_term=.sl3kkr2QA#.cr5gg4ERe">reports</a>, song writer Gregory Todd <a target="_blank" href="https://www.youtube.com/channel/UCviDRYUvXRn7m9UrEx_nnVg">shows</a> that different country songs, from differnt artists, can be mixed the result can be seemless. </p>
 	<div class="text-center">
 <nav class="navbar navbar-custom">
     	<div class="img-centered">
