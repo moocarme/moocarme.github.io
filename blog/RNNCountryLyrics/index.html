@@ -75,7 +75,7 @@ h6 {
 
 <body>
      <!-- Navigation -->
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default" style = "position:fixed; width: 100%; z-index: 99;">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header page-scroll">
@@ -168,7 +168,9 @@ color: #2C3E50;}
 
 <div class="fluid-row" id="header">
 </div>
-
+<p><br></p>
+<p><br></p>
+<p><br></p>
 <h1>Country Lyrics Created with Recurrent Neural Networks</h1>
 <header>
     <hr class="star-light">
@@ -179,7 +181,7 @@ color: #2C3E50;}
 <hr>
 <p><br></p>	
 <h3>Motivation</h3>
-<p>I already found out that <a target='_blank' href="../../RiffCode">all country music sounds similar</a>, and I was even able to generate some country music lyrics using a <a target='_blank' href="https://en.wikipedia.org/wiki/Naive_Bayes_classifier"></a>naive-Bayes approach. The naive-Bayes approach that I used took a simple probablistic approach that depends on the going through each word and choosing the next word dependent on probable words that have followed from a database of scraped lyrics. For the word "hotel" was proceeded by the word "room" 3 times, "wall" once, "bed" once, "sign" once, and  "with" once. So, when generatin the lyrics randomly I come across the word "hotel", I will take a weighted probablitly of the proceeding words, to choose that proceeding word in the generated song lyric. An example of it's generation is:</p>
+<p>I already found out that <a target='_blank' href="/riffCode">all country music sounds similar</a>, and I was even able to generate some country music lyrics using a <a target='_blank' href="https://en.wikipedia.org/wiki/Naive_Bayes_classifier"></a>naive-Bayes approach. The naive-Bayes approach that I used took a simple probablistic approach that depends on the going through each word and choosing the next word dependent on probable words that have followed from a database of scraped lyrics. For the word "hotel" was proceeded by the word "room" 3 times, "wall" once, "bed" once, "sign" once, and  "with" once. So, when generatin the lyrics randomly I come across the word "hotel", I will take a weighted probablitly of the proceeding words, to choose that proceeding word in the generated song lyric. An example of it's generation is:</p>
 <p><br></p>
 <pre><code> teen havin fun there are times there’s at school football 
  team and there was was custommade to do nothing before 
@@ -444,18 +446,9 @@ I feel it </pre></code></p>
 <hr>
 
 
-<div class="text-center">
-<nav class="navbar navbar-custom">
-    	<div class="img-centered">
-    		 <div class="container" >
-                <ul class="nav navbar-nav navbar-left">
-                    <a class="navbar-brand" href="https://github.com/moocarme/Recurrent-Neural-Networks	"><h2>Source Code</h2>   </a>
-                </ul>
-            </div>
-    </div>
-</nav>
-</div>
-<p><br></p>
+
+<a href="https://github.com/moocarme/Recurrent-Neural-Networks	"><h2>Source Code</h2>   </a>
+ <p><br></p>
 <p><br></p>
 <p><br></p>
 <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->

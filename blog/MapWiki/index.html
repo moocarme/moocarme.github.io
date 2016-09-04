@@ -75,7 +75,7 @@ h6 {
 
 <body>
      <!-- Navigation -->
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default" style = "position:fixed; width: 100%; z-index: 99;">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header page-scroll">
@@ -169,7 +169,9 @@ color: #2C3E50;}
 
 <div class="fluid-row" id="header">
 </div>
-
+<p><br></p>
+<p><br></p>
+<p><br></p>
 <h1> Using Python and SQL to Map Wikipedia by Page Category</h1>
 <header>
     <hr class="star-light">
@@ -177,7 +179,7 @@ color: #2C3E50;}
 <p><br></p>	
 <h3>Hypothesis</h3>
 <p>I hypothesize that the links between the categories of the webpages in wikipedia will show the connections between various categories and may reveal origins of fields that may be unintuitive.</p>
-<p>The complete code can be found on github <a href="https://github.com/moocarme/Coding-Samples/tree/master/Python-with-SQL">here</a>.</p>
+<p>The complete code can be found on github <a target = "_blank" href="https://github.com/moocarme/Coding-Samples/tree/master/Python-with-SQL">here</a>.</p>
 <p><br></p>
 <h4>Method</h4>
 <p>
@@ -189,7 +191,7 @@ To begin, I create a web-scraper that starts at either a page from a sqlite data
 <h3>Python Webscraping Script</h3>
 <div class="panel-group">
       <h2 class="panel-title">
-        <a data-toggle="collapse" href="#collapse_ws"><p>See here</p></a>
+        <a data-toggle="collapse" href="#collapse_ws"><p>See here &#9660;</p></a>
       </h2>
  
     <div id="collapse_ws" class="panel-collapse collapse">
@@ -281,7 +283,7 @@ Each node of the network represents one webpage, and a connection from one node 
 <h3>Python Network Plotting Script</h3>
 <div class="panel-group">
       <h2 class="panel-title">
-        <a data-toggle="collapse" href="#collapse_network"><p>See here</p></a>
+        <a data-toggle="collapse" href="#collapse_network"><p>See here &#9660;</p></a>
       </h2>
  
     <div id="collapse_network" class="panel-collapse collapse">
@@ -395,23 +397,16 @@ show()
 <p>The resulting network is then read from the sqlite database, plotted and saved to a png. </p>
 <p><br></p>
 
-<img src="../img/portfolio/wikiNetwork_60Links.png" class="img-responsive" alt="image-alt">
+<img src="/img/portfolio/wikiNetwork_60Links.png" class="img-responsive" alt="image-alt">
 
 <h2>Conclusion</h2>
 <p>Though the web scraper works very well and the database of hyperlinks for webpages is populated very quickly, even for 60 links (plus all the webpages within each) the network graph is very crowded. Plotting the network on a map may not be the best way to visualize the interconnections between the webpages of wikipedia. </p>
-<p>A better approach would be bin the webpages in categories and plot the correlations between webpage categories in a 2D histogram. Using a 2D histogram, although we lose the information of the name of the webpage, as the network plot shows, a much greater number of pages could be shown on the same graph. For each entry in the bins of the 2D histogram, would represent a hyperlink from one category (shown on the x-axis), to another catgory (shown on the y-axis). <a href="https://plot.ly/python/2D-Histogram/">plot.ly</a> have a number of good examples, and would make a good project for another time.
+<p>A better approach would be bin the webpages in categories and plot the correlations between webpage categories in a 2D histogram. Using a 2D histogram, although we lose the information of the name of the webpage, as the network plot shows, a much greater number of pages could be shown on the same graph. For each entry in the bins of the 2D histogram, would represent a hyperlink from one category (shown on the x-axis), to another catgory (shown on the y-axis). <a target = "_blank" href="https://plot.ly/python/2D-Histogram/">plot.ly</a> have a number of good examples, and would make a good project for another time.
 </p>
-<div class="text-center">
-<nav class="navbar navbar-custom">
-    	<div class="img-centered">
-    		 <div class="container" >
-                <ul class="nav navbar-nav navbar-left">
-                    <a class="navbar-brand" href="https://github.com/moocarme/Coding-Samples/tree/master/Python-with-SQL"><h2>Source Code</h2>   </a>
-                </ul>
-            </div>
-    </div>
-</nav>
-</div>
+<p><br></p>
+
+<a target = "_blank" href="https://github.com/moocarme/Coding-Samples/tree/master/Python-with-SQL"><h2>Source Code</h2></a>
+                
 <p><br></p>
 <p><br></p>
 <p><br></p>

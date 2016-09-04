@@ -18,7 +18,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="generator" content="pandoc" />
 
-    <title>Recurrent Neural Network Tab Generator</title>    
+    <title>Deep Learning Metallica with Recurrent Neural Networks</title>    
     <!-- Icons -->
     <link rel="favicon-144-precomposed"  href="/img/profile.png">
     <link rel="shortcut icon" href="/img/profile.png">
@@ -199,7 +199,7 @@ color: #2C3E50;}
 
 
 
-<h1 class="title toc-ignore">Generating Metallica Style Music with Recurrent Neural Networks</h1>
+<h1 class="title toc-ignore">Deep Learning Metallica with Recurrent Neural Networks</h1>
 <header>
     <hr class="star-light">
 </header>
@@ -212,7 +212,7 @@ color: #2C3E50;}
 <p>I will use recurrent neural networks to generate original guitar music in the style of Metallica, from guitar pro tabs scraped from the internet.</p>
 <img src="/img/Metallica-2.png" alt="METALLICA" style="width:100%;">
 <h3>Method</h3>
-<p>I decided to use <a href="https://www.guitar-pro.com/en/index.php">guitar pro files</a> because they are quite popular, so there will be a lot of accessible data, and they are reasonably accurate, containing a lot of fine data which can be missed in conventional guitar tablature, which an example is given below.</p>
+<p>I decided to use <a target = "_blank" href="https://www.guitar-pro.com/en/index.php">guitar pro files</a> because they are quite popular, so there will be a lot of accessible data, and they are reasonably accurate, containing a lot of fine data which can be missed in conventional guitar tablature, which an example is given below.</p>
 <h3>Guitar tablature Example</h3>
 <div class="panel-group">
       <h2 class="panel-title">
@@ -306,13 +306,13 @@ Gtr IV (Eb Ab Db Gb Bb Eb) - 'acoustic'
         </code></pre>
     </div>
 </div>
-<p>This is an example of the kind of tabs I scraped in previous work on country music, that can be found <a href="/RiffCode/">here</a>. While the guitar tab may seem quite orderly, because the tabs are user-submitted, they can differ tab to tab. Also,  additional data, such as whether the guitar is <a href="https://en.wikipedia.org/wiki/Palm_mute">palm-muted</a>, may often be ommited.</p>
+<p>This is an example of the kind of tabs I scraped in previous work on country music, that can be found <a target = "_blank" href="/RiffCode/">here</a>. While the guitar tab may seem quite orderly, because the tabs are user-submitted, they can differ tab to tab. Also,  additional data, such as whether the guitar is <a target = "_blank" href="https://en.wikipedia.org/wiki/Palm_mute">palm-muted</a>, may often be ommited.</p>
 <p>Guitar tabs can be easily converted to sheet music since every fret on each string corresponds to a note. Different frets on diffrent strings can have the same note, so it is a many-to-one mapping, but if we restrict ourselves to the first 4 frets it is a one-to-one mapping. The image below may be helpful for understanding, above shows a guitar tablature, and below the corresponding sheet musical.</p>
 <p><br></p>
 <img src="/img/fretboard.gif" alt="fretboard" style="width:100%;">
 <p><br></p>
 <p>Guitar pro files are created using specialized software (Guitar Pro), which has a built-in MIDI-editor, so much of the fine data is both available and standardized, and, in general, more accurately resembles the song it is transcripting.</p>
-<p>To obtain the guitar pro files I scraped the website <a href="https://ultimate-guitar.com">ultimate-guitar.com</a>, as it has the most comprehensive repository of guitar tabs on the internet. I scrape the the website for only 5-star rated tabs, and filter for guitar pro files, and choose remove duplicate songs (for example mutliple versions) by choosing the tabs with the most ratings. </p>
+<p>To obtain the guitar pro files I scraped the website <a target = "_blank" href="https://ultimate-guitar.com">ultimate-guitar.com</a>, as it has the most comprehensive repository of guitar tabs on the internet. I scrape the the website for only 5-star rated tabs, and filter for guitar pro files, and choose remove duplicate songs (for example mutliple versions) by choosing the tabs with the most ratings. </p>
 <h3>Scraper to get all guitar pro files</h3>
 <div class="panel-group">
       <h2 class="panel-title">
@@ -503,7 +503,7 @@ def main():
 if __name__== '__main__':
     main()</code></pre>    </div>
 </div>
-<p>Now that all the guitar pro files are converted to one large text file it can be fed into the recurrent neural network. The model comes from Andrej Karpathy’s great <a href="https://github.com/karpathy/char-rnn">char-rnn</a> library for Lua/Torch. Recurrent neural networks can use the output of the current node as the input for the next node.</p><p>The model takes a few days to run on my poor laptop with 400 nodes and 3 layers in the network, which corresponds to about 5 million parameters in the network.</p>
+<p>Now that all the guitar pro files are converted to one large text file it can be fed into the recurrent neural network. The model comes from Andrej Karpathy’s great <a target = "_blank" href="https://github.com/karpathy/char-rnn">char-rnn</a> library for Lua/Torch. Recurrent neural networks can use the output of the current node as the input for the next node.</p><p>The model takes a few days to run on my poor laptop with 400 nodes and 3 layers in the network, which corresponds to about 5 million parameters in the network.</p>
 <p>The output of the model is in the same text format of the input of the model. I take a guitar pro file and modify the measures, notes, and metadata. Creating a guitar pro file from scrtach in python is quite difficult due to the number of settings that have to be included in order to save the file properly, so this method was a compromise. </p>
 <h3>Python script to convert txt to GP5 file</h3>
 <div class="panel-group">
