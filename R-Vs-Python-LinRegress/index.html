@@ -3,6 +3,7 @@
   <head>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="/js/jquery.collapse.js"></script>
+
     <script type="text/javascript" src="/js/shCore.js"></script>
     <script type="text/javascript" src="/js/shBrushPython.js"></script>
     <script type="text/javascript" src="/js/shBrushSql.js"></script>
@@ -16,8 +17,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="icon" type="image/png" href="/img/profile.png">
     <link rel="stylesheet" href="../style.css">
+
     <link href="/css/shCore.css" rel="stylesheet" type="text/css" />
     <link href="/css/shThemeDefault.css" rel="stylesheet" type="text/css" />
+    
     <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href="//fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
@@ -498,13 +501,13 @@ library(ggplot2)
 library(tidyr)
 library(dplyr)
 library(lubridate)</pre>
-<pre class="brush: python">city_temp &lt;- read_csv('data/GlobalLandTemperaturesByCity.csv')
+<script type="syntaxhighlighter" class="brush: python">city_temp &lt;- read_csv('data/GlobalLandTemperaturesByCity.csv')
 city_temp_US &lt;- city_temp %&gt;% 
   filter(Country == 'United States' &amp; City == 'New York') %&gt;% 
   select(-Country, -Latitude, -Longitude, -City, -AverageTemperatureUncertainty) %&gt;% 
   mutate(the.year = year(dt)) %&gt;%
   group_by(the.year) %&gt;% 
-  summarise(Average.Temp = mean(AverageTemperature))</pre>
+  summarise(Average.Temp = mean(AverageTemperature))</script>
   <p><br></p>
 <p>Now the data is clean and tidy we can perform a T-test to determine statistical significance.</p>
 <pre class="brush: python">t.test( city_temp_US$Average.Temp, city_temp_US$the.year)</pre>
