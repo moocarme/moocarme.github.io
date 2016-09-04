@@ -158,6 +158,8 @@ var myChart = new Chart(ctx, {
         }]
     },
     options: {
+        responsive: false,
+        maintainAspectRatio: true,
     	title: {
             display: true,
             text: 'Cumulative Distribution Function',
