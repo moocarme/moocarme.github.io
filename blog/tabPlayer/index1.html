@@ -18,7 +18,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="generator" content="pandoc" />
 
-    <title>In Search of The Ultimate Playlist Title</title>    
+    <title>Recurrent Neural Network Tab Generator</title>    
     <!-- Icons -->
     <link rel="favicon-144-precomposed"  href="/img/profile.png">
     <link rel="shortcut icon" href="/img/profile.png">
@@ -33,9 +33,20 @@
     <link href="//fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
     <!--<link rel="stylesheet" type="text/css" href="resume.css" media="all" />-->
 
+    <!-- Including alphaTab -->
+    <script type="text/javascript" src="lib/alphaTab/AlphaTab.js"></script>
+
     <!-- jQuery Plugin -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>    
+    <script type="text/javascript" src="lib/alphaTab/jquery.alphaTab.js"></script>
    
+    <!-- Including alphaSynth -->
+    <script type="text/javascript" src="lib/swfobject/swfobject.js"></script>
+    <script type="text/javascript" src="lib/alphaSynth/AlphaSynth.js"></script>
+    
+    <!-- alphaSynth Plugin -->
+    <script type="text/javascript" src="lib/alphaTab/jquery.alphaTab.alphaSynth.js"></script>
+    
     <!-- Demo Styles and Scripts -->
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
@@ -99,12 +110,8 @@
     .table th:not([align]) {
       text-align: left;
     }
-	th {
-	    text-align: left;
-	    color: white;
-	    background-color: #2C3E50;
-	}
-	
+
+
 
     </style>
 </head>
@@ -179,9 +186,6 @@
 <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 <link href="//fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
-<!-- LaTeX -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
-
 <body id="bootstrap-overrides">
 <style type="text/css"> 
 #bootstrap-overrides hr.star-light {  
@@ -189,544 +193,615 @@
  #bootstrap-overrides  hr.star-light:after {
 background-color: white;
 color: #2C3E50;}
-#bootstrap-overrides  tr {
-    	border: 1px solid black;
-	}
 </style>
 
 <div class="fluid-row" id="header">
-<h1 class="title toc-ignore">In search of The Ultimate Playlist Title</h1>
+
+
+
+<h1 class="title toc-ignore">Generating Metallica Style Music with Recurrent Neural Networks</h1>
 <header>
     <hr class="star-light">
 </header>
+
 </div>
 
 <p><br></p> 
 <div id="google-trends-as-a-predictor" class="section level2">
-<h2>Goal</h2>
-<p>A good playlist title is essential for letting users know what to expect from a playlist before listening. From my experience, users do not spend long deciding whether they are going to listen to a playlist, I'd estimate a couple of seconds or less. Therefore the playlist title is extremely important in determining a playlists' total number of plays- if users o not like the playlist title, for whatever reason, they won't listen to the playlist. </p>
-<p>To determine the impact of a playlist title on its success I will use Spotifys great API to obtain pertinent information on a variety of playlists including its title. To determine a playlists' success I will use the number of followers, and make the assumption that it is proportional to the total number of plays. I will use text analytics to look at the type of words (i.e, verbs, nouns, adjectives) that make up playlists titles and perform regression to determine what kinds of words make up popular playlists.</p>
-<p>Though I hypothesize that the title of the playlist is an indicator of playlist success, I want to also acknowledge other factors of success that are not considered in this analysis. Such factors include: the songs the playlist is composed of; the position of the playlist on the page (those at the top of the list are likely to get chosen more); the playlist image; the playlist description; the number of current followers; amongst others. </p>
-<p><b><big>The goal of this analysis would be to come up with a series of actions a copywright could use to create playlist names based on the previous success of others.</big></b></p>
+<h3>Goal</h3>
+<p>I will use recurrent neural networks to generate original guitar music in the style of Metallica, from guitar pro tabs scraped from the internet.</p>
+<img src="/img/Metallica-2.png" alt="METALLICA" style="width:100%;">
+<h3>Method</h3>
+<p>I decided to use <a href="https://www.guitar-pro.com/en/index.php">guitar pro files</a> because they are quite popular, so there will be a lot of accessible data, and they are reasonably accurate, containing a lot of fine data which can be missed in conventional guitar tablature, which an example is given below.</p>
+<h3>Guitar tablature Example</h3>
+<div class="panel-group">
+      <h2 class="panel-title">
+        <a data-toggle="collapse" href="#collapse_guitartab"><p>See here</p></a>
+      </h2>
+ 
+    <div id="collapse_guitartab" class="panel-collapse collapse">
+      
 
-<img src="figs/playlist_wordcloud.png" alt="wordcloud" style="width:100%;">
-<p>A wordcloud from playlist titles.</p>
+        <p>Below is an example of typical guitar tablature from ultimate-guitar.com</p>
+        <pre class="python"><code>Band- Metallica
+Song- TuesdAYS gONE
 
-<p><br></p>
-<h3>Exploratory data analysis</h3>
-<p>Though this may not directly help to solve the problem, I always find it important to get a general feel for the data to help generate key insights, not just for this problem, but as a potential starting point for future problems. This may also help find any issues and discrepancies in the data, such as null values or misclassified categories that may appear.</p>
-<p>Data analysis is performed in Python, and complete code can be found on github <a target='_blank' href="https://github.com/moocarme/Music-Recommendation-System">here</a>.</p>
-<p>We can look at the mean number of followers for a each category:</p>
-<p><br></p>
-<script src="/node_modules/chart.js/dist/Chart.js"></script>
-<script src="/js/jquery-1.11.0.js"></script>
+  A5                   E5                   F#5                   D
+      x 0 2 2 x x          0 2 2 x x x          2 4 4 x x x          x x 0 2 3 2
 
-<script>
-    var myChart_chordProg = new Chart({...})
-</script>
-<canvas id="myChart_chordProg" width="350" height="250"></canvas>
-<script>
-var ctx = document.getElementById("myChart_chordProg");
-var randomColorFactor = function() {
-            return Math.round(Math.random() * 255);
-        };
-var randomColor = function() {
-            return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',.7)';
-        };
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Toplists', 'Pop', 'Party', 'Mood', 'Hip-hop', 'Sleep', 'Focus', 'Workout', 'RnB', 'Country', 'Chill', 'EDM', 'Decades', 'Soul', 'Popculture', 'Rock', 'Latin', 'Romance', 'Reggae', 'Indie/alt', 'Folk Americana', 'Travel', 'Jazz', 'Dinner', 'Blues', 'Kids', 'Punk', 'Classical', 'Funk', 'Comedy', 'Metal', 'Gaming'],
-        datasets: [{
-            label: 'Mean Number of Followers',
-            data: [2637342.3999999999, 1150911.5454545454, 556469.42105263157, 473209.24242424243, 466524.69565217389, 465867.88888888888, 450232.52380952379, 430714.54545454547, 360702.09090909088, 334302.29411764705, 331835.89361702127, 314694.21999999997, 282009.89473684208, 276870.42857142858, 264384.93333333335, 252918.57894736843, 213546.72, 205922.03571428571, 200428.91666666666, 182739.46428571429, 171456.68181818182, 157831.35999999999, 127248.66666666667, 113924.875, 98901.333333333328, 84134.363636363632, 78246.333333333328, 70917.710526315786, 68009.705882352937, 54172.666666666664, 47401.800000000003, 19881.457142857143],
-            backgroundColor: 'rgba(24, 188, 156, 0.6)',
-            borderColor: 'rgba(9, 74, 61, 1)',
-            borderWidth: 2
-        }]
-    },
-    options: {
-    	title: {
-            display: true,
-            text: 'Mean Number of Followers by Playlist Category',
-            fontSize: 30
-        },
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                },
-                scaleLabel: {
-        			display: true,
-        			labelString: 'Mean Number of Followers',
-        			fontSize: 30
-      			}
-            }],
-            xAxes: [{
-                scaleLabel: {
-        			display: true,
-        			labelString: 'Category',
-        			fontSize: 30
-      			}
-            }]
-        }
-    }
-});
-</script> 
-<p><br></p>
-<p>We can see that "top lists" and "pop" categories dominate, indicating that many users listen to general popular music opposed specific genres.</p>
-<p>We can also look at the mean number of followers for a given playlist owner:</p>
-<p><br></p>
-<script>
-    var mean_followers_per_user = new Chart({...})
-</script>
-<canvas id="mean_followers_per_user" width="350" height="250"></canvas>
-<script>
-var ctx = document.getElementById("mean_followers_per_user");
-var randomColorFactor = function() {
-            return Math.round(Math.random() * 255);
-        };
-var randomColor = function() {
-            return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',.7)';
-        };
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['spotify-argentina', 'spotify-mexico', 'spotify-espa\xf1a', 'spotify', 'spotify-netherlands', 'nikewomen', 'michellekadir', 'arminvanbuuren-official', 'spinninrecords-official', 'spotify-latino', 'easportsaudio', 'edvard-m', 'digster.co.uk', 'spotify-enespa\xf1ol', 'myplay.com', 'spotify-uk', 'spotify-germany', 'armadamusicofficial', 'digster.se', 'spotify-brazilian', 'filtr.ca', 'warnermusicus', '1255864681', 'spotify-france', 'deadpoolmovie', 'legacysweden', 'spotlight-country', 'guitarherolive', 'filtr', 'mejoresplaylistsspotify', 'spotify-sverige', 'spotify-norway', 'girlshbo', 'spotify-italia', 'nuclearblastrecords', 'maddennfl-easports', 'playstation_music', 'warnerbros.records', 'ricardovice', 'pias-uk', 'spotify-my', 'sony-music-entertainment', 'metaltalks', 'nytmag', 'spotify-in-residence', 'spotify-australia', 'razziarecords'],
-        datasets: [{
-            label: 'Mean Number of Followers',
-            data: [669552.85714285716, 564904.33333333337, 386034.75, 318026.63888888888, 193015.20000000001, 179573.75, 179543.0, 161739.5, 157583.33333333334, 147196.27027027027, 127360.0, 124064.0, 117530.0, 107559.25, 103852.0, 102710.60000000001, 101973.0, 100585.0, 95003.0, 85002.0, 82816.0, 74737.0, 70860.0, 61994.199999999997, 58118.0, 52859.666666666664, 49655.0, 40078.0, 39814.0, 39216.0, 38548.800000000003, 27197.0, 26047.0, 24992.0, 21893.5, 21729.0, 21206.714285714286, 18215.0, 16436.0, 15028.0, 10709.0, 8249.0, 6416.666666666667, 4165.0, 3206.0, 2282.0, 825.0],
-            backgroundColor: 'rgba(24, 188, 156, 0.6)',
-            borderColor: 'rgba(9, 74, 61, 1)',
-            borderWidth: 2
-        }]
-    },
-    options: {
-    	title: {
-            display: true,
-            text: 'Mean Number of Followers by Playlist Owner',
-            fontSize: 30
-        },
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                },
-                scaleLabel: {
-        			display: true,
-        			labelString: 'Mean Number of Followers',
-        			fontSize: 30
-      			}
-            }],
-            xAxes: [{
-                scaleLabel: {
-        			display: true,
-        			labelString: 'Owner',
-        			fontSize: 30
-      			}
-            }]
-        }
-    }
-});
-</script> 
-<p><br></p>
-<p>We see that Spotify rules, which makes sense as we are using the Spotify API, and searching through their data. It would not be unreasonable to assume that they are pushing the success of their playlists through advertising and placement at the tops of search lists.  </p>
-<p>We also can see that spanish speaking countries, and playlists that seem to be composed spanish-speaking songs, occupy many of the top spots in the list, indicating the <a target='_blank' href="http://www.businessinsider.com/r-spotify-eyes-latin-america-where-growth-on-pace-with-parts-of-europe-2015-5">relative success in Latin-America</a>.</p>
-<p>We can look at the number of characters in a title versus the number of followers of a playlist. On top of this we can add a trend line using linear regression.</p>
-<img src="figs/fig:followers_by_NumChars.png" alt="Followers_Vs_Chars" style="width:100%;">
-<p><br></p>
-<p>The p-value for the relation is 4.72975e-05, indicating that the trend is statistically significant and the slope is 13178.879 indicating that for every character added you may expect a decrease by over 13,000 followers. So keep the title short and sweet. </p>
-<p>The outlier is a playlist named 'Today's Top Hits', with almost 10 million followers (9,946,355), and may be one of the reasons the 'top lists', category has a very large number of mean followers. If we look at Spotify's web player, we can see that this playlist is right at the top, as well as featured on the homepage, also the number of followers agrees roughly with the Spotify API call (I wanted to do a quick sanity check because 10 million followers!!!). Whether being at the top of the list generates more followers or the the number of followers determines placement in the list is unclear though. What we can see though is that placement on the list is not simply in order of number of followers, but the playlist with most number of followers is in the left. I'm sure this is on purpose somehow.</p>
-<p><br></p>
-<img src="figs/spotify_top.png" alt="spotify_list" style="width:100%;">
-<p><br></p>
-<h3>Word Types</h3>
-<p>In order to determine the best combination of types of words I use the natural language toolkit (NLTK), since it has a large number of specialised functions that will be useful for this application. For each playlist title I tokenize the title, separating it into individual words, phrases and symbols. Following, each token is classified to the type of word, for example "big" is classified as an adjective. I sum the frequency of each type of word and input it into a pandas dataframe, in which each row is an observation, in this case a playlist title, and each column is a feature, or type of word. The entries of the dataframe will be positive integers starting at zero, that represent the frequency of word type in each playlist title. </p>
-<p>The natural language toolkit can separate the words into a number of different types. These types of words will be features of the regression model. Examples of the types of words are shown below:</p>
-<p><br></p>
- <table style="width:70%" align="center" >
-  <tr>
-    <th>Word Type</th>
-    <th>Examples</th>
-  </tr>
-  <tr>
-    <td>Conjunction</td>
-    <td>& 'n and both but either et for less minus neither nor or plus so
-    therefore times v. versus vs. whether yet</td>
-  </tr>
-  <tr>
-    <td>Numeral</td>
-    <td> zero two 78-degrees eighty-four IX '60s .025
-    fifteen 271,124 dozen quintillion</td>
-  </tr>
-  <tr>
-    <td>Determiner</td>
-    <td>all an another any both del each either every half la many much nary
-    neither no some such that the them these this those</td>
-  </tr>
-  <tr>
-    <td>Genitive Marker</td>
-    <td>'s</td>
-  </tr>
-  <tr>
-  <tr>
-    <td>Existential there</td>
-    <td>there</td>
-  </tr>
-  <tr>
-    <td>Foreign word</td>
-    <td>gemeinschaft je jour objets salutaris fille quibusdam pas trop Monte
-    terram fiche oui corporis</td>
-  </tr>
-  <tr>
-    <td>Preposition or conjunction</td>
-    <td>astride among uppon whether out inside pro despite on by throughout
-    below beside</td>
-  </tr>
-  <tr>
-    <td>Adjective, ordinal</td>
-    <td>third ill-mannered pre-war regrettable calamitous first separable
-    ectoplasmic multi-disciplinary</td>
-  </tr>
-  <tr>
-    <td>Adjective, comparative</td>
-    <td>bleaker braver breezier briefer brighter brisker broader bumper busier
-    calmer cuter</td>
-  </tr>
-  <tr>
-    <td>Adjective, superlative</td>
-    <td>calmest cheapest choicest creepiest crudest cutest darkest deadliest
-    dearest deepest densest dinkiest</td>
-  </tr>
-  <tr>
-    <td>Modal auxiliary</td>
-    <td>can cannot could couldn't dare may might must need ought shall should
-    shouldn't will would</td>
-  </tr>
-  <tr>
-    <td>Noun, common, singular or mass</td>
-    <td>common-carrier humour falloff slick wind hyena override subhumanity
-    machinist</td>
-  </tr>
-  <tr>
-    <td>Noun, proper, singular</td>
-    <td>Motown Venneboerger Czestochwa Ranzer Conchita Trumplane Christos
-    Oceanside Meltex Liverpool</td>
-  </tr>
-  <tr>
-    <td>Noun, proper, plural</td>
-    <td>Americans Americas Amharas Amityvilles Amusements Anarcho-Syndicalists
-    Apocrypha</td>
-  </tr>
-  <tr>
-    <td>Noun, common, plural</td>
-    <td>undergraduates scotches designs clubs fragrances averages
-    subjectivists apprehensions muses factory-jobs</td>
-  </tr>
-  <tr>
-    <td>Pre-determiner </td>
-    <td>all both half many quite such sure this</td>
-  </tr>
-  <tr>
-    <td>Pronoun, personal</td>
-    <td>hers herself him himself hisself it itself me myself one oneself ours
-    ourselves ownself self she thee theirs them themselves they thou thy us</td>
-  </tr>
-  <tr>
-    <td>Pronoun, possessive
-    </td>
-    <td>her his mine my our ours their thy your</td>
-  </tr>
-  <tr>
-    <td>Adverb</td>
-    <td>occasionally prominently technologically magisterially predominately
-    swiftly fiscally</td>
-  </tr>
-  <tr>
-    <td>Adverb, comparative</td>
-    <td>further gloomier grander graver greater grimmer harder harsher
-    healthier heavier longer</td>
-  </tr>
-  <tr>
-    <td>Adverb, superlative</td>
-    <td>best biggest bluntest earliest farthest first furthest hardest
-    heartiest highest largest</td>
-  </tr>
-  <tr>
-    <td>Particle</td>
-    <td>aboard about across along apart around aside at away back before behind
-    by crop down ever fast for forth from go high i.e. in into just later
-    low more off on open out</td>
-  </tr>
-  <tr>
-    <td>Symbol</td>
-    <td>% & ' '' ''. ) ). * + ,. < = > @</td>
-  </tr>
-  <tr>
-    <td>"to" as preposition</td>
-    <td>to</td>
-  </tr>
-  <tr>
-    <td>Interjection</td>
-    <td>Goodbye Goody Gosh Wow Jeepers Jee-sus Hubba Hey Kee-reist Oops amen
-    huh howdy uh dammit</td>
-  </tr>
-  <tr>
-    <td>Verb, base form</td>
-    <td>ask assemble assess assign assume atone attention avoid bake balkanize
-    bank begin behold believe</td>
-  </tr>
-  <tr>
-    <td>Verb, past tense</td>
-    <td>dipped pleaded swiped regummed soaked tidied convened halted registered
-    cushioned exacted snubbed</td>
-  </tr>
-  <tr>
-    <td>verb, present participle or gerund</td>
-    <td>telegraphing stirring focusing angering judging stalling lactating
-    hankerin' alleging veering </td>
-  </tr>
-  <tr>
-    <td>Verb, past participle</td>
-    <td>multihulled dilapidated aerosolized chaired languished panelized used
-    experimented flourished imitated</td>
-  </tr>
-  <tr>
-    <td>Verb, present tense, not 3rd person singular</td>
-    <td>predominate wrap resort sue twist spill cure lengthen brush terminate
-    appear tend stray glisten obtain</td>
-  </tr>
-  <tr>
-    <td>Verb, present tense, 3rd person singular</td>
-    <td>bases reconstructs marks mixes displeases seals carps weaves snatches
-    slumps stretches authorizes</td>
-  </tr>
-  <tr>
-    <td>Determiner</td>
-    <td>that what whatever which whichever</td>
-  </tr>
-  <tr>
-    <td>Pronoun</td>
-    <td>that what whatever whatsoever which who whom whosoever</td>
-  </tr>
-  <tr>
-    <td>Pronoun, possessive</td>
-    <td>whose</td>
-  </tr>
-  <tr>
-    <td>Adverb</td>
-    <td>how however whence whenever where whereby whereever wherein whereof why</td>
-  </tr>
-</table> 
-</p>
-<p><br></p>
-<p>We can look at the frequency of word types in the playlist titles. Only included are those with counts greater than 10.</p>
-<script>
-    var word_types = new Chart({...})
-</script>
-<canvas id="word_types" width="350" height="250"></canvas>
-<script>
-var ctx = document.getElementById("word_types");
-var randomColorFactor = function() {
-            return Math.round(Math.random() * 255);
-        };
-var randomColor = function() {
-            return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',.7)';
-        };
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Noun, common, singular or mass', 'Adjective or numeral', 'Noun, common, plural', 'Determiner', 'Preposition or conjunction', 'Colon', 'Numeral', 'Conjuction', 'Verb, present tense, not 3rd person singular', 'Adverb', 'Verb, base form', 'Verb, present participle or gerund', 'Particle', 'Genitive marker', 'Verb, present tense, 3rd person singular', 'Adjective, superlative', '.', 'Pronoun, possessive', 'Verb, past participle'],
-        datasets: [{
-            label: 'Frequency',
-            data: [1125, 310, 232, 121, 97, 82, 76, 49, 39, 36, 33, 25, 24, 24, 22, 22, 17, 15, 10, 10],
-            backgroundColor: 'rgba(24, 188, 156, 0.6)',
-            borderColor: 'rgba(9, 74, 61, 1)',
-            borderWidth: 2
-        }]
-    },
-    options: {
-    	title: {
-            display: true,
-            text: 'Frequency of Word Types',
-            fontSize: 30
-        },
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                },
-                scaleLabel: {
-        			display: true,
-        			labelString: 'Count',
-        			fontSize: 30
-      			}
-            }],
-            xAxes: [{
-                scaleLabel: {
-        			display: true,
-        			labelString: 'Word Type',
-        			fontSize: 30
-      			}
-            }]
-        }
-    }
-});
-</script> 
-<p><br></p>
-<p>We can see that many of the playlist titles are nouns followed by adjectives. Examples of the most common type, nouns, are 'session', 'soul', 'party', 'soultronic', 'country', 'gold', 'chillin', 'dirt', 'road', 'coffeehouse'. We can see some words are made up, so gets classified as a noun, also words like 'chillin', which are colloquial, get classified as a noun, when they should perhaps be a verb. 'gold' as well may refer to an adjective, rather than the noun. In this case maybe a more colloquial corpus may be more suitable to classify words, since it seems nouns are a catch-all.</p>
-<p><br></p>
-<h3>Regression</h3>
-<p>I use multivariate linear regression to determine the relative slope of each kind of word in a title. I use linear regression since my goal is to create actionable results that are easily interpretable.</p>
-<p>To perform the regression I use an 80/20 train-test split. In which I fit the data on the training dataset and evaluate on the test dataset. I will use residual sum of squares between the predicted and actual number of followers in the test set to determine the score for the regression model. With simple linear regression using ordinary least squares (OLS) I get a residual of 2.32439e+11 which I will use as a baseline of which to compare other models. The OLS minimized according to the function:</p>
-<div style="text-align: center;">
-<p><span class="math">\(min_w \lVert Xw-y\rVert_2^2\) </span></p>	
-</div>target='_blank' 
-<p><br></p>
-<h4>Ridge Regression</h4>
-<p>Ridge regression addresses some of the problems of OLS, namely that OLS is highly sensitive to randomness in the data, that can produce high variance and thus, not perform well on the test dataset. Ridge regression imposes a penalty on the size of the coefficients, and minimizes the residual sum of squares as follows:</p>
-<div style="text-align: center;">
-<p><span class="math">\(min_w \lVert Xw-y\rVert_2^2 + \alpha\lVert w\rVert^2_2\) </span></p>	
+         Dsus4                Dsus2                  G                   F#m
+      x x 0 2 3 3          x x 0 2 3 0          3 2 0 0 3 3          2 4 4 2 2 2
+
+         GIII
+      3 5 5 4 3 3
+
+Gtr I (Eb Ab Db Gb Bb Eb) - 'acoustic'
+Gtr II (Eb Ab Db Gb Bb Eb) - 'dobro'
+Gtr III (Eb Ab Db Gb Bb Eb) - 'acoustic'
+Gtr IV (Eb Ab Db Gb Bb Eb) - 'acoustic'
+
+ Intro
+  Slowly H.=50
+                   A5                                 E5
+ 3/4
+  Gtr I
+                    |           |                      |    ||
+                    /           /                      /    //
+
+  Gtr II
+                                                       ~~
+|-------|-------||-----------|----------------------|------------|
+|-------|-------||-14--------|-14------14b16r=(14)--|-12---------|
+|-------|-------||-----------|----------------------|------------|
+|-------|-------||-----------|----------------------|------------|
+|-------|-------||-----------|----------------------|------------|
+|-------|-------||-----------|----------------------|------------|
+|
+| Gtr III
+|                                                      ~~
+|-------|-------||-----------|----------------------|------------|
+|-------|-------||-----------|----------------------|------------|
+|-------|-------||-11--------|-11b13r=(11)----------|--9---------|
+|-------|-------||-----------|----------------------|------------|
+|-------|-------||-----------|----------------------|------------|
+|-------|-------||-----------|----------------------|------------|
+|
+| Gtr IV
+|-------|-------||-----------|----------------------|------------|
+|-------|-------||-----------|--2-------------------|------------|
+|-------|-------||--------2--|----------2-----------|------------|
+|-------|-------||-----2-----|------------------2---|--------2---|
+|-------|-------||--0--------|----------------------|-----2------|
+|-------|-------||-----------|----------------------|--0---------|
+
+
+                    F#5                                   D
+  |        |  |      |         ||    |        |     |     |  | || |
+  /        /  /      /         //    /        /     /     /  / // /
+
+                        ~~~~~~~                           ~
+|-----------------|----------------|--------------------|----------|
+|----12b13r=(12)--|-12-10-(10)-----|----10b12r====(10)--|-7--------|
+|-----------------|----------------|--------------------|----------|
+|-----------------|----------------|--------------------|----------|
+|-----------------|----------------|--------------------|----------|
+|-----------------|----------------|--------------------|----------|
+|
+|                    ~~                                   ~
+|-----------------|----------------|--------------------|----------|
+|-----------------|----------------|--------------------|----------|
+|-----------------|----------------|--------------------|----------|
+|-----9b10r==(9)--|--7-------------|----------7b9r=(7)--|-4--------|
+|-----------------|----------------|--------------------|----------|
+|-----------------|----------------|--------------------|----------|
+|
+|                    PM---------------------------|
+|-----------------|----------------|--------------------|----------|
+|-----------------|----------------|--------------------|-------3--|
+|-1---------------|----------------|-2------------------|----2-----|
+|-----2-----------|-------------4--|-----4--------------|-0--------|
+|-------------2---|---------4------|----------------4---|----------|
+|-----------------|--2-------------|--------------------|----------|
+
+        </code></pre>
+    </div>
 </div>
-<p>where <span class = 'math'>\(X\)</span> is the training dataset, <span class = 'math'>\(w\)</span> is the coefficients to be solved, <span class = 'math'>\(y\)</span> is the number of followers, and <span class = 'math'>\(\alpha\)</span> is the penalty or regularization parameter. </p>
-<p>We can vary <span class = 'math'>\(\alpha\)</span> and observe the change in training and test scores and choose the alpha that provides the best score on the test dataset.</p>
-<img src="figs/RRscores.png" alt="Ridge score" style="width:100%;">
+<p>This is an example of the kind of tabs I scraped in previous work on country music, that can be found <a href="/RiffCode/">here</a>. While the guitar tab may seem quite orderly, because the tabs are user-submitted, they can differ tab to tab. Also,  additional data, such as whether the guitar is <a href="https://en.wikipedia.org/wiki/Palm_mute">palm-muted</a>, may often be ommited.</p>
+<p>Guitar tabs can be easily converted to sheet music since every fret on each string corresponds to a note. Different frets on diffrent strings can have the same note, so it is a many-to-one mapping, but if we restrict ourselves to the first 4 frets it is a one-to-one mapping. The image below may be helpful for understanding, above shows a guitar tablature, and below the corresponding sheet musical.</p>
 <p><br></p>
-<p>Here the alpha that provides the largest score is 96.1725, and produces a residual sum of squares of 1.57414e+11, better than OLS linear regression, but we can see that it is quite underfitted. </p>
+<img src="/img/fretboard.gif" alt="fretboard" style="width:100%;">
 <p><br></p>
+<p>Guitar pro files are created using specialized software (Guitar Pro), which has a built-in MIDI-editor, so much of the fine data is both available and standardized, and, in general, more accurately resembles the song it is transcripting.</p>
+<p>To obtain the guitar pro files I scraped the website <a href="https://ultimate-guitar.com">ultimate-guitar.com</a>, as it has the most comprehensive repository of guitar tabs on the internet. I scrape the the website for only 5-star rated tabs, and filter for guitar pro files, and choose remove duplicate songs (for example mutliple versions) by choosing the tabs with the most ratings. </p>
+<h3>Scraper to get all guitar pro files</h3>
+<div class="panel-group">
+      <h2 class="panel-title">
+        <a data-toggle="collapse" href="#collapse_gtab"><p>See here</p></a>
+      </h2>
+    <div id="collapse_gtab" class="panel-collapse collapse">
+        <p>Below is an python script of grabbing guitar pro files from ultimate-guitar.com.</p>
+        <pre class="python"><code># -*- coding: utf-8 -*-
+"""
+Created on July 30th
+@author: matt
+"""
+# = Import packages
 
-<h4>Lasso Regression</h4>
-<p>Lasso regression may perform a little better since performs a little better in estimating sparse coefficients, in which our training and test datasets are quite sparse. This method generally gives solutions with fewer parameter values which may be useful in our case. The model is trained similar to ride regression with alpha parameter according to:</p>
-<div style="text-align: center;">
-<p><span class="math">\(min_w \frac{1}{2n_{samples}}\lVert Xw-y\rVert^2_2 + \alpha\lVert w\rVert^2_1\) </span></p>	
+import requests
+import re
+from bs4 import BeautifulSoup
+import pandas as pd
+import cgi
+import shutil
+import os
+
+# = Helper Functions =========================================================
+
+def removeTags(string):
+    '''
+    Function to remove html tags
+    '''
+    return re.sub('<[^<]+?>', '', string)
+    
+
+def getBandTree(band, page):
+    '''
+    Function to get xml tree given the band name
+    '''    
+    if type(page) == int:
+        page = str(page)
+    theURL = 'https://www.ultimate-guitar.com/search.php?band_name=' + band + \
+        '&type%5B4%5D=500&rating%5B4%5D=5&approved%5B1%5D=1&page=' + page + \
+        '&view_state=advanced&tab_type_group=text&app_name=ugt&order=myweight'
+        
+    pageBand = requests.get(theURL)
+    return BeautifulSoup(pageBand.content)
+    
+
+def download_url(url, directory):
+    """Download file from url to directory
+
+    URL is expected to have a Content-Disposition header telling us what
+    filename to use.
+
+    Returns filename of downloaded file.
+
+    """
+    response = requests.get(url, stream=True)
+    if response.status_code != 200:
+        raise ValueError('Failed to download')
+
+    params = cgi.parse_header(
+        response.headers.get('Content-Disposition', ''))[-1]
+    if 'filename' not in params:
+        raise ValueError('Could not find a filename')
+
+    filename = re.sub('([\(\[]).*?([\)\]])', '', os.path.basename(params['filename']))
+    filename = re.sub(' ','', filename)
+    abs_path = os.path.join(directory, filename)
+    with open(abs_path, 'wb') as target:
+        response.raw.decode_content = True
+        shutil.copyfileobj(response.raw, target)
+
+    return filename
+
+# ============================================================================
+
+def main():
+    band = 'metallica'
+    page = 1
+    bandURL = getBandTree(band, page) 
+    #Get max pages
+    pages = bandURL.find_all('div', { "class" : "paging" })
+    maxPages = str(pages).count('</a>')
+    dfs = []
+    for page in range(1, maxPages + 1):
+        bandURL = getBandTree(band, page)
+        mybs = bandURL.find_all('b', { "class" : "ratdig" })
+        mybs2 = [removeTags(str(rating)) for rating in mybs]
+        songname = bandURL.find_all('a', { "class" : "song result-link" })
+        songname2 = [re.sub('([\(\[]).*?([\)\]])', '', removeTags(str(song)).strip()).strip() for song in songname]
+        tabType = bandURL.find_all('strong')
+        tabType2 = [removeTags(str(tab)) for tab in tabType]
+        df1 = pd.DataFrame({'Rating': mybs2, 'Type': tabType2})
+        df2 = df1[df1.Type == 'guitar pro']
+        df2.loc[:,'Song_Name'] = songname2
+        links = []
+        for a in songname:
+            links.append(a['href'])
+        df2.loc[:,'Song_Links'] = links
+        df3 = df2.loc[df2.groupby(['Song_Name'], sort=False)['Rating'].idxmax()]
+        dfs.append(df3)
+    tot_df = pd.concat(dfs)
+#    print(tot_df)
+    
+    song_links_list = list(tot_df.Song_Links)
+    for i in range(len(tot_df)):
+        webPage = requests.get(song_links_list[i])
+        soup = BeautifulSoup(webPage.content)
+        tab_id = soup.find_all("input", {"type" : "hidden", "name" : "id", "id" : "tab_id"})
+        the_id = tab_id[0].get('value')
+        mydir = os.path.dirname('out/' +band + '/')
+        if not os.path.exists(mydir):
+            os.makedirs(mydir)
+        download_url('https://tabs.ultimate-guitar.com/tabs/download?id='+str(the_id), mydir)
+    
+        
+if __name__=='__main__':
+    main() </code></pre>
+    </div>
 </div>
-<p>We again vary the <span class = 'math'>\(\alpha\)</span> parameter and observe the change in training and test scores and choose the alpha that provides the best score on the test dataset.</p>
-<img src="figs/Lassoscores.png" alt="Lasso score" style="width:100%;">
-<p><br></p>
-<p>Here we find that the test scores actually perform better that training dataset, which may point to low correlation between the features and the number of followers. Also the alpha parameter is very large, indicating a very large penalty on the coefficients, i.e., all the features have very little impact on the number of followers of the playlist.</p>
-<p>The residual obtained is lower at 1.57449e+11, yet if the coefficients are very small it does not provide much insight into what types of words are effective in creating popular playlist titles.</p>
-<p><br></p>
-<h4>Elastic Net</h4>
-<p>Elastic net is a combination of both lasso and ridge that allows for learning a sparse model where few of the weights are non-zero, yet still maintain the regularization properties of Ridge. We control the convex combination alpha parameters using a ratio parameter, <span class = 'math'>\(\rho = \alpha_1/\alpha_2\)</span>, where  <span class = 'math'>\(\alpha_1\)</span> is the parameter from lasso, and  <span class = 'math'>\(\alpha_2\)</span> from ridge. Elastic net minimizes the function:</p>
-<div style="text-align: center;">
-<p><span class="math">\(min_w \frac{1}{2n_{samples}}\lVert Xw-y\rVert^2_2 + \alpha\rho\lVert w\rVert^2_1 + \frac{\alpha(1-\rho)}{2}\lVert w\rVert^2_2\) </span></p>	
+<p>The scraper grabs 123 songs, which seems pretty good, since there are a total of <a href="http://www.spin.com/2015/07/every-metallica-song-ranked/">151 songs</a> in Metallica's catalog. </p>
+<p>I can use the same recurrent neural network to <a href="/blog/RNNCountryLyrics">generate country music lyrics</a> that seems to work pretty well. To use this model the guitar pro files need to be in text file format. I do this by extracting all the pertinent information from the guitar pro files and write them to a txt file. This method has to be reversible since the neural network will output text in the same format.</p>
+<h3>Python script to convert guitar pro files to txt file</h3>
+<div class="panel-group">
+      <h2 class="panel-title">
+        <a data-toggle="collapse" href="#collapse_GP2txt"><p>See here</p></a>
+      </h2>
+    <div id="collapse_GP2txt" class="panel-collapse collapse">
+        <p>Below is an python script of how guitar pro files are converted to a txt file for the neural network to read.</p>
+        <pre class="python"><code>
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Jul 30 14:26:22 2016
+
+@author: matt-666
+"""
+# = Import packages
+
+import guitarpro
+from os import listdir
+
+# = Helper functions =========================================================
+
+def unfold_tracknumber(tracknumber, tracks):
+    """Substitute '*' with all track numbers except for percussion tracks."""
+    if tracknumber == '*':
+        for number, track in enumerate(tracks, start=1):
+            if not track.isPercussionTrack:
+                yield number
+    else:
+        yield tracknumber
+
+
+def transpose(myfile, track):
+    '''
+    Get pertinent information from guitar pro files and write to text file
+    '''
+    myfile.write("%s" % 'strgs: ' +' '.join([str(string) for string in track.strings]) + ' ')
+    myfile.write("%s" % 'fc: ' +str(track.fretCount) + ' ')
+    measure1 = track.measures[0]
+    myfile.write("%s" % str(measure1.keySignature) + ' ')  
+    myfile.write("%s" % 'len:' + str(measure1.length) + ' ') 
+    myfile.write("%s" % 'tmpo:' + str(measure1.tempo) + '\n')
+    i = 1
+    for measure in track.measures:
+        myfile.write("%s" % 'Num:' + str(i) + ' ')                 
+        myfile.write("%s" % 'mst:' + str(measure.start) + '\n') 
+        for voice in measure.voices:
+            for beat in voice.beats:
+                myfile.write("%s" % 'vst:' + str(beat.start) + '\n')
+                for note in beat.notes:
+                    myfile.write("%s" % 'S:' + str(note.string) + ' ')
+                    myfile.write("%s" % 'V:' + str(note.value) + '\n')
+        i += 1
+
+# =================================================================       
+
+def main():
+    
+    band = 'metallica'
+    mydir = 'out/' + band
+    files = listdir(mydir)
+    myfile = open('allTabs.txt', 'w')
+    for gpfile in files:
+        curl = guitarpro.parse(mydir + '/'+ gpfile)  
+        transpose(myfile, curl.tracks[0])
+        myfile.write('\n\r\n\r')
+    myfile.close()
+
+if __name__== '__main__':
+    main()</code></pre>    </div>
 </div>
-<p>Now we vary both <span class = 'math'>\(\alpha\)</span> and the ratio of the two alphas, <span class = 'math'>\(\rho\)</span>, where <span class = 'math'>\(\alpha\)</span> corresponds to the lasso <span class = 'math'>\(\alpha\)</span>, and find the combination of the two that provide the largest score on the test dataset.</p>
-<img src="figs/ENetscores.png" alt="ENet score" style="width:100%;">
-<p><br></p>
-<p>We can see that we can get an optimised score depending on the value of <span class = 'math'>\(\alpha\)</span> and the ratio of the two alphas. The optimised ratio obtained was 0.894737, with <span class = 'math'>\(\alpha\)</span> being 887.2, which intuitively is mostly lasso regression with a bit of ridge, and the residual is 1.57383e+11, the lowest so far. </p>
-<p><br></p>
-<h2>Results</h2>
-<p>Now we have an optimized model we can look at the coefficients to see how the different types of words affect the number of followers. We are most interested in the coefficients with the highest magnitudes, since they will have the highest leverage - adding or removing these words will have the most impact on the number of followers. Shown, are only those that have a coefficients above 100.</p>
-<p><br></p>
-<script>
-    var word_coeffs = new Chart({...})
-</script>
-<canvas id="word_coeffs" width="350" height="250"></canvas>
-<script>
-var ctx = document.getElementById("word_coeffs");
-var randomColorFactor = function() {
-            return Math.round(Math.random() * 255);
-        };
-var randomColor = function() {
-            return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',.7)';
-        };
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Number of characters', 'Number of words', 'Determiner', 'Preposition or conjunction', 'Noun, common, singular or mass', 'Abverb', 'Numeral', 'Adjective, superlative', 'Verb, present tense, 3rd person singular', 'Pronoun, possessive', 'Conjunction, coordinating', 'Adjective or numeral', 'Genitive Marker'],
-        datasets: [{
-            label: 'Coefficient',
-            data: [-9848.3245866062116, -1270.2608960172431, -631.74324827858857, -606.96539376653334, -394.18439658546544, -243.23694352824532, -205.04156464765475, -156.96348708516678, -141.3084459924541, 248.61668658588269, 287.69819121167461, 934.17547843389218, 1492.966303051644],
-            backgroundColor: 'rgba(24, 188, 156, 0.6)',
-            borderColor: 'rgba(9, 74, 61, 1)',
-            borderWidth: 2
-        }]
-    },
-    options: {
-    	title: {
-            display: true,
-            text: 'Regression Coefficients',
-            fontSize: 30
-        },
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                },
-                scaleLabel: {
-        			display: true,
-        			labelString: 'Value',
-        			fontSize: 30
-      			}
-            }],
-            xAxes: [{
-                scaleLabel: {
-        			display: true,
-        			labelString: 'Word Type',
-        			fontSize: 30
-      			}
-            }]
-        }
-    }
-});
-</script> 
-<p><br></p>
-<p>From these results we can directly make actionable recommendations. Below are the most 5 most influential actions you can do to increase number of followers with examples. </p>
-
-<p><br></p>
- <table style="width:100%" align="center" >
-  <tr>
-    <th>Action</th>
-    <th>Coefficient  </th>
-    <th>  Example</th>
-  </tr>
-  <tr>
-    <td>Reduce the number of characters</td>
-    <td>-9848.3            </td>
-    <td>"The Hottest Tracks of the Year" &rarr; "Hottest Songs This Year!"</td>
-  </tr>
-  <tr>
-    <td>Add in genitive marker</td>
-    <td> 1493.0</td>
-    <td>"The Most Metal Songs This Month" &rarr; "This Month's Metalest Songs"</td>
-  </tr>
-  <tr>
-    <td>Reduce the number of words</td>
-    <td>-1270.2</td>
-    <td>"The Best Country Hits of All Time" &rarr; "Country's All Time Best"</td>
-  </tr>
-  <tr>
-    <td>Add in adjective</td>
-    <td>934.17</td>
-    <td>"100 Songs to Shower To" &rarr; "Ultimate Sing-along Essentials"</td>
-  </tr>
-  <tr>
-    <td>Remove determiners</td>
-    <td>-631.74</td>
-    <td>"The All Time Greatest Marching Band Anthems" &rarr; "Marching Bands' Best"</td>
-  </tr>
-</table>
-<p><br></p>
-<h2>Conclusion</h2>
-<p>In conclusion, multivariate linear regression has been performed on playlist titles taken from Spotify's API. The results of the regression has identified features in popular playlists titles that can be used to create titles for future playlists, such as the addition of genitive markers and the reduction of characters. Overall the data suggests that<b> titles should be short and sweet, with little redundancy</b>. Users want to spend as little time choosing a playlist and more time listening to it, so the quicker you can help them reach their decision, the better. </p>
-<!--<h3>Scraper to get all guitar pro files</h3>
-
+<p>Now that all the guitar pro files are converted to one large text file it can be fed into the recurrent neural network. The model comes from Andrej Karpathy’s great <a href="https://github.com/karpathy/char-rnn">char-rnn</a> library for Lua/Torch. Recurrent neural networks can use the output of the current node as the input for the next node.</p><p>The model takes a few days to run on my poor laptop with 400 nodes and 3 layers in the network, which corresponds to about 5 million parameters in the network.</p>
+<p>The output of the model is in the same text format of the input of the model. I take a guitar pro file and modify the measures, notes, and metadata. Creating a guitar pro file from scrtach in python is quite difficult due to the number of settings that have to be included in order to save the file properly, so this method was a compromise. </p>
+<h3>Python script to convert txt to GP5 file</h3>
 <div class="panel-group">
       <h2 class="panel-title">
         <a data-toggle="collapse" href="#collapse_txt2GP"><p>See here</p></a>
       </h2>
+ 
     <div id="collapse_txt2GP" class="panel-collapse collapse">
+      
+
         <p>Below is an python script of how txt is converted back to guitar pro files.</p>
-        <pre class="python"><code>CODE </code></pre>
-    </div>
-</div>-->
+        <pre class="python"><code># -*- coding: utf-8 -*-
+"""
+Created on Sat Aug  6 15:53:06 2016
 
-<hr>
+@author: matt-666
+"""
+# = Import packages
 
+import guitarpro
+import time
+
+# = Helper Functions ====================================================
+
+def transpose2GP5file(track, totaldict):
+    '''
+    Function to take an empty gp5 song and fill with song information
+    from dictionary generated from txt2songDict function
+    '''
+    meas = 1
+    breakMeas = Inf
+    for measure in track.measures:
+        #measure.keySignature = totaldict['measure_'+str(meas)]['key']
+        #measure.length = totaldict['measure_'+str(meas)]['mlen']
+        #measure.start = totaldict['measure_'+str(meas)]['mstart']
+        for voice in measure.voices:
+            try:
+                beats_list = totaldict['measure_'+str(meas)]['beats']
+                thebeat = 0 
+            except KeyError:
+                if meas < breakMeas:
+                    breakMeas = meas
+                break
+            for beat in voice.beats:
+                beat.start = beats_list[thebeat]
+                try:
+                    strings = totaldict['measure_'+str(meas)]['strings'+str(beats_list[thebeat])]
+                    realValues = totaldict['measure_'+str(meas)]['Notes'+str(beats_list[thebeat])]
+                except KeyError:
+                    break
+                notes = []
+                for string, realValue in zip(strings, realValues):
+                    #print(string)
+                    note = guitarpro.base.Note()
+                    note.string = string
+                    note.value = realValue
+                    print(meas, string, note.value)
+                    notes.append(note)
+                beat.notes = notes
+            thebeat += 1
+        meas += 1
+    track.measures = track.measures[:breakMeas-1]
+    return(track)
+
+# ================================================================================
+
+def main():
+    def txt2songDict(track):
+        '''
+        Read txt file and go through line by line
+        convert all information into dictionary of measures
+        '''
+        #    myfile =open('xyz.txt', 'r')
+        with open(track) as f:
+            total_dict = {}
+            measures_list = []
+            measNum = 0
+            measStart = 0
+            key = 'CMajor'
+            song_len = 3840
+            for line in f:
+                if line[:5] == 'strgs':
+                    
+                    fc1 = line.find('fc')
+                    try:                    
+                        strings = line[6:fc1].split()
+                    except ValueError:
+                        break
+                    key1 = line.find('Key')
+                    fc = line[fc1+4:key1]
+                    len1 = line.find('len')
+                    key = line[key1+13:len1-1]
+                    tempo1 = line.find('tmpo')
+                    song_len = line[len1+4:tempo1]
+                    try:
+                        tempo = line[tempo1+5:tempo1+7]
+                    except ValueError:
+                        tempo = line[tempo1+5:tempo1+6]
+                    init_dict = {}
+                    init_dict['tempo'] = tempo                                    
+                    gpStrings = [guitarpro.base.GuitarString(string) for string in strings]
+                    init_dict['string'] = gpStrings
+                    init_dict['fretCount'] = fc
+                    total_dict['init_dict'] = init_dict
+                elif line[:3] == 'Num':
+                    measStart1 = line.find('mst')
+                    if measNum > 0:
+                        total_dict['measure_'+str(measNum)]['beats'] = beats
+                    measNum += 1
+                    measStart += 3840
+                    meas_dict = {}
+                    meas_dict['key'] = key
+                    meas_dict['mlen'] = song_len
+                    meas_dict['mstart'] = measStart
+                    measures_list.append(meas_dict)  
+                    total_dict['measure_'+str(measNum)] = meas_dict
+                    beats = []
+               
+                elif line[:3] == 'vst':
+                    beatStart1 = measStart + 221820-int(line[4:11])
+                    beats.append(beatStart1)                
+                    strings = []
+                    notes = []
+                elif line[:1] == 'S':
+                    valStart = line.find('V')                
+                    string = int(line[2])
+                    realVal = int(line[valStart+2:valStart+5])
+                    strings.append(string)
+                    notes.append(realVal)
+                    total_dict['measure_'+str(measNum)]['strings' + str(beatStart1)] = strings
+                    total_dict['measure_'+str(measNum)]['Notes' + str(beatStart1)]= notes
+        return(total_dict)
     
+    curl = guitarpro.parse('Serenade.gp5')
+    track = curl.tracks[0]
+    for measure in track.measures:
+        for voice in measure.voices:
+            for beat in voice.beats:
+                beat.notes = []       
+    curl.tracks[0] = track
+    
+    songDict = txt2songDict('genMetallica2.txt')
+    
+    track = curl.tracks[0]
+    track = transpose2GP5file(track, songDict)
+    curl.tracks[0] = track
+    curl.artist = 'R. N. Net'
+    curl.album = time.strftime("%d %B %Y")
+    curl.title = 'Metallica Style Song'
+    guitarpro.write(curl, 'genMetallica.gp5')
+    
+if __name__ == '__main__':
+    main() </code></pre>
+    </div>
+</div>
+<hr>
+<h2>Results</h2>
+    <p>The model works well, with the training error decreasing as the model runs, and the validation error being slightly higher than the trtaining error, the sign of good model parameters. An example output of the model is shown below and can be played by hitting the play button, the tab is played using <a href="http://www.alphatab.net/">AlphaTab</a>, that is able to play guitar pro files online. This example is an output consisting of 7000 characters and can be modified accordingly, ot seems that a whole song may consist of 15-20,000 characters in the text format the model requires, or about 70 musical measures. <b>Works best on google chrome!</b></p>
+    <p>The model is able to pick up on the song structure, and even <a href="https://en.wikipedia.org/wiki/Power_chord">power chords</a>, which are often played in Metallica's music. Though the song is a little out-of-order we can see that it starts with a solo or interlude, and continues to a chorus or verse.</p> 
+    <p>This model could be used to generate other original music in the style of other artists dependent on the input files, for example, pearl jam or nirvana songs could be used or even a combination of both to get songs in the style of 90's alternative. To take this even further guitar pro file exist for bass guitar, drum, and piano music, as well as lyrics, so it is conceivable that whole songs could be generated using this model. It would take a very long time though, scaling linearly with the size of the imput file. I would recommend having at least 75 songs to accurately train the model for the various characteristic features of the songs, especially if multiple artists are used, where common features may be more subtle.</p>
+    <p><big>For the meantime I'll be Master of puppets I’m pulling your strings. Twisting your mind and smashing your dreams.</big></p>
+    <nav>
+        <!-- /.container-fluid -->
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">
+              <img alt="alphaTab" src="support/alphaTab.png" />
+          </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <!-- Player controls -->
+          <ul class="nav navbar-nav">
+            <li><button id="playPause" disabled="disabled" class="btn btn-link navbar-btn glyphicon glyphicon-play"> Play</button></li>
+            <li><button id="stop"  disabled="disabled" class="btn btn-link navbar-btn glyphicon glyphicon-stop"> Stop</button></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <!-- Loading indicator for soundfont -->
+            <li id="soundFontProgressMenuItem">
+                <p class="navbar-text">SoundFont</p>
+                <div class="progress">
+                  <div class="progress-bar" id="soundFontProgress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                    0%
+                  </div>
+                </div>
+            </li>
+            <!-- Buttons for changing the layout -->
+            <!--<li class="active"><a href="#" id="page" data-layout="page" data-scrollmode="vertical">Page</a></li>
+            <li><a href="#" id="horizontalBarwise" data-layout="horizontal" data-scrollmode="horizontal-bar">Horizontal (Barwise)</a></li>
+            <li><a href="#" id="horizontalOffscreen" data-layout="horizontal" data-scrollmode="horizontal-offscreen">Horizontal (Offscreen)</a></li>-->
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    <div id="alphaTab" data-file="files/genMetallica2.gp5" data-tracks="0"></div>
+    
+    <script type="text/javascript">
+        var playerReady = false;
+        var playerState = 0;
+        var at = $('#alphaTab');
+        
+        //
+        // 1. Load alphaTab
+        at.alphaTab(); 
+        
+        // 
+        // 2. Initialize Player and Setup Player UI
+        var as = at.alphaTab('playerInit'); // init alphaSynth
+        
+        as.On('ready', function(r) {
+            // load default data
+            as.LoadSoundFontUrl('lib/alphaSynth/default.sf2');
+        });
+        as.On('soundFontLoad', function(loaded, full) {
+            var percentage = ((loaded / full) * 100)|0;
+            $('#soundFontProgress').css('width', percentage + '%').text(percentage + '%');
+        });
+        as.On('soundFontLoaded', function() {
+            $('#soundFontProgressMenuItem').hide();
+        });
+        as.On('readyForPlay', function(r) {
+            playerReady = r;
+            updateControls();
+        });
+        as.On('playerStateChanged', function(s) {
+            playerState = s;
+            updateControls();
+        });
+        
+        $('#playPause').click(function() { 
+            if(playerState == 1) {
+                as.Pause();
+            }
+            else {
+                as.Play();
+            }
+        });
+        $('#stop').click(function() { 
+            as.Stop(); 
+        });
+        
+        function updateControls() {
+            if(!playerReady) {
+                $('#loadingInfo').show()
+                $('#controls button').attr('disabled', 'disabled');
+            }
+            else {
+                $('#loadingInfo').hide()
+                $('#playPause').prop('disabled', false);
+                $('#stop').prop('disabled', false);
+                $('#playPause').removeAttr('disabled');
+                switch(playerState) {
+                    case 0: // stopped
+                    $('#playPause').removeClass('glyphicon-pause').addClass('glyphicon-play');
+                    break;
+                    case 1: // playing
+                    $('#playPause').removeClass('glyphicon-play').addClass('glyphicon-pause');
+                    $('#stop').removeAttr('disabled').removeClass('disabled');
+                    break;
+                    case 2: // paused
+                    $('#playPause').removeClass('glyphicon-pause').addClass('glyphicon-play');
+                    $('#stop').removeAttr('disabled').removeClass('disabled');
+                    break;
+                }
+            }
+        }     
+        
+        $('a[data-layout]').click(function(e) {
+            $('a[data-layout]').closest('li').removeClass('active');
+            $(this).closest('li').addClass('active');
+            
+            e.preventDefault();
+            
+            var layout = $(this).data('layout');
+            var scrollmode = $(this).data('scrollmode');
+            // update renderer
+            var renderer = at.alphaTab('renderer');
+            renderer.Settings.Layout.Mode = layout;
+            renderer.Invalidate();
+            
+            // update player
+            var cursorOptions = at.alphaTab('cursorOptions');
+            cursorOptions.autoScroll = scrollmode;
+            $('body,html').animate({
+                scrollTop: 0 
+            }, 300);
+
+            at.alphaTab('playerCursorUpdateBeat', cursorOptions.currentBeat);
+        });
+        
+        //
+        // 3. Add cursors (optional)
+        at.alphaTab('playerCursor'); 
+    
+    </script>
     <p><br></p>
-    <p><br></p>
+<p><br></p>
+<p><br></p>
 <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
     <div class="scroll-top page-scroll visible-xs visible-sm">
         <a class="btn btn-primary" href="#page-top">

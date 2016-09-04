@@ -179,7 +179,7 @@ color: #2C3E50;}
 <hr>
 <p><br></p>	
 <h3>Motivation</h3>
-<p>I already found out that <a href="../../RiffCode">all country music sounds similar</a>, and I was even able to generate some country music lyrics using a <a href="https://en.wikipedia.org/wiki/Naive_Bayes_classifier"></a>naive-Bayes approach. The naive-Bayes approach that I used took a simple probablistic approach that depends on the going through each word and choosing the next word dependent on probable words that have followed from a database of scraped lyrics. For the word "hotel" was proceeded by the word "room" 3 times, "wall" once, "bed" once, "sign" once, and  "with" once. So, when generatin the lyrics randomly I come across the word "hotel", I will take a weighted probablitly of the proceeding words, to choose that proceeding word in the generated song lyric. An example of it's generation is:</p>
+<p>I already found out that <a target='_blank' href="../../RiffCode">all country music sounds similar</a>, and I was even able to generate some country music lyrics using a <a target='_blank' href="https://en.wikipedia.org/wiki/Naive_Bayes_classifier"></a>naive-Bayes approach. The naive-Bayes approach that I used took a simple probablistic approach that depends on the going through each word and choosing the next word dependent on probable words that have followed from a database of scraped lyrics. For the word "hotel" was proceeded by the word "room" 3 times, "wall" once, "bed" once, "sign" once, and  "with" once. So, when generatin the lyrics randomly I come across the word "hotel", I will take a weighted probablitly of the proceeding words, to choose that proceeding word in the generated song lyric. An example of it's generation is:</p>
 <p><br></p>
 <pre><code> teen havin fun there are times there’s at school football 
  team and there was was custommade to do nothing before 
@@ -201,11 +201,11 @@ function reload() {
 <p><br></p>
 <p>We can see that it sort of sounds like a country song, but gramatically, it doesn't quite make sense. Also I have to manually specify the the number of words in a line, and the number of lines in a verse/chorus.</p>
 <p>To tackle these problems, recurrent neural networks (RNNs) are a good choice since, like artificial neural networks used for classification, they are able to generate their own features, but they differ in that they feed previous time steps into the current one. This additional feature of RNNs may enable them to pick up on the grammatical syntax of country music lyrics, and also features pertaining to the number of lines, and the chorus/verse structure.</p>
-<p>The complete code can be found on github <a href="https://github.com/moocarme/Recurrent-Neural-Networks">here</a>.</p>
+<p>The complete code can be found on github <a target='_blank' href="https://github.com/moocarme/Recurrent-Neural-Networks">here</a>.</p>
 <p><br></p>
 <h4>Method</h4>
 
-<p>The training data was scraped from the website <a href="http://www.country-lyrics.com/">country-lyrics.com</a> using python and the beautiful soup package. The website has a total of 5369 total song lyrics, which totals about 5.5Mb of text data. This corresponds to about 6 million characters, which should be sufficient to train the data set.</p>
+<p>The training data was scraped from the website <a target='_blank' href="http://www.country-lyrics.com/">country-lyrics.com</a> using python and the beautiful soup package. The website has a total of 5369 total song lyrics, which totals about 5.5Mb of text data. This corresponds to about 6 million characters, which should be sufficient to train the data set.</p>
 <p><br></p>
 <h3>Python Webscraping Script</h3>
 <div class="panel-group">
@@ -320,7 +320,7 @@ f.close()
 </div>
 <p><br></p>
 <p>
-The model comes from Andrej Karpathy’s great <a href="https://github.com/karpathy/char-rnn">char-rnn</a> library for Lua/Torch. Recurrent neural networks can use the output of the current node as the input for the next node, which can be viewed as follows:</p>
+The model comes from Andrej Karpathy’s great <a target='_blank' href="https://github.com/karpathy/char-rnn">char-rnn</a> library for Lua/Torch. Recurrent neural networks can use the output of the current node as the input for the next node, which can be viewed as follows:</p>
 <img src = "../../img/portfolio/rnn.gif" align="middle">
 <p><br></p>
 <p>Ideally, we want the number of parameters of the model to be around the same size as the number of characters in the training dataset, which is around 6 million. To get an idea of the model I trained with around 500,000 parameters, so I anticipate the model to underfit, but I can run this on my laptop in about half a day, so I'll take it. </p>
