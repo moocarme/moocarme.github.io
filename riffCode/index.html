@@ -1030,251 +1030,156 @@ if __name__=="__main__":
     				<div style="position: relative;">
       					<div class="center">  
           					
-							<h2>Methods to Recommend Songs</h2>
-							<p><br></p>
-							<h3>Cosine Similarity</h3>
-<p>When dealing with a large number of users and a large number of songs and find similarities between users or songs things can quickly get out of hand. For example, to calculate the song similarity between all songs we could go through each song and calculate its similarity with each other song, however that would involve nested for loops with <span class = "math">\(\frac{n(n-1)}{2} \)</span> operations. Since there are 149029 unique songs in the data set, this equates to 11104746906 operations. While this is highly parallelizable, for optimal use of resources, <b>we use linear algebra</b>.</p>
-<p> To solve the similarity between users and songs we construct a sparse matrix, <span class = "math">\(R(i,j)\)</span>, that is <span class = "math">\(m\times n\)</span>, where <i>m</i> is the total number of users, and <i>n</i> is the total number of songs. The entry of the matrix for user <i>i</i> at song <i>j</i> represents the relative number of plays that of the song compared to the total number of songs the user listens to, i.e., is the user listens to a song 6 times out of listening to 60 songs total, the relative play would be 0.1. We use relative plays as it will make constructing the similarity matrices easier.</p>
-<p>We define the cosine similarity for two arbitrary vectors as:</p>
-<div style="text-align: center;">
-<p><span class="math">Cosine similarity = \(\frac{u^Tv}{\lVert u \rVert \lVert v \rVert}\) </span></p>  
+							<header>
+                  <hr class="star-light">
+              </header>
+              <h1>Country Music Lyrics</h1>
+              <p><br></p>
+              <h2>Getting Country Music Lyrics</h2>
+              <p>The hypothesis that country music sounds similar due similarity of the lyrics can also be examined. The country music lyrics are also scraped from the website <a target="_blank" href="http://www.anycountrymusiclyrics.com">www.anycountrymusiclyrics.com</a>. The scraper goes through all the songs on the website, and pulls the main text, which are the lyrics. Following, the lyrics are cleaned up, by converting them all to lowercase, removing punctuation and any extraneous spaces, and put into a list of lists, the outer list is for the various songs, and the inner list contains the words for each song, or a complete corpus. The list is then saved using the python pickle function, since the scraping takes about 35 minutes to run in total. This process was in general easier to scrape than the guitar tablature since there is more of a standard to submitting lyrics opposed to guitar tablature.</p> 
+
+              <h3>Python script - Country Lyric Webscraper</h3>
+              <div data-collapse>
+        <h4> See here &#9660;</h4>
+    <div>
+      <pre class = "brush: python"># -*- coding: utf-8 -*-
+"""
+Created on Sat Jul  2 16:49:11 2016
+
+@author: matt-666
+"""
+import urllib
+from bs4 import BeautifulSoup, SoupStrainer
+import string
+import re
+import pickle
+
+# = Helper Functions =========================================================
+def visible(element):
+    if element.parent.name in ['style', 'script', '[document]', 'head', 'title']:
+        return False
+    elif re.match('<!--.*-->', str(element.encode('utf-8'))):
+        return False
+    return True
+
+def strClean(strList):
+    newRes=strList[276:-57]
+    newRes2 = []
+    for i in range(len(newRes)-1):
+        if newRes[i+1]!='\n' and newRes[i]!='\n': 
+            t1 = ' '.join(str(newRes[i]).split()) # removes the \n, which may be needed
+            t1 = t1.translate(string.maketrans("",""), string.punctuation)
+            newRes2.extend(str.split(t1.lower()))
+    return newRes2
+
+# ================================================================
+
+# = Web scraper ==================================================
+
+def main():
+  baseurl = urllib.urlopen('http://www.anycountrymusiclyrics.com/').read()
+
+  # = Get all links by artist first letter
+  artistAlphaLinks = []
+  for link in BeautifulSoup(baseurl, parseOnlyThese=SoupStrainer('a')):
+      if link.has_attr('href') and '.com/artist' in link['href']:
+          print link['href']
+          artistAlphaLinks.append(link['href'])
+
+  # = Get all links of artists 
+  artistLinks = []
+  for alphaLink in artistAlphaLinks:    
+      newurl = urllib.urlopen(alphaLink).read()
+      for link in BeautifulSoup(newurl, parseOnlyThese=SoupStrainer('a')):
+          if link.has_attr('href') and '.com/show/artist' in link['href']:
+              print link['href']
+              artistLinks.append(link['href'])
+  print(len(artistLinks))
+
+  # = Get all links of songs 
+  songLinks = []
+  for artistLink in artistLinks:    
+      newArtisturl = urllib.urlopen(artistLink).read()
+      for link in BeautifulSoup(newArtisturl, parseOnlyThese=SoupStrainer('a')):
+          if link.has_attr('href') and '.com/lyrics/' in link['href']:
+              print link['href']
+              songLinks.append(link['href'])
+  print(len(songLinks))
+
+  # = Get the lyrics of all songs 
+  songLyrics = []
+  for songLink in songLinks:
+      songSoup = BeautifulSoup(urllib.urlopen(songLink).read())    
+      songData = songSoup.findAll(text=True)
+      songResult = filter(visible, songData)
+      songLyrics.append(strClean(songResult)) ## Extend -> one long list, append -> list length of songs
+
+  # = dump in pickle file
+  pickle.dump(songLyrics, open("songLyrics.p","wb"))
+
+if __name__=="__main__":
+  main()</pre>
+    </div>
+  </div>
+  <p><br></p>
+  <p>The web scraper picks up 443 song lyrics total, this seems like a low number only because of that is the total number of lyrics on the website, the scaper picks up all the lyrics with 100% success rate. The lyrics are then processed by sorting the lyrics into a dictionary. Specifically I count the instances of the words, and also create a nested dictionary, with the key to the outer dictionary being the lyric, and the values for each key of the outer dictionary being a dictionary with the keys being the possible words that come after the lyric, and the value being the number of instances that has occured in the total corpus. </p>
+  <p>For example if we look at the value for the key: 'hotel', we get </p><pre class="brush: plain">{'room': 3, 'wall': 1, 'bed': 1, 'sign': 1, 'with': 1}</pre>.<p> This means that or all the times th word 'hotel' appears in a lyric, 3 times it was follwed by 'room', once it was followed by 'wall' , once it was followed by 'bed', once it was followed by 'sign', and once with 'with'. </p>
+
+  <p>This analysis can be used to compute n-grams, as well as for feature-engineering in naive-Bayes classification, for example to classify various genres of music, via their lyrics. </p>
+  <p><br></p>
+  <h3>Python script - Country Lyric Plot</h3>
+  <div data-collapse>
+        <h4> See here &#9660;</h4>
+    <div>
+      <pre class = "brush: python"># -*- coding: utf-8 -*-
+"""
+Created on Sat Jul  2 16:49:11 2016
+
+@author: matt-666
+"""
+
+import matplotlib.pyplot as plt
+from collections import Counter
+from nltk.corpus import stopwords
+import random
+import pickle
+
+# = Post-scrape ===============================================================
+
+def main():
+  # = grab from pickle file
+  songLyrics = pickle.load(open("songLyrics.p", "rb"))
+
+  # = compress into onle long list
+  flatSongLyrics = [item for sublist in songLyrics for item in sublist]
+
+  # = remove stopwords
+  flatSongLyrics_noStopwords = [word for word in flatSongLyrics if word not in (stopwords.words('english'))]
+
+  # = the word 'chorus' remains, so we remove
+  flatSongLyrics_noStopwords[:]  = [x for x in flatSongLyrics_noStopwords if x != 'chorus']
+
+  #Count all instances of words that are not stop words
+  wordCount = Counter(flatSongLyrics_noStopwords)
+
+  # = sort dictionary by value
+  sortedKeys, sortedVals = [], []
+  for key, value in sorted(wordCount.iteritems(), key=lambda (k,v): (v,k)):
+      sortedKeys.append(key.title())
+      sortedVals.append(value)
+  # = have to reverse since the sort is in ascending order
+  sortedKeys.reverse(); sortedVals.reverse()
+
+  # = Plot in bar chart        
+  plt.figure(44); plt.clf(); res = 40
+  plt.bar(range(res), sortedVals[:res]/sum(sortedVals)*100., align='center')
+  plt.xticks(range(res), sortedKeys[:res], rotation = 60)
+  plt.xlabel('Lyric'); plt.ylabel('Count (%)')
+
+if __name__=="__main__":
+  main()</pre>
 </div>
-<p>The user-user similarity matrix can be computed as:</p>
-<div style="text-align: center;">
-<p><span class="math">User-user similarity = \( RR^T\) </span></p>  
 </div>
-<p>which produces a symmetric <span class = "math">\(m\times m\)</span> matrix, where <span class = "math">\(m\)</span> is the total number of users. The item-item similarity can be calculated in a similar way:</p>
-<div style="text-align: center;">
-<p><span class="math">Item-item similarity = \( R^TR\) </span></p>  
-</div>
-<p>which produces a symmetric <span class = "math">\(n\times n\)</span> matrix, where <span class = "math">\(n\)</span> is the total number of songs. </p>
-<p><br></p>
-
-<h3>Evaluation Metric</h3>
-<p>We use the mean average precision (MAP) as the evaluation metric. </p>
-<p>For any k, define the <i>precision-at-k</i> <span class = "math">\(P_k\)</span> as the proportion of correct recommendations within the top-<i>k</i> of the predicted ranking:</p>
-<div style="text-align: center;">
-<p><span class="math">\( P_k(u,y)=\frac{1}{k}\sum_{j=1}^kM_{u,y(j)}\), </span></p>  
-</div>
-<p>next we take the average of the computed precisions:</p>
-<div style="text-align: center;">
-<p><span class="math">\( AP(u,y)=\frac{1}{n_u}\sum_{k=1}^\tau P_k(u,y)\times M_{u,y_u(k)}\) </span></p> 
-</div>
-<p>where <span class = "math">\(\tau\)</span> is the threshold that represents how many of the top predictions in <span class = "math">\(y_u\)</span> to include and <span class = "math">\(n_u\)</span> is the number of songs in the users hidden history.</p>
-<p>Finally, we take the average over all users precisions:</p>
-<div style="text-align: center;">
-<p><span class="math">\( MAP = \frac{1}{m}\sum_{u}AP(u,y_u)\) </span></p></div>
-<p>The R functions for the evaluation metrics are shown below:</p>
-
-<pre class = 'brush: python'>average_precision_at_k <- function(k, actual, predicted){
-  score <- 0.0
-  cnt <- 0.0
-  for (i in 1:min(k,length(predicted)))
-  {
-    if (predicted[i] %in% actual && !(predicted[i] %in% predicted[0:(i-1)]))
-    {
-      cnt <- cnt + 1
-      score <- score + cnt/i 
-    }
-  }
-  score <- score / min(length(actual), k)
-  return(score)
-}
-
-mAP = mean(average_precision_at_k(500, valid_data, predicted_songs))
-</pre>
-<p><br></p>
-<h3>Strategy - Recommend top 500</h3>
-<p>A simple strategy would be to suggest the same top 500 most played songs to all users.</p>
-<p>To do this, first, we load in the relevant libraries, and construct the training and validtion datasets. For details on the initial loading of the data from the text files and SQLite databases the R code above.</p>
-<pre class="brush: python">library(readr)
-library(dplyr)
-library(tidyr)
-library(Matrix)
-library(plyr)
-library(pbapply)
-
-# Load in data
-triplets <- as.data.frame(read_table('data/kaggle/kaggle_visible_evaluation_triplets.txt'))
-colnames(triplets) <- c('User_ID', 'Song_ID', 'Plays')
-
-# Split data into train and validation set
-set.seed(666) # reproducibility
-train_data <- triplets %>%
-  dplyr::group_by(User_ID) %>%
-  dplyr::sample_frac(0.8) %>%
-  dplyr::ungroup()
-
-valid_data <- setdiff(triplets, train_data)</pre>
-<p><br></p>
-<p>The top 1000 songs are chosen based on total number number of plays across all users.</p>
-<pre class="brush: python"># baseline is to recommend top n most played songs,
-top1000songs <- train_data %>% 
-  dplyr::group_by(Song_ID) %>%
-  dplyr::summarise(Total.Plays = sum(Plays)) %>%
-  dplyr::arrange(desc(Total.Plays)) %>%
-  dplyr::top_n(1000) %>%
-  dplyr::ungroup()
-
-getBaseline_AveragePrecision(user){
-  actual.songs <- filter(valid_data, User_ID == unique_users$User_ID[user])
-  avg.Pres <- average_precision_at_k(k=500, actual = actual.songs$Song_ID, 
-                                     predicted = top1000songs$Song_ID[1:500])
-  return(avg.Pres)
-}
-
-mAP_baseline <- pbsapply(seq(nrow(multMat2)), getUser_Average_Precision)
-</pre>
-<p><br></p>
-<h3>Strategy - Recommend songs by finding similar songs to songs in users list of listened songs</h3>
-<p>Two songs are similar if they have many users in common that listen to both.</p>
-<p>This is achieved in R by creating a sparse matrix, and performing the operations on the sparse matrix.</p>
-<pre class="brush: python"><code># Create data frames of the unique songs and users
-unique_users <- unique(train_data$User_ID)
-unique_songs <- unique(train_data$Song_ID)
-
-unique_users <- as.character(unique_users)
-unique_songs <- as.character(unique_songs)
-
-# Create new column where user/song ID -> unique numeric
-unique_users <- cbind(unique_users, as.numeric(seq(nrow(as.data.frame(unique_users)))))
-unique_songs <- cbind(unique_songs, as.numeric(seq(nrow(as.data.frame(unique_songs)))))
-
-colnames(unique_users) <- c('User_ID', 'UID')
-colnames(unique_songs) <- c('Song_ID', 'SID')
-
-train_data$User_ID <- as.character(train_data$User_ID)
-train_data$Song_ID <- as.character(train_data$Song_ID)
-
-# Join datasets
-train_data_2 <- train_data %>% 
-  dplyr::left_join(as.data.frame(unique_users), by = 'User_ID') %>%
-  dplyr::left_join(as.data.frame(unique_songs), by =  'Song_ID') %>%
-  dplyr::group_by(User_ID) %>%
-  dplyr::mutate(Relative.Plays = Plays/sum(Plays))
-
-# remove all NAs
-train_data_2[is.na(train_data_2)] <- 0 
-
-# Create sparse matrix
-sparse_rating_df <- sparseMatrix(i = as.numeric(train_data_2$UID), 
-                                 j = as.numeric(train_data_2$SID), 
-                                 x = train_data_2$Relative.Plays)</code></pre>
-<p><br></p>
-<p>The method used to recommend the songs will be to recommend songs that are similar to songs already in the users list of listened songs. This is shown using the Venn diagram below.</p>
-<p><br></p>
-<center><img src="figs/songSim.png" width="500" align="center"></center>
-<p><br></p>
-<p>The R code to achieve the item-item similarity is as follows:</p>
-<pre class = 'brush: python'><code># Song similarity matrix
-multMat1 <- t(sparse_rating_df) %*% (sparse_rating_df)
-
-# Get top 500 similar songs of a given song
-gettop500simSong <- function(song){
-  user_sim <- multMat1[song,] 
-  user_sim <- as.data.frame(cbind(user_sim, seq(length(user_sim))))
-  colnames(user_sim) <- c('Similarity', 'SID')
-  user_sim <- user_sim %>%
-    dplyr::left_join(unique_songs, by = 'SID') %>%
-    dplyr::arrange(desc(Similarity)) %>%
-    dplyr::top_n(500, Similarity) 
-  return(user_sim)
-}
-
-# Get average precision of user via song similarity
-getSong_Average_Precision<- function(user){
-  # Get the visible song in users song list 
-  songs <- train_data_2 %>%
-    filter(UID == user) %>%
-    select(SID)
-  
-  # If SID is of factor class change to integer
-  if (class(songs$SID) == "factor"){
-    songs$SID <- as.integer(levels(songs$SID))[songs$SID]
-  }
-
-  # Go through songs and get 500 most similar songs
-  top500total <- ldply(songs$SID, gettop500simSong) %>%
-    anti_join(songs, by = 'SID') %>% # remove songs already in users song list
-    distinct() %>%                   # remove duplicates
-    arrange(desc(Similarity)) %>%    # order by similarity
-    top_n(500, Similarity)           # take top 500
-  
-  # Get actual songs from validation datset
-  actual.songs <- filter(valid_data, User_ID == unique_users$User_ID[user])
-
-  # Calculate average precision
-  avg.Pres <- average_precision_at_k(k=500, actual = actual.songs$Song_ID, predicted = top500total$Song_ID)
-  return(avg.Pres)
-}
-
-mAP <- mean(pbsapply(seq(nrow(multMat1)), getSong_Average_Precision))</code></pre>
-<p><br></p>
-<h3>Strategy - Recommend songs by finding similar users and selecting songs in their list of listened songs </h3>
-<p>Two users are similar if they have listened to many of the same songs. The user-user similarity is calculated in a similar way to the item-item similarity. After each users recommendations the songs are ordered in termes of total plays. The Venn diagram of the strategy is shown below.</p>
-<p><br></p>
-<center><img src="figs/userSim.png" width="500" align="middle"></center>
-<p><br></p>
-<p>The R code to achieve this is as follows:</p>
-<pre class = 'brush: python'><code># User similarity matrix
-multMat2 <- sparse_rating_df %*% t(sparse_rating_df)
-
-# Function that recommends songs based on 2 users song list
-recommend_by_user <- function(user1, user2){
-  # Get song intersection of 2 users
-  user1.songs <- train_data %>% 
-    dplyr::filter(User_ID == user1) %>%
-    dplyr::select(Song_ID, Plays)
-  user2.songs <- train_data %>% 
-    dplyr::filter(User_ID == user2) %>%
-    dplyr::select(Song_ID, Plays)
-
-  # Get songs in user2, that not in user1 
-  recommend.songs <- dplyr::anti_join(user2.songs, user1.songs, 
-                                      by = 'Song_ID') %>%
-    dplyr::arrange(desc(Plays)) %>%  # sort by number of plays
-    dplyr::select(-Plays)
-  return(recommend.songs)
-}
-
-getUser_Average_Precision<- function(user){
-  # Get top 100 unique users  
-  user1_sim <- multMat2[user,] 
-  user1_sim <- as.data.frame(cbind(user1_sim, seq(length(user1_sim))))
-  colnames(user1_sim) <- c('Similarity', 'UID')
-  user1_sim <- user1_sim %>%
-    dplyr::arrange(desc(Similarity)) %>%
-    dplyr::top_n(100, Similarity) %>%
-    dplyr::left_join(unique_users, by = 'UID')
-  
-  # Initialsize empty data frame
-  rec.songs <- data.frame()
-  i = 1
-  while(nrow(rec.songs) < 500){
-    # Recommend songs if they have any songs in common (similarity > 0)
-    if(user1_sim$Similarity[i] > 0.00000){
-      new.songs <- recommend_by_user(user1_sim$User_ID[user], user1_sim$User_ID[i])
-      rec.songs <- unique(rbind(rec.songs, new.songs))
-    } 
-    # otherwise choose from top 1000 songs
-    else{
-      new.songs <- as.data.frame(top1000songs$Song_ID[1:(1000-nrow(rec.songs))+1], 
-                                 stringsAsFactors = FALSE)
-      colnames(new.songs) <- 'Song_ID'
-      rec.songs <- unique(rbind(rec.songs, new.songs))
-    }
-    i = i + 1
-  }
-  
-  # Get actual songs from validation datset
-  actual.songs <- filter(valid_data, User_ID == unique_users$User_ID[user])
-
-  # Calculate averag precision
-  avg.Pres <- average_precision_at_k(k=500, actual = actual.songs$Song_ID, predicted = rec.songs$Song_ID)
-  return(avg.Pres)
-}
-
-mAP <- mean(pbsapply(seq(nrow(multMat2)), getUser_Average_Precision))</code></pre>
 <p><br></p>
 
           					<div class="left">     	
@@ -1296,66 +1201,130 @@ mAP <- mean(pbsapply(seq(nrow(multMat2)), getUser_Average_Precision))</code></pr
       				<div class="center">      
       					<p><br></p>
           				<h2>Results</h2>
-                  <p><br></p>
-                  <p>In the results shown, <i>k</i>-fold cross validation is used, for <i>k</i>=5. The MAP for each of the strategies is shown below.</p>
                   <script>
-                      var myChart_chordProg = new Chart({...})
-                  </script>
-                  <canvas id="myChart_chordProg" width="350" height="150"></canvas>
-                  <script>
-                  var ctx = document.getElementById("myChart_chordProg");
-                  ctx.width = 200;
-                  ctx.height = 100;
-                  var randomColorFactor = function() {
-                              return Math.round(Math.random() * 255);
-                          };
-                  var randomColor = function() {
-                              return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',.7)';
-                          };
-                  var myChart = new Chart(ctx, {
-                      type: 'bar',
-                      data: {
-                          labels: ['Item/item', 'User/User', 'Baseline'],
-                          datasets: [{
-                              label: 'MAP',
-                              data: [0.0482, 0.0412,0.0213],
-                              backgroundColor: 'rgba(24, 188, 156, 0.6)',
-                              borderColor: 'rgba(9, 74, 61, 1)',
-                              borderWidth: 2
-                          }]
-                      },
-                      options: {
-                        title: {
-                              display: true,
-                              text: 'Mean Average Precision',
-                              fontSize: 30
-                          },
-                          scales: {
-                              yAxes: [{
-                                  ticks: {
-                                      beginAtZero:true
-                                  },
-                                  scaleLabel: {
-                                display: true,
-                                labelString: 'MAP at k=500',
-                                fontSize: 30
-                              }
-                              }],
-                              xAxes: [{
-                                  scaleLabel: {
-                                display: true,
-                                labelString: 'Strategy',
-                                fontSize: 30
-                              }
-                              }]
-                          }
-                      }
-                  });
-                  </script> 
-                  <p><br></p>
-                  <p>We can see that item/item similarity has the largest MAP score, slightly outperforming the user-user similarity strategy. In terms of run time, the base-line strategy is unsurprisingly the quickest, at around 0.72 seconds/user, followed by item-item similarity at around 4.23 seconds per user, and finally the user-user similarity was significantly slower at 121.2 seconds/user. This may be due to the user-user similarity matrix, while smaller than the item-item similarity (110000<sup>2</sup> vs 149029<sup>2</sup>), it is not as sparse, so sorting through the matrix, in looking for common users, as well as allocating memory is more expensive.</p>
-                  <p><br></p>
+    var myChart = new Chart({...})
+</script>
+<canvas id="myChart" width="150" height="150"></canvas>
+<script>
+var ctx = document.getElementById("myChart");
+ctx.width = 200;
+ctx.height = 100;
+var randomColorFactor = function() {
+            return Math.round(Math.random() * 255);
+        };
+var randomColor = function() {
+            return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',.7)';
+        };
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Im', 'Like', 'Dont', 'Know', 'Got', 'Love', 'One', 'Go', 'Little', 'Well', 'Get', 'Aint', 'Gonna', 'Never', 'Back', 'Way', 'Time', 'Take', 'Said', 'See', 'Life', 'Ive', 'Yeah', 'Right', 'Baby', 'Good', 'Cant', 'Say', 'Night', 'Youre', 'Cause', 'Still', 'Let', 'Ill', 'Think', 'Theres', 'Come', 'Make', 'Oh', 'Man'],
+        datasets: [{
+            label: 'Count',
+            data: [ 1.29607738,  1.21655024,  1.04459968,  0.99086513,  0.85330467,
+              0.81246642,  0.74153681,  0.72434175,  0.62547018,  0.62117141,
+              0.61687265,  0.58463192,  0.5631381 ,  0.55883933,  0.54809242,
+              0.54164428,  0.54164428,  0.50940355,  0.49435787,  0.49005911,
+              0.48576034,  0.47286405,  0.46641591,  0.46426652,  0.455669  ,
+              0.42987641,  0.41268135,  0.41053197,  0.41053197,  0.40193444,
+              0.40193444,  0.37614186,  0.3718431 ,  0.3718431 ,  0.36754433,
+              0.36754433,  0.36754433,  0.3589468 ,  0.35679742,  0.35679742],
+            backgroundColor: 'rgba(24, 188, 156, 0.6)',
+            borderColor: 'rgba(9, 74, 61, 1)',
+            borderWidth: 2,
+            
+        }]
+    },
+    options: {
+      title: {
+            display: true,
+            text: 'Top 40 Lyric Words',
+            fontSize: 22
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                },
+                scaleLabel: {
+              display: true,
+              labelString: 'Usage (%)',
+              fontSize: 30
+            }
+            }],
+            xAxes: [{
+                scaleLabel: {
+              display: true,
+              labelString: 'Word',
+              fontSize: 30
+            }
+            }]
+        }
+    }
+});
+</script>
+<p><br></p>
+<script>
+    var myChart_wordcdf = new Chart({...})
+</script>
+<canvas id="myChart_wordcdf" width="800%" height="600px"></canvas>
+<script src = "../riffCode/word_cdf.js"></script>
+<p><br></p>
+<p>In order to understand the context all the stop words have been removed, taken from the <a target="_blank" href = "www.nltk.org/nltk_data/">natural language toolkit</a>, and a more accurate description of the language of contry music is achieved. We find that the just 40 words are needed make up 22.48% of all lyrics, and only about 1000 words are needed to account for 80% of all words in country music. If we look at type of language of the words from the top 40 words, they are almost all heartbreak/love kind of songs, or could be used in that context. This idea is confirmed when we look at the <a target="_blank" href="http://www.radioveronica.us/classiccountry500.htm">Top 500 country songs</a>, we can see that many songs have title such as <i>"I Don't Call Him Daddy"</i> by Doug Supernaw, or <i>"We Danced"</i> by Brad Paisley, and we might be able to infer, after looking at the data our lyrics analysis, what kind of lyrics these songs may contain.</p>
+<p><br></p>
+<div data-collapse>
+        <h4> See here &#9660;</h4>
+    <div>
+      <pre class = "brush: python"># -*- coding: utf-8 -*-
+"""
+Created on Sat Jul  2 16:49:11 2016
 
+@author: matt-666
+"""
+
+import matplotlib.pyplot as plt
+from collections import Counter
+from nltk.corpus import stopwords
+import random
+import pickle
+
+# = Post-scrape ===============================================================
+
+def main():
+  # = grab from pickle file
+  songLyrics = pickle.load(open("songLyrics.p", "rb"))
+
+  # = compress into onle long list
+  flatSongLyrics = [item for sublist in songLyrics for item in sublist]
+
+  # = remove stopwords
+  flatSongLyrics_noStopwords = [word for word in flatSongLyrics if word not in (stopwords.words('english'))]
+
+  # = the word 'chorus' remains, so we remove
+  flatSongLyrics_noStopwords[:]  = [x for x in flatSongLyrics_noStopwords if x != 'chorus']
+
+  #Count all instances of words that are not stop words
+  wordCount = Counter(flatSongLyrics_noStopwords)
+
+  # = sort dictionary by value
+  sortedKeys, sortedVals = [], []
+  for key, value in sorted(wordCount.iteritems(), key=lambda (k,v): (v,k)):
+      sortedKeys.append(key.title())
+      sortedVals.append(value)
+  # = have to reverse since the sort is in ascending order
+  sortedKeys.reverse(); sortedVals.reverse()
+
+  # = Plot in bar chart        
+  plt.figure(44); plt.clf(); res = 40
+  plt.bar(range(res), sortedVals[:res]/sum(sortedVals)*100., align='center')
+  plt.xticks(range(res), sortedKeys[:res], rotation = 60)
+  plt.xlabel('Lyric'); plt.ylabel('Count (%)')
+
+if __name__=="__main__":
+  main()</pre>
+</div>
+</div>
+<p><br></p>
           				
           				<div class="left">
 							
