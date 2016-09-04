@@ -445,8 +445,8 @@ canvas {
             </div>
             </div>
   <div class="wrapper" id="header">
-
-<h1 align="center">R Vs Python - Linear Regression</h1>
+<p><br></p>
+<h1 align="center" style="margin:0; ">R Vs Python - Linear Regression</h1>
 <header>
     <hr class="star-light">
 </header>
@@ -501,13 +501,13 @@ library(ggplot2)
 library(tidyr)
 library(dplyr)
 library(lubridate)</pre>
-<script type="syntaxhighlighter" class="brush: python">city_temp &lt;- read_csv('data/GlobalLandTemperaturesByCity.csv')
+<pre class="brush: python">city_temp &lt;- read_csv('data/GlobalLandTemperaturesByCity.csv')
 city_temp_US &lt;- city_temp %&gt;% 
   filter(Country == 'United States' &amp; City == 'New York') %&gt;% 
   select(-Country, -Latitude, -Longitude, -City, -AverageTemperatureUncertainty) %&gt;% 
   mutate(the.year = year(dt)) %&gt;%
   group_by(the.year) %&gt;% 
-  summarise(Average.Temp = mean(AverageTemperature))</script>
+  summarise(Average.Temp = mean(AverageTemperature))</pre>
   <p><br></p>
 <p>Now the data is clean and tidy we can perform a T-test to determine statistical significance.</p>
 <pre class="brush: python">t.test( city_temp_US$Average.Temp, city_temp_US$the.year)</pre>
