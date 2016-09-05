@@ -400,6 +400,14 @@ p, .container .sideText5 p {
  #bootstrap-overrides  hr.star-light:after {
 background-color: white;
 color: #2C3E50;}
+ #bootstrap-overrides div.post-overlay-header{
+  display:inline-block;
+margin-left:30px;
+margin-right:auto;
+width:350px;
+height:312px;
+
+ }
 canvas {
     padding-left: 0;
     padding-right: 0;
@@ -433,9 +441,9 @@ canvas {
                           <li><a href="/examples/SmoothPageScroll/#four">Getting Country Music Lyrics</a></li>
                           <li><a href="/examples/SmoothPageScroll/#five">Analyzing Lyrics</a></li>
                           <li><a href="/examples/SmoothPageScroll/#six">Generating Original Lyrics</a></li>
-                          <li><a href="/examples/SmoothPageScroll/#seven">Conclusion</a></li>-->
+                          <li><a href="/examples/SmoothPageScroll/#seven">Conclusion</a></li>
                           <!--<li><a href="/examples/SmoothPageScroll/#eight">Conclusion</a></li>-->
-                          <li><a href="/examples/SmoothPageScroll/#forecast">Other Projects</a></li>
+                          <li><a href="/examples/SmoothPageScroll/#forecast">Related Projects</a></li>
                       </ul>
                     </li>
 
@@ -1272,59 +1280,7 @@ var myChart = new Chart(ctx, {
 <p><br></p>
 <p>In order to understand the context all the stop words have been removed, taken from the <a target="_blank" href = "www.nltk.org/nltk_data/">natural language toolkit</a>, and a more accurate description of the language of contry music is achieved. We find that the just 40 words are needed make up 22.48% of all lyrics, and only about 1000 words are needed to account for 80% of all words in country music. If we look at type of language of the words from the top 40 words, they are almost all heartbreak/love kind of songs, or could be used in that context. This idea is confirmed when we look at the <a target="_blank" href="http://www.radioveronica.us/classiccountry500.htm">Top 500 country songs</a>, we can see that many songs have title such as <i>"I Don't Call Him Daddy"</i> by Doug Supernaw, or <i>"We Danced"</i> by Brad Paisley, and we might be able to infer, after looking at the data our lyrics analysis, what kind of lyrics these songs may contain.</p>
 <p><br></p>
-<div data-collapse>
-        <h4> See here &#9660;</h4>
-    <div>
-      <pre class = "brush: python"># -*- coding: utf-8 -*-
-"""
-Created on Sat Jul  2 16:49:11 2016
 
-@author: matt-666
-"""
-
-import matplotlib.pyplot as plt
-from collections import Counter
-from nltk.corpus import stopwords
-import random
-import pickle
-
-# = Post-scrape ===============================================================
-
-def main():
-  # = grab from pickle file
-  songLyrics = pickle.load(open("songLyrics.p", "rb"))
-
-  # = compress into onle long list
-  flatSongLyrics = [item for sublist in songLyrics for item in sublist]
-
-  # = remove stopwords
-  flatSongLyrics_noStopwords = [word for word in flatSongLyrics if word not in (stopwords.words('english'))]
-
-  # = the word 'chorus' remains, so we remove
-  flatSongLyrics_noStopwords[:]  = [x for x in flatSongLyrics_noStopwords if x != 'chorus']
-
-  #Count all instances of words that are not stop words
-  wordCount = Counter(flatSongLyrics_noStopwords)
-
-  # = sort dictionary by value
-  sortedKeys, sortedVals = [], []
-  for key, value in sorted(wordCount.iteritems(), key=lambda (k,v): (v,k)):
-      sortedKeys.append(key.title())
-      sortedVals.append(value)
-  # = have to reverse since the sort is in ascending order
-  sortedKeys.reverse(); sortedVals.reverse()
-
-  # = Plot in bar chart        
-  plt.figure(44); plt.clf(); res = 40
-  plt.bar(range(res), sortedVals[:res]/sum(sortedVals)*100., align='center')
-  plt.xticks(range(res), sortedKeys[:res], rotation = 60)
-  plt.xlabel('Lyric'); plt.ylabel('Count (%)')
-
-if __name__=="__main__":
-  main()</pre>
-</div>
-</div>
-<p><br></p>
           				
           				<div class="left">
 							
@@ -1496,10 +1452,33 @@ if __name__=="__main__":
     			<!-- Resolution 9-->      
     			<article id="forecast" style=" display: block; margin-bottom: 0px; ">
       					<div class="center"> 
-              				<h2>Other Projects</h2>        
-              				<p><br></p>
-              				<p><big>For more similar projects check out my blog posts on <a href="/blog/Spark-Music-Rec/">predicting song listens with Apache Spark</a>, <a href="/blog/Ultimate-Playlist-Title/">what makes the ultimate playlist title</a>, and <a href="/blog/Two-Listeners/">the two types of music streamers</a>.</big></p>
 
+                      <p><br></p>
+                      <h2>Related Projects</h2>
+                      <p><br></p>
+                      <div id="twoimages" style = "display:inline-block;">
+                      <div class="post-overlay-header" style="background-image: url(/img/spark.jpg);">
+                                <div class="post-overlay-header-title">
+                                  <h1 class="post-title">
+                                    <a href="/blog/Spark-Music-Rec/">
+                                      Recommending Music with Apache Spark
+                                    </a>
+                                  </h1>       
+                                </div>
+                              </div>
+
+                              <div class="post-overlay-header" style="background-image: url(/img/playlist.png); background-position: center; ">
+                                <div class="post-overlay-header-title">
+                                  <h1 class="post-title">
+                                    <a href="/blog/Ultimate-Playlist-Title/">
+                                      What Makes a Good Playlist Title
+                                    </a>
+                                  </h1>
+                                </div>
+                              </div>
+
+                      </div>     
+              				
               				<p><br></p>
               				<p><br></p>
               				<p><br></p>
