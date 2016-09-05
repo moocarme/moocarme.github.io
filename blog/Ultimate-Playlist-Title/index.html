@@ -591,7 +591,7 @@ var myChart = new Chart(ctx, {
 <p>To perform the regression I use an 80/20 train-test split. In which I fit the data on the training dataset and evaluate on the test dataset. I will use residual sum of squares between the predicted and actual number of followers in the test set to determine the score for the regression model. With simple linear regression using ordinary least squares (OLS) I get a residual of 2.32439e+11 which I will use as a baseline of which to compare other models. The OLS minimized according to the function:</p>
 <div style="text-align: center;">
 <p><span class="math">\(min_w \lVert Xw-y\rVert_2^2\) </span></p>	
-</div>target='_blank' 
+</div>
 <p><br></p>
 <h4>Ridge Regression</h4>
 <p>Ridge regression addresses some of the problems of OLS, namely that OLS is highly sensitive to randomness in the data, that can produce high variance and thus, not perform well on the test dataset. Ridge regression imposes a penalty on the size of the coefficients, and minimizes the residual sum of squares as follows:</p>
@@ -736,7 +736,7 @@ var myChart = new Chart(ctx, {
 
     
     <p><br></p>
-   
+
 <h2>Related Projects</h2>
 <p><br></p>
 <div id="twoimages">
