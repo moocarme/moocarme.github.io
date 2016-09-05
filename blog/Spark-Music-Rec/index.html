@@ -18,7 +18,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="generator" content="pandoc" />
 
-    <title>Making Music Predictions wih Apache Spark</title>    
+    <title>Making Music Predictions with Apache Spark</title>    
     <!-- Icons -->
     <link rel="favicon-144-precomposed"  href="/img/profile.png">
     <link rel="shortcut icon" href="/img/profile.png">
@@ -195,13 +195,21 @@ color: #2C3E50;}
 #bootstrap-overrides  tr {
     	border: 1px solid black;
 	}
+#bootstrap-overrides div.post-overlay-header{
+ 	display:inline-block;
+margin-left:30px;
+margin-right:auto;
+width:400px;
+height:312px;
+
+ }
 </style>
 
 <div class="fluid-row" id="header">
 	<p><br></p>
 	<p><br></p>
 	<p><br></p>
-<h1 class="title toc-ignore">Making Music Predictions wih Apache Spark</h1>
+<h1 class="title toc-ignore">Making Music Predictions with Apache Spark</h1>
 <header>
     <hr class="star-light">
 </header>
@@ -210,7 +218,7 @@ color: #2C3E50;}
 <p><br></p> 
 <div id="google-trends-as-a-predictor" class="section level2">
 	<h2>Goal</h2>
-<p><a href="http://spark.apache.org/">Apache Spark</a> is an open source cluster computing framework based on resilient distributed datasets (RDD). Due to the distributed nature of the framework it scales efficiently and well suited performing machine learning large datasets such as those used for music recommendation systems as they often include millions of users and millions of songs. <a href="https://community.cloud.databricks.com/">Databricks</a> is a company founded by the creators of Apache Spark which offers users access to big data processing using Spark.  </p>
+<p><a target = "_blank" href="http://spark.apache.org/">Apache Spark</a> is an open source cluster computing framework based on resilient distributed datasets (RDD). Due to the distributed nature of the framework it scales efficiently and well suited performing machine learning large datasets such as those used for music recommendation systems as they often include millions of users and millions of songs. <a target = "_blank" href="https://community.cloud.databricks.com/">Databricks</a> is a company founded by the creators of Apache Spark which offers users access to big data processing using Spark.  </p>
 <p>I will use Spark to predict the number of listens of songs by users. This will form the basis of the music recommendation system. Once a model is created that performs well on a test dataset, I will apply the model to songs unlistened by the user, and given the number of predicted plays of the songs, recommend songs to the user in the order of descending number of predicted plays. </p>
 <p><br></p>
 <h2>Results</h2>
@@ -218,7 +226,7 @@ color: #2C3E50;}
 <p>
 Importantly due to Sparks efficiency to scale, this model can scale to many more users. For example Spotify has around 30 million active monthly users, which is only a magnitude more than the number of users considered in this dataset.</p>
 <p><br></p>
-<p>The analysis can be found on databricks <a href="https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/3175648861028866/48824497172554/657465297935335/latest.html">here</a>.</p>
+<p>The analysis can be found on databricks <a target = "_blank" href="https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/3175648861028866/48824497172554/657465297935335/latest.html">here</a>.</p>
 <p><br></p>
 <iframe src="https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/3175648861028866/48824497172554/657465297935335/latest.html" height="22700" width="900" frameBorder="0" scrolling="no" style="overflow:hidden" ></iframe>
 <!--<h3>Scraper to get all guitar pro files</h3>
@@ -235,6 +243,33 @@ Importantly due to Sparks efficiency to scale, this model can scale to many more
 
 <hr>
 
+       <p><br></p>
+   
+<h2>Related Projects</h2>
+<p><br></p>
+<div id="twoimages">
+<div class="post-overlay-header" style="background-image: url(/img/playlist.png);background-position: center; background-size: 900px ;">
+                                <div class="post-overlay-header-title">
+                                  <h1 class="post-title">
+                                    <a href="/blog/Spark-Song-Year/">
+                                      Predicting Song Year with Spark
+                                    </a>
+                                  </h1>       
+                                </div>
+                              </div>
+
+        <div class="post-overlay-header" style="background-image: url(/img/metallica.jpeg); background-position: center; background-size: 600px ">
+          <div class="post-overlay-header-title">
+            <h1 class="post-title">
+              <a href="/blog/tabPlayer/">
+                Deep Learning Metallica Tabs
+              </a>
+            </h1>
+          </div>
+        </div>
+
+</div>
+ <p><br></p>
     
     <p><br></p>
     <p><br></p>

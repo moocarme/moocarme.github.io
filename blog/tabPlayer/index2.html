@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<script src="/js/jquery.collapse.js"></script>
+
+		<script type="text/javascript" src="/js/shCore.js"></script>
+		<script type="text/javascript" src="/js/shBrushPython.js"></script>
+		<script type="text/javascript" src="/js/shBrushSql.js"></script>
+		<script type="text/javascript" src="/js/shBrushPlain.js"></script>
+
+  	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+      	
+  	<title>Deep Learning Metallica with Recurrent Neural Networks</title>
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  	<link rel="icon" type="image/png" href="/img/profile.png">
+  	<link rel="stylesheet" href="/style.css">
+  	<link href="/css/shCore.css" rel="stylesheet" type="text/css" />
+		<link href="/css/shThemeDefault.css" rel="stylesheet" type="text/css" />
+    <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+
+      	
+  	<script type="text/javascript" src="//use.typekit.net/sjt4iho.js"></script>
+ 		<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+      
+  	<script src="/node_modules/chart.js/dist/Chart.js"></script>
+		<script src="/js/jquery-1.11.0.js"></script>
+
+		
+      	<style> 
+        /***** BASE STYLES *****/ 
+        
+        code {
+		  color: inherit;
+		  background-color: rgba(0, 0, 0, 0.04);
+		}
+		 pre:not([class]) {
+		    background-color: white;
+		  }
+        blockquote {
+          font-size: 21px;  
+          margin: 90px 0 90px 0; 
+          font-family: proxima-nova,proxima-nova,'proxima nova','helvetica neue',helvetica,sans-serif
+        }
+
+        cite {
+          display: block;
+          text-align: right;
+          margin-top: 15px;
+        }
+
+        .firstcharacter { 
+          float: left; 
+          font-size: 54px; 
+          line-height: 60px;  
+          padding-right: 7px;  
+        }  
+
+        .fa {
+          cursor: pointer;
+        }  
+
+        /** Navigation **/ 
+          .main-navigation, .nav-toggle  {
+            display: none;
+          }
+
+          #desktopNav	{
+            position: absolute;
+            height: 100%;
+            background-color: #233140;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            width: 230px;
+          }
+
+          #desktopNav.fixedElement {
+            position: fixed;
+            height: 100%;
+            top: 0;
+            left: 0;
+          } 
+
+
+        nav ul li a {
+          font-family: proxima-nova,proxima-nova,'proxima nova','helvetica neue',helvetica,sans-serif;
+          color: #E8E8E8;
+          text-decoration: none;
+          transition: color 0.3s;
+          letter-spacing: 1px;
+        } 
+
+        nav ul li a:hover {
+          color: #C7C7C7;
+        } 
+
+         .secondUL li {
+            padding: 10px 10px 0 0;
+          }
+
+          .navHeadline {
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600; 
+            color: #4C91B8;
+          }
+
+        .navSection {
+            margin-bottom: 20px;
+          } 
+
+          .nav-toggle {
+            transform: translateY(-100%);
+            overflow: hidden;
+            height: 50px;
+            background: rgba(29, 55, 69, 0.9);
+            transition: transform 0.9s ease;
+            color: #E9A857;
+            font-size: 20px;
+          } 
+
+         #bootstrap-overrides  .nav-toggle.show {
+            height: 50px;
+            transform: translateY(0%);
+            transition: transform 0.9s ease;
+          }
+
+         #bootstrap-overrides  .main-navigation {
+            position: fixed;
+            top: 0;
+            left:0; 
+            width: 270px;
+            height: 100%;
+            background: rgba(29, 55, 69, 0.9);
+          }
+
+        
+
+        
+
+        .center {
+          max-width: 1170px;
+          margin: 0 auto;
+          position: relative;
+        }
+
+        .img-center{
+          margin-left: 115px;
+          margin-top: 40px;
+          margin-bottom: 40px;
+        }
+        .wrapper {
+          margin-left: 230px;
+        } 	  
+          
+        .left {
+          width: 50%;
+          float:left;
+        }
+
+        .right {
+          position: relative; 
+          float:left;
+          width: 50%;
+        }  
+
+        .introLetterDiv, .outroLetterDiv {
+            background-color: #fff; 
+            padding: 70px;  
+            text-align: left; 
+            max-width: 600px; 
+            margin: 0 auto;
+        }
+
+        .introLetterDiv h3 {
+            font-size: 21px;
+            font-weight: 400;
+            margin-bottom: 35px;
+            margin-top: -20px;
+        }
+
+        .introLetterDiv .signature {
+            text-align: right;
+        } 
+
+        .introLetterDiv .signatureBox {
+            text-align: center;
+            display: inline-block;
+        } 
+
+        .introLetterDiv p, .outroLetterDiv p {
+          max-width: 600px;
+          margin-left: 0;
+        } 
+
+        .main_title {
+          text-align: center;
+        }  
+
+        .letterOrange {
+          width: 85px; 
+          height:7px; 
+          display: block; 
+          background-color: #E9A857; 
+          margin:40px 0;" 
+        } 
+
+        .firstOrangeBar {
+            background-color: #E9A857;
+            display: block; 
+            height: 254px; 
+            width: 27px;
+        }
+
+        .headerThree h2 {
+          margin-top: 30px;
+          display: inline-block;
+          width: 450px;
+          vertical-align: top;
+        }
+
+        #three .thickOrangeLine {
+          position: absolute;
+          top: 160px;
+        }
+
+        .bulkUpImage {
+          margin-left: 22%; 
+        }
+
+        .nasties {
+           width: 60%;
+           position: absolute;
+           top: 50px;
+        }
+
+        .badHabbit {
+          width: 300px;
+          line-height: 94px;
+          display: inline-block;
+          margin-top: 0.83em;
+        }  
+
+        .thickOrangeLine { 
+          width: 82px; 
+          height: 27px; 
+          background-color: #E9A857; 
+          position: absolute;
+          top: 50px;
+        }
+
+        .learnMobile {
+            display: none;
+        }
+
+        
+
+        /** Exeptions **/
+        article#one {
+            margin-bottom: 50px;
+          	padding: 0;
+        }
+          
+        article#two {
+            padding-top: 0
+        } 
+          
+        article#four h2 {
+            margin-top:.5em;
+        } 
+          
+        article#eight .quote {
+            margin-top: 30px 0 75px 0;
+        } 
+          
+        article#eight .center .left, article#six .center .left {
+            margin-right: 5%;
+        } 
+          
+        article#eight .right, article#six .right {
+            width: 45%;
+        }
+          
+        article#eight .right img, article#six .right img {
+            width: 100%;
+        }  
+
+        /*** Footer ***/
+          footer {
+            background-color: #1D3745; 
+            width: 100%; 
+            position: absolute; 
+            z-index: 9999; 
+            bottom: -70px;
+          } 
+          
+           footer p {
+            float: left;
+          }
+
+          .mktoForm {
+            width: auto!important;
+          }
+
+          .bulkUpImage {
+          	width: 46%;
+          }	
+          
+          /***** Desktop Small *****/
+          @media screen and (max-width: 1441px) {
+
+            .center {
+                max-width: 970px;
+            }
+
+            .nasties {
+              top: 165px;
+              width: 60%;
+            }
+
+            .container .sideText1, .container .sideText2, .container .sideText3, .container .sideText4, .container .sideText5 {
+              margin-left: 60px;
+              margin-right: auto;
+            }
+
+            .container .sideText1 p, 
+.container .sideText2 p, .container .sideText3 p, .container .sideText4 
+p, .container .sideText5 p {
+              margin-left: 0;
+            }
+
+            .thickOrangeLine {
+              display: none;
+              top: 30px;
+              width: 43px;
+            }
+
+            .bulkUpImage {
+              width: 65%;
+            }
+          }  
+
+          @media screen and (max-width: 1225px) {
+            .center {
+              max-width: 870px;
+            }
+
+            .bulkUpImage {
+              width: 78%;
+            }
+          }
+
+          @media screen and (max-width: 1170px) {
+            .center {
+              max-width: 770px;
+            }
+
+            footer {
+              display: none;
+            }
+
+            .bulkUpImage { 
+              width: 100%;
+              margin-left: 10%;
+            }
+          }   
+
+          @media screen and (max-width: 1024px) {
+
+            .learnDesktop {
+              right: -155px
+            }
+
+            .center {
+              max-width: 670px;
+            }
+          }  
+
+        
+
+          
+        </style>
+  	<link rel="shortcut icon" href="/img/profile.png" type="image/x-icon" >
+<link rel="icon" href="/img/profile.png" type="image/x-icon" >
+
+
+<style>.mktoGen.mktoImg {display:inline-block; line-height:0;}</style>
+  	</head>
+  	<body id="bootstrap-overrides">
+<style type="text/css"> 
+#bootstrap-overrides hr.star-light {  
+  border-color: #18BC9C;
+	margin-left: auto;
+    margin-right: auto;}
+ #bootstrap-overrides  hr.star-light:after {
+background-color: white;
+color: #2C3E50;}
+canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 90px;
+}
+</style>
+  	</body>
+	<body class="layout" id="bodyId">
+      	
+		<div class="extraWrapper" style="position:relative;">	
+			<!-- DESKTOP FIXED NAV -->
+         	<div id="desktopNav">
+            <div style="position: relative; height: 100%;">
+               <nav>
+                  <ul class="firstUL">	
+                    <br>
+                    <li class="navSection"><span class="navHeadline"><a style="color: #4C91B8;" href="/">Home</a></span>
+                      <ul class="secondUL"> 
+                          <li><a href="/#portfolio">Portfolio</a></li>
+                          <li><a href="/blog/">Blog</a></li>
+                      </ul>
+                    </li>
+                    <li class="navSection"><span class="navHeadline">Contents</span>
+                      <ul class="secondUL">	
+                          <li><a href="/examples/SmoothPageScroll/#one">Goal</a></li>
+                          <li><a href="/examples/SmoothPageScroll/#two">Method</a></li>
+                          <li><a href="/examples/SmoothPageScroll/#three">Analyzing Chords</a></li>
+                          <li><a href="/examples/SmoothPageScroll/#four">Getting Country Music Lyrics</a></li>
+                          <li><a href="/examples/SmoothPageScroll/#five">Analyzing Lyrics</a></li>
+                          <li><a href="/examples/SmoothPageScroll/#six">Generating Original Lyrics</a></li>
+                          <li><a href="/examples/SmoothPageScroll/#seven">Conclusion</a></li>
+                          <!--<li><a href="/examples/SmoothPageScroll/#eight">Take Risks</a></li>-->
+                          <li><a href="/examples/SmoothPageScroll/#forecast">Other Projects</a></li>
+                      </ul>
+                    </li>
+                    
+                  </ul> 
+              </nav> 
+            </div>
+          	</div>
+	<div class="wrapper" id="header">
+<p><br></p>
+<h1 align="center" style = "margin: 0;">Deep Learning Metallica with Recurrent Neural Networks</h1>
+<header>
+    <hr class="star-light">
+</header>
+</div>
+          	<div class="wrapper">
+				<!-- Resolution 1 -->
+				<article id="one">
+      				<div class="center">
+              			<div>
+              				<h2>Goal</h2>
+                      <p>I will use recurrent neural networks to generate original guitar music in the style of Metallica, from guitar pro tabs scraped from the internet.</p>
+                      <img src="/img/Metallica-2.png" alt="METALLICA" style="width:100%;">
+              			</div>
+              			<div class="left"></div>
+      				</div>  
+    			</article>  
+    			<!-- End Resolution 1 -->
+    
+				<!-- Resolution 2 -->
+				<article id="two">  
+          			
+         	 			<div class="center">    
+            				<h2>Method</h2>  
+								<p>I decided to use <a target = "_blank" href="https://www.guitar-pro.com/en/index.php">guitar pro files</a> because they are quite popular, so there will be a lot of accessible data, and they are reasonably accurate, containing a lot of fine data which can be missed in conventional guitar tablature, which an example is given below.</p>
+
+<h3>Guitar tablature Example</h3>
+<div data-collapse>
+      <h4> See here &#9660;</h4>
+ 		<div>
+		<p>Below is an example of typical guitar tablature from ultimate-guitar.com</p>
+		<pre class="brush: sql">Band- Metallica
+Song- TuesdAYS gONE
+
+  A5                   E5                   F#5                   D
+      x 0 2 2 x x          0 2 2 x x x          2 4 4 x x x          x x 0 2 3 2
+
+         Dsus4                Dsus2                  G                   F#m
+      x x 0 2 3 3          x x 0 2 3 0          3 2 0 0 3 3          2 4 4 2 2 2
+
+         GIII
+      3 5 5 4 3 3
+
+Gtr I (Eb Ab Db Gb Bb Eb) - 'acoustic'
+Gtr II (Eb Ab Db Gb Bb Eb) - 'dobro'
+Gtr III (Eb Ab Db Gb Bb Eb) - 'acoustic'
+Gtr IV (Eb Ab Db Gb Bb Eb) - 'acoustic'
+
+ Intro
+  Slowly H.=50
+                   A5                                 E5
+ 3/4
+  Gtr I
+                    |           |                      |    ||
+                    /           /                      /    //
+
+  Gtr II
+                                                       ~~
+|-------|-------||-----------|----------------------|------------|
+|-------|-------||-14--------|-14------14b16r=(14)--|-12---------|
+|-------|-------||-----------|----------------------|------------|
+|-------|-------||-----------|----------------------|------------|
+|-------|-------||-----------|----------------------|------------|
+|-------|-------||-----------|----------------------|------------|
+|
+| Gtr III
+|                                                      ~~
+|-------|-------||-----------|----------------------|------------|
+|-------|-------||-----------|----------------------|------------|
+|-------|-------||-11--------|-11b13r=(11)----------|--9---------|
+|-------|-------||-----------|----------------------|------------|
+|-------|-------||-----------|----------------------|------------|
+|-------|-------||-----------|----------------------|------------|
+|
+| Gtr IV
+|-------|-------||-----------|----------------------|------------|
+|-------|-------||-----------|--2-------------------|------------|
+|-------|-------||--------2--|----------2-----------|------------|
+|-------|-------||-----2-----|------------------2---|--------2---|
+|-------|-------||--0--------|----------------------|-----2------|
+|-------|-------||-----------|----------------------|--0---------|
+
+
+                    F#5                                   D
+  |        |  |      |         ||    |        |     |     |  | || |
+  /        /  /      /         //    /        /     /     /  / // /
+
+                        ~~~~~~~                           ~
+|-----------------|----------------|--------------------|----------|
+|----12b13r=(12)--|-12-10-(10)-----|----10b12r====(10)--|-7--------|
+|-----------------|----------------|--------------------|----------|
+|-----------------|----------------|--------------------|----------|
+|-----------------|----------------|--------------------|----------|
+|-----------------|----------------|--------------------|----------|
+|
+|                    ~~                                   ~
+|-----------------|----------------|--------------------|----------|
+|-----------------|----------------|--------------------|----------|
+|-----------------|----------------|--------------------|----------|
+|-----9b10r==(9)--|--7-------------|----------7b9r=(7)--|-4--------|
+|-----------------|----------------|--------------------|----------|
+|-----------------|----------------|--------------------|----------|
+|
+|                    PM---------------------------|
+|-----------------|----------------|--------------------|----------|
+|-----------------|----------------|--------------------|-------3--|
+|-1---------------|----------------|-2------------------|----2-----|
+|-----2-----------|-------------4--|-----4--------------|-0--------|
+|-------------2---|---------4------|----------------4---|----------|
+|-----------------|--2-------------|--------------------|----------|
+
+		</pre>
+		</div>
+	</div>
+	<p><br></p>
+	<p>This is an example of the kind of tabs I scraped in previous work on country music, that can be found <a target = "_blank" href="/RiffCode/">here</a>. While the guitar tab may seem quite orderly, because the tabs are user-submitted, they can differ tab to tab. Also,  additional data, such as whether the guitar is <a target = "_blank" href="https://en.wikipedia.org/wiki/Palm_mute">palm-muted</a>, may often be ommited.</p>
+<p>Guitar tabs can be easily converted to sheet music since every fret on each string corresponds to a note. Different frets on diffrent strings can have the same note, so it is a many-to-one mapping, but if we restrict ourselves to the first 4 frets it is a one-to-one mapping. The image below may be helpful for understanding, above shows a guitar tablature, and below the corresponding sheet musical.</p>
+<p><br></p>
+<img src="/img/fretboard.gif" alt="fretboard" style="width:100%;">
+<p><br></p>
+<p>Guitar pro files are created using specialized software (Guitar Pro), which has a built-in MIDI-editor, so much of the fine data is both available and standardized, and, in general, more accurately resembles the song it is transcripting.</p>
+<p>To obtain the guitar pro files I scraped the website <a target = "_blank" href="https://ultimate-guitar.com">ultimate-guitar.com</a>, as it has the most comprehensive repository of guitar tabs on the internet. I scrape the the website for only 5-star rated tabs, and filter for guitar pro files, and choose remove duplicate songs (for example mutliple versions) by choosing the tabs with the most ratings. </p>
+<h3>Scraper to get all guitar pro files</h3>
+<div data-collapse>
+  <h4>See here &#9660;</h4>
+  <div>
+        <pre class="brush: python"># -*- coding: utf-8 -*-
+"""
+Created on July 30th
+@author: matt
+"""
+# = Import packages
+
+import requests
+import re
+from bs4 import BeautifulSoup
+import pandas as pd
+import cgi
+import shutil
+import os
+
+# = Helper Functions =========================================================
+
+def removeTags(string):
+    '''
+    Function to remove html tags
+    '''
+    return re.sub('<[^<]+?>', '', string)
+    
+
+def getBandTree(band, page):
+    '''
+    Function to get xml tree given the band name
+    '''    
+    if type(page) == int:
+        page = str(page)
+    theURL = 'https://www.ultimate-guitar.com/search.php?band_name=' + band + \
+        '&type%5B4%5D=500&rating%5B4%5D=5&approved%5B1%5D=1&page=' + page + \
+        '&view_state=advanced&tab_type_group=text&app_name=ugt&order=myweight'
+        
+    pageBand = requests.get(theURL)
+    return BeautifulSoup(pageBand.content)
+    
+
+def download_url(url, directory):
+    """Download file from url to directory
+
+    URL is expected to have a Content-Disposition header telling us what
+    filename to use.
+
+    Returns filename of downloaded file.
+
+    """
+    response = requests.get(url, stream=True)
+    if response.status_code != 200:
+        raise ValueError('Failed to download')
+
+    params = cgi.parse_header(
+        response.headers.get('Content-Disposition', ''))[-1]
+    if 'filename' not in params:
+        raise ValueError('Could not find a filename')
+
+    filename = re.sub('([\(\[]).*?([\)\]])', '', os.path.basename(params['filename']))
+    filename = re.sub(' ','', filename)
+    abs_path = os.path.join(directory, filename)
+    with open(abs_path, 'wb') as target:
+        response.raw.decode_content = True
+        shutil.copyfileobj(response.raw, target)
+
+    return filename
+
+# ============================================================================
+
+def main():
+    band = 'metallica'
+    page = 1
+    bandURL = getBandTree(band, page) 
+    #Get max pages
+    pages = bandURL.find_all('div', { "class" : "paging" })
+    maxPages = str(pages).count('</a>')
+    dfs = []
+    for page in range(1, maxPages + 1):
+        bandURL = getBandTree(band, page)
+        mybs = bandURL.find_all('b', { "class" : "ratdig" })
+        mybs2 = [removeTags(str(rating)) for rating in mybs]
+        songname = bandURL.find_all('a', { "class" : "song result-link" })
+        songname2 = [re.sub('([\(\[]).*?([\)\]])', '', removeTags(str(song)).strip()).strip() for song in songname]
+        tabType = bandURL.find_all('strong')
+        tabType2 = [removeTags(str(tab)) for tab in tabType]
+        df1 = pd.DataFrame({'Rating': mybs2, 'Type': tabType2})
+        df2 = df1[df1.Type == 'guitar pro']
+        df2.loc[:,'Song_Name'] = songname2
+        links = []
+        for a in songname:
+            links.append(a['href'])
+        df2.loc[:,'Song_Links'] = links
+        df3 = df2.loc[df2.groupby(['Song_Name'], sort=False)['Rating'].idxmax()]
+        dfs.append(df3)
+    tot_df = pd.concat(dfs)
+#    print(tot_df)
+    
+    song_links_list = list(tot_df.Song_Links)
+    for i in range(len(tot_df)):
+        webPage = requests.get(song_links_list[i])
+        soup = BeautifulSoup(webPage.content)
+        tab_id = soup.find_all("input", {"type" : "hidden", "name" : "id", "id" : "tab_id"})
+        the_id = tab_id[0].get('value')
+        mydir = os.path.dirname('out/' +band + '/')
+        if not os.path.exists(mydir):
+            os.makedirs(mydir)
+        download_url('https://tabs.ultimate-guitar.com/tabs/download?id='+str(the_id), mydir)
+    
+        
+if __name__=='__main__':
+    main() </pre>
+    </div>
+</div>
+<p>The scraper grabs 123 songs, which seems pretty good, since there are a total of <a target = "_blank" href="http://www.spin.com/2015/07/every-metallica-song-ranked/">151 songs</a> in Metallica's catalog. </p>
+
+
+
+
+            				<div class="left">
+              					<div class="container">
+                					<div class="sideText2">
+                  						<span class="line"></span>
+                  						<p></p>
+                					</div>
+              					</div>
+              					
+            				</div>   
+         				</div>
+         			  
+      			</article>
+      			<!-- End Resolution 2 -->
+    
+	  			<!-- Resolution 3 -->
+	  			<article id="three" style="background-color:#f7f7f7;">
+          			<div class="center">
+          				<p><br></p>
+        				<h2>Results</h2>
+              				<p><br></p>
+        				<p>I can use the same recurrent neural network to <a target = "_blank" href="/blog/RNNCountryLyrics">generate country music lyrics</a> that seems to work pretty well. To use this model the guitar pro files need to be in text file format. I do this by extracting all the pertinent information from the guitar pro files and write them to a txt file. This method has to be reversible since the neural network will output text in the same format.</p>
+<h3>Python script to convert guitar pro files to txt file</h3>
+<div data-collapse>
+      <h4>See here &#9660;</h4>
+    <div>
+        <pre class="brush: python">
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Jul 30 14:26:22 2016
+
+@author: matt-666
+"""
+# = Import packages
+
+import guitarpro
+from os import listdir
+
+# = Helper functions =========================================================
+
+def unfold_tracknumber(tracknumber, tracks):
+    """Substitute '*' with all track numbers except for percussion tracks."""
+    if tracknumber == '*':
+        for number, track in enumerate(tracks, start=1):
+            if not track.isPercussionTrack:
+                yield number
+    else:
+        yield tracknumber
+
+
+def transpose(myfile, track):
+    '''
+    Get pertinent information from guitar pro files and write to text file
+    '''
+    myfile.write("%s" % 'strgs: ' +' '.join([str(string) for string in track.strings]) + ' ')
+    myfile.write("%s" % 'fc: ' +str(track.fretCount) + ' ')
+    measure1 = track.measures[0]
+    myfile.write("%s" % str(measure1.keySignature) + ' ')  
+    myfile.write("%s" % 'len:' + str(measure1.length) + ' ') 
+    myfile.write("%s" % 'tmpo:' + str(measure1.tempo) + '\n')
+    i = 1
+    for measure in track.measures:
+        myfile.write("%s" % 'Num:' + str(i) + ' ')                 
+        myfile.write("%s" % 'mst:' + str(measure.start) + '\n') 
+        for voice in measure.voices:
+            for beat in voice.beats:
+                myfile.write("%s" % 'vst:' + str(beat.start) + '\n')
+                for note in beat.notes:
+                    myfile.write("%s" % 'S:' + str(note.string) + ' ')
+                    myfile.write("%s" % 'V:' + str(note.value) + '\n')
+        i += 1
+
+# =================================================================       
+
+def main():
+    
+    band = 'metallica'
+    mydir = 'out/' + band
+    files = listdir(mydir)
+    myfile = open('allTabs.txt', 'w')
+    for gpfile in files:
+        curl = guitarpro.parse(mydir + '/'+ gpfile)  
+        transpose(myfile, curl.tracks[0])
+        myfile.write('\n\r\n\r')
+    myfile.close()
+
+if __name__== '__main__':
+    main()</pre>   
+     </div>
+</div>
+<p>Now that all the guitar pro files are converted to one large text file it can be fed into the recurrent neural network. The model comes from Andrej Karpathy’s great <a target = "_blank"href="https://github.com/karpathy/char-rnn">char-rnn</a> library for Lua/Torch. Recurrent neural networks can use the output of the current node as the input for the next node.</p><p>The model takes a few days to run on my poor laptop with 400 nodes and 3 layers in the network, which corresponds to about 5 million parameters in the network.</p>
+<p>The output of the model is in the same text format of the input of the model. I take a guitar pro file and modify the measures, notes, and metadata. Creating a guitar pro file from scrtach in python is quite difficult due to the number of settings that have to be included in order to save the file properly, so this method was a compromise. </p>
+            			<div class="left"> 
+          				</div>   
+       				</div>    
+      			</article>
+     			<!-- End Resolution 3 -->
+      
+    			<!-- Resolution 4 -->
+    			<article id="four">
+    				<div style="position: relative;">
+      					<div class="center">  
+							<h2>Converting to Sheet Music</h2>
+              <p><br></p>
+              <p>The output of the model is in the same text format of the input of the model. I take a guitar pro file and modify the measures, notes, and metadata. Creating a guitar pro file from scrtach in python is quite difficult due to the number of settings that have to be included in order to save the file properly, so this method was a compromise. </p>
+<h3>Python script to convert txt to GP5 file</h3>
+<div data-collapse>
+      <h4>See here &#9660;</h4>
+ 
+    <div>
+      
+        <pre class="brush: python"># -*- coding: utf-8 -*-
+"""
+Created on Sat Aug  6 15:53:06 2016
+
+@author: matt-666
+"""
+# = Import packages
+
+import guitarpro
+import time
+
+# = Helper Functions ====================================================
+
+def transpose2GP5file(track, totaldict):
+    '''
+    Function to take an empty gp5 song and fill with song information
+    from dictionary generated from txt2songDict function
+    '''
+    meas = 1
+    breakMeas = Inf
+    for measure in track.measures:
+        #measure.keySignature = totaldict['measure_'+str(meas)]['key']
+        #measure.length = totaldict['measure_'+str(meas)]['mlen']
+        #measure.start = totaldict['measure_'+str(meas)]['mstart']
+        for voice in measure.voices:
+            try:
+                beats_list = totaldict['measure_'+str(meas)]['beats']
+                thebeat = 0 
+            except KeyError:
+                if meas < breakMeas:
+                    breakMeas = meas
+                break
+            for beat in voice.beats:
+                beat.start = beats_list[thebeat]
+                try:
+                    strings = totaldict['measure_'+str(meas)]['strings'+str(beats_list[thebeat])]
+                    realValues = totaldict['measure_'+str(meas)]['Notes'+str(beats_list[thebeat])]
+                except KeyError:
+                    break
+                notes = []
+                for string, realValue in zip(strings, realValues):
+                    #print(string)
+                    note = guitarpro.base.Note()
+                    note.string = string
+                    note.value = realValue
+                    print(meas, string, note.value)
+                    notes.append(note)
+                beat.notes = notes
+            thebeat += 1
+        meas += 1
+    track.measures = track.measures[:breakMeas-1]
+    return(track)
+
+# ================================================================================
+
+def main():
+    def txt2songDict(track):
+        '''
+        Read txt file and go through line by line
+        convert all information into dictionary of measures
+        '''
+        #    myfile =open('xyz.txt', 'r')
+        with open(track) as f:
+            total_dict = {}
+            measures_list = []
+            measNum = 0
+            measStart = 0
+            key = 'CMajor'
+            song_len = 3840
+            for line in f:
+                if line[:5] == 'strgs':
+                    
+                    fc1 = line.find('fc')
+                    try:                    
+                        strings = line[6:fc1].split()
+                    except ValueError:
+                        break
+                    key1 = line.find('Key')
+                    fc = line[fc1+4:key1]
+                    len1 = line.find('len')
+                    key = line[key1+13:len1-1]
+                    tempo1 = line.find('tmpo')
+                    song_len = line[len1+4:tempo1]
+                    try:
+                        tempo = line[tempo1+5:tempo1+7]
+                    except ValueError:
+                        tempo = line[tempo1+5:tempo1+6]
+                    init_dict = {}
+                    init_dict['tempo'] = tempo                                    
+                    gpStrings = [guitarpro.base.GuitarString(string) for string in strings]
+                    init_dict['string'] = gpStrings
+                    init_dict['fretCount'] = fc
+                    total_dict['init_dict'] = init_dict
+                elif line[:3] == 'Num':
+                    measStart1 = line.find('mst')
+                    if measNum > 0:
+                        total_dict['measure_'+str(measNum)]['beats'] = beats
+                    measNum += 1
+                    measStart += 3840
+                    meas_dict = {}
+                    meas_dict['key'] = key
+                    meas_dict['mlen'] = song_len
+                    meas_dict['mstart'] = measStart
+                    measures_list.append(meas_dict)  
+                    total_dict['measure_'+str(measNum)] = meas_dict
+                    beats = []
+               
+                elif line[:3] == 'vst':
+                    beatStart1 = measStart + 221820-int(line[4:11])
+                    beats.append(beatStart1)                
+                    strings = []
+                    notes = []
+                elif line[:1] == 'S':
+                    valStart = line.find('V')                
+                    string = int(line[2])
+                    realVal = int(line[valStart+2:valStart+5])
+                    strings.append(string)
+                    notes.append(realVal)
+                    total_dict['measure_'+str(measNum)]['strings' + str(beatStart1)] = strings
+                    total_dict['measure_'+str(measNum)]['Notes' + str(beatStart1)]= notes
+        return(total_dict)
+    
+    curl = guitarpro.parse('Serenade.gp5')
+    track = curl.tracks[0]
+    for measure in track.measures:
+        for voice in measure.voices:
+            for beat in voice.beats:
+                beat.notes = []       
+    curl.tracks[0] = track
+    
+    songDict = txt2songDict('genMetallica2.txt')
+    
+    track = curl.tracks[0]
+    track = transpose2GP5file(track, songDict)
+    curl.tracks[0] = track
+    curl.artist = 'R. N. Net'
+    curl.album = time.strftime("%d %B %Y")
+    curl.title = 'Metallica Style Song'
+    guitarpro.write(curl, 'genMetallica.gp5')
+    
+if __name__ == '__main__':
+    main() </pre>
+    </div>
+</div>
+<hr>
+<p><br></p>
+    <p>The model works well, with the training error decreasing as the model runs, and the validation error being slightly higher than the trtaining error, the sign of good model parameters. An example output of the model is shown below and can be played by hitting the play button, the tab is played using <a target= "_blank" href="http://www.alphatab.net/">AlphaTab</a>, that is able to play guitar pro files online. This example is an output consisting of 7000 characters and can be modified accordingly, ot seems that a whole song may consist of 15-20,000 characters in the text format the model requires, or about 70 musical measures. <b>Works best on google chrome!</b></p>
+    <p>The model is able to pick up on the song structure, and even <a target= "_blank" href="https://en.wikipedia.org/wiki/Power_chord">power chords</a>, which are often played in Metallica's music. Though the song is a little out-of-order we can see that it starts with a solo or interlude, and continues to a chorus or verse.</p> 
+<p><br></p>
+          					<div class="left">     	
+              					<div class="container">
+                					<div class="sideText3">
+                  						<span class="line"></span>
+                	  					<p></p>
+                					</div>
+              					</div>	   
+								
+         	 				</div>
+      					</div>
+    				</div>
+				</article>
+  				<!-- End Resolution 4 --> 
+  
+  				<!-- Resolution 5 --> 
+    			<article id="five" style="background-color:#f7f7f7;">
+      				<div class="center">      
+      					<p><br></p>
+          				<h2>Conclusion</h2>
+                  <p><br></p>
+          				<p>This model could be used to generate other original music in the style of other artists dependent on the input files, for example, pearl jam or nirvana songs could be used or even a combination of both to get songs in the style of 90's alternative. To take this even further guitar pro file exist for bass guitar, drum, and piano music, as well as lyrics, so it is conceivable that whole songs could be generated using this model. It would take a very long time though, scaling linearly with the size of the imput file. I would recommend having at least 75 songs to accurately train the model for the various characteristic features of the songs, especially if multiple artists are used, where common features may be more subtle.</p>
+    <p><big>For the meantime I'll be Master of puppets I’m pulling your strings. Twisting your mind and smashing your dreams.</big></p>
+          				<div class="left">
+							
+                  				
+          				</div>
+          				<div class="right">
+          				</div>
+      				</div>
+    			</article>
+  				<!-- End Resolution 5 --> 
+
+				<!-- Resolution 6 --> 
+    			<article id="six">
+      				<div class="center">  
+						<h2>Music</h2>
+						<nav>
+        <!-- /.container-fluid -->
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">
+              <img alt="alphaTab" src="support/alphaTab.png" />
+          </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <!-- Player controls -->
+          <ul class="nav navbar-nav">
+            <li><button id="playPause" disabled="disabled" class="btn btn-link navbar-btn glyphicon glyphicon-play"> Play</button></li>
+            <li><button id="stop"  disabled="disabled" class="btn btn-link navbar-btn glyphicon glyphicon-stop"> Stop</button></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <!-- Loading indicator for soundfont -->
+            <li id="soundFontProgressMenuItem">
+                <p class="navbar-text">SoundFont</p>
+                <div class="progress">
+                  <div class="progress-bar" id="soundFontProgress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                    0%
+                  </div>
+                </div>
+            </li>
+            <!-- Buttons for changing the layout -->
+            <!--<li class="active"><a href="#" id="page" data-layout="page" data-scrollmode="vertical">Page</a></li>
+            <li><a href="#" id="horizontalBarwise" data-layout="horizontal" data-scrollmode="horizontal-bar">Horizontal (Barwise)</a></li>
+            <li><a href="#" id="horizontalOffscreen" data-layout="horizontal" data-scrollmode="horizontal-offscreen">Horizontal (Offscreen)</a></li>-->
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    <div id="alphaTab" data-file="files/genMetallica2.gp5" data-tracks="0"></div>
+    
+    <script type="text/javascript">
+        var playerReady = false;
+        var playerState = 0;
+        var at = $('#alphaTab');
+        
+        //
+        // 1. Load alphaTab
+        at.alphaTab(); 
+        
+        // 
+        // 2. Initialize Player and Setup Player UI
+        var as = at.alphaTab('playerInit'); // init alphaSynth
+        
+        as.On('ready', function(r) {
+            // load default data
+            as.LoadSoundFontUrl('lib/alphaSynth/default.sf2');
+        });
+        as.On('soundFontLoad', function(loaded, full) {
+            var percentage = ((loaded / full) * 100)|0;
+            $('#soundFontProgress').css('width', percentage + '%').text(percentage + '%');
+        });
+        as.On('soundFontLoaded', function() {
+            $('#soundFontProgressMenuItem').hide();
+        });
+        as.On('readyForPlay', function(r) {
+            playerReady = r;
+            updateControls();
+        });
+        as.On('playerStateChanged', function(s) {
+            playerState = s;
+            updateControls();
+        });
+        
+        $('#playPause').click(function() { 
+            if(playerState == 1) {
+                as.Pause();
+            }
+            else {
+                as.Play();
+            }
+        });
+        $('#stop').click(function() { 
+            as.Stop(); 
+        });
+        
+        function updateControls() {
+            if(!playerReady) {
+                $('#loadingInfo').show()
+                $('#controls button').attr('disabled', 'disabled');
+            }
+            else {
+                $('#loadingInfo').hide()
+                $('#playPause').prop('disabled', false);
+                $('#stop').prop('disabled', false);
+                $('#playPause').removeAttr('disabled');
+                switch(playerState) {
+                    case 0: // stopped
+                    $('#playPause').removeClass('glyphicon-pause').addClass('glyphicon-play');
+                    break;
+                    case 1: // playing
+                    $('#playPause').removeClass('glyphicon-play').addClass('glyphicon-pause');
+                    $('#stop').removeAttr('disabled').removeClass('disabled');
+                    break;
+                    case 2: // paused
+                    $('#playPause').removeClass('glyphicon-pause').addClass('glyphicon-play');
+                    $('#stop').removeAttr('disabled').removeClass('disabled');
+                    break;
+                }
+            }
+        }     
+        
+        $('a[data-layout]').click(function(e) {
+            $('a[data-layout]').closest('li').removeClass('active');
+            $(this).closest('li').addClass('active');
+            
+            e.preventDefault();
+            
+            var layout = $(this).data('layout');
+            var scrollmode = $(this).data('scrollmode');
+            // update renderer
+            var renderer = at.alphaTab('renderer');
+            renderer.Settings.Layout.Mode = layout;
+            renderer.Invalidate();
+            
+            // update player
+            var cursorOptions = at.alphaTab('cursorOptions');
+            cursorOptions.autoScroll = scrollmode;
+            $('body,html').animate({
+                scrollTop: 0 
+            }, 300);
+
+            at.alphaTab('playerCursorUpdateBeat', cursorOptions.currentBeat);
+        });
+        
+        //
+        // 3. Add cursors (optional)
+        at.alphaTab('playerCursor'); 
+    
+    </script>
+    <p><br></p>
+<p><br></p>
+<p><br></p>
+						
+          				<div class="left">
+            				<p></p> 
+            				<div class="container">
+               					<div class="sideText5">
+                  					<span class="line"></span>
+                	 				<p></p>
+                				</div>
+            				</div>	
+      						<p></p>
+        				</div>
+          				<div class="right">
+        				</div> 
+       				</div>       
+    			</article>
+    			<!-- End Resolution 6 --> 
+
+				<!-- Resolution 7 -->  
+    			<article id="seven" style="background-color:#f7f7f7; padding-bottom: 0;">	 
+					<div class="center">
+						<p><br></p>
+          				<h2>Conclusion</h2>	
+          				<p>We can take this approach further, and use a naive-Bayes approach to generate our own country music lyrics. By taking a word, we can use the nested dictionary to see what likely words follow that word. We can continue this until we get one lyric, which consists of 8-10 words. Typically, a chorus or verse consists of 4-6 lyrics. From this we can create a song. This process is similar to <a target="_blank" href="https://en.wikipedia.org/wiki/Markov_chain">Markov chains</a>, a random mathematical system in which the outcome of a state is based on the current state a system is in, and not the one that came before it. Here, the predictive text generator will only offer suggestions based on the last word entered. However this process differs from Markov chains, in that the user has to enter a word to begin with, or a random one is generated from the dictionary. </p>
+            <p><br></p>
+						<p><br></p>
+					         				<div style="clear:both;"></div>	
+          				
+      				</div>   	
+    			</article>
+  				<!-- End Resolution 7 --> 
+  	
+				<!-- Resolution 8 -->  
+    			<article id="eight">
+      				<div class="center">	
+              			<h2></h2>	     
+              			<div class="left"> 	
+                			<div class="container">
+                				<div class="sideText4">
+                  					<span class="line"></span>
+                		  			<p></p>
+                				</div>
+              				</div>	  
+      						<p></p>
+            			</div>
+              			<div class="right">
+              			</div>  
+              			<div style="clear: both;"></div>
+                     </div> 
+              		 <div class="center">
+              		</div>  	
+    			</article>
+  				<!-- End Resolution 8 --> 
+	
+    			<!-- Resolution 9-->      
+    			<article id="forecast" style=" display: block; margin-bottom: 0px; ">
+      					<div class="center"> 
+              				<h2>Other Projects</h2>        
+              				<p><br></p>
+              				<p><br></p>
+              				<p><br></p>
+              				<p><br></p>
+              				<p><br></p>
+              				<p><br></p>
+              				<p><br></p>
+              				<p><br></p>
+              				<p class style="font-style: italic; margin-bottom: 33px;">
+      					</div>
+      				
+    			</article>
+    			<!-- End Resolution 9 --> 
+              
+        	</div> <!--extra wrapper-->
+         	<footer class="text-center">
+        <div class="footer-below">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h4>Matthew Moocarme - moocarme@gmail.com</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    	</div><!-- end wrapper -->
+ 	<script type="text/javascript" src="//munchkin.marketo.net//munchkin-beta.js"></script><script>Munchkin.init('062-HAC-076', {customName: 'past-forward-2016', wsInfo: 'j1RR'});</script>
+ 	</body>
+
+
+<style>
+#mktoForm_375 {
+    width: auto!important;
+}
+</style>
+<script type="text/javascript">
+     SyntaxHighlighter.all()
+</script>
+<script>
+$(document).ready(function() {
+  
+    
+  
+	var sections = $('article'), 
+        nav = $('nav'), 
+        nav_height = nav.outerHeight();
+ 
+	$(window).on('scroll', function () {
+
+  		var cur_pos = $(this).scrollTop();
+ 
+  		sections.each(function() {
+    	var top = $(this).offset().top - nav_height,
+        bottom = top + $(this).outerHeight();
+ 
+    	if (cur_pos >= top && cur_pos <= bottom) {
+      		nav.find('a').removeClass('active');
+      		sections.removeClass('active');
+ 
+      		$(this).addClass('active');
+      		nav.find('a[href="/examples/SmoothPageScroll/#'+$(this).attr('id')+'"]').addClass('active');
+    	}
+  		});
+      
+      	if ($('#one .left').isOnScreen()) {
+    		var wScroll = $(this).scrollTop();
+          	var $sideText1 = $('.sideText1');
+            var containerScroll = wScroll - $sideText1.parent().offset().top + 1000;
+      		$sideText1.css({
+       			'transform' : 'translate(0px, +'+ containerScroll/10 +'%)' 
+      		});  
+      	}
+      	
+      	if ($('#two .left').isOnScreen()) {
+    		var wScroll = $(this).scrollTop();
+          	var $sideText2 = $('.sideText2');
+          	var containerScroll2 = wScroll - $sideText2.parent().offset().top + 1000;
+      		$sideText2.css({
+       			'transform' : 'translate(0px, +'+ containerScroll2/10 +'%)' 
+      		});  
+      	}
+      	
+      	 if ($('#four .left').isOnScreen()) {
+    		var wScroll = $(this).scrollTop();
+          	var $sideText3 = $('.sideText3');
+          	var containerScroll3 = wScroll - $sideText3.parent().offset().top + 1000;
+      		$sideText3.css({
+       			'transform' : 'translate(0px, +'+ containerScroll3/10 +'%)' 
+      		});  
+      	}
+      
+      	if ($('#eight .left').isOnScreen()) {
+    		var wScroll = $(this).scrollTop();
+          	var $sideText4 = $('.sideText4');
+          	var containerScroll4 = wScroll - $sideText4.parent().offset().top + 1000;
+      		$sideText4.css({
+       			'transform' : 'translate(0px, +'+ containerScroll4/10 +'%)' 
+      		});  
+      	}
+      
+      	if ($('#six .left').isOnScreen()) {
+    		var wScroll = $(this).scrollTop();
+          	var $sideText5 = $('.sideText5');
+          	var containerScroll5 = wScroll - $sideText5.parent().offset().top + 1000;
+      		$sideText5.css({
+       			'transform' : 'translate(0px, +'+ containerScroll5/10 +'%)' 
+      		});  
+      	}
+      
+      	/** Measures the height of hero then nav bar appears after it **/
+      	var heroHeight = $('.hero').height();
+      
+      	if ($(this).scrollTop() > heroHeight) {
+          $('.nav-toggle').addClass('show');
+        } else {
+           $('.nav-toggle').removeClass('show');
+        }
+
+      	/** For Desktop Nav only (from 1170px wide) **/
+      	if ($(this).scrollTop() > heroHeight){ 
+    		$('#desktopNav').addClass('fixedElement'); 
+  		} else {
+    		$('#desktopNav').removeClass('fixedElement'); 
+  		}	
+	});  
+  
+  	/**** Smooth Scrolling ****/
+	$('a[href*=#]:not([href=#])').click(function() {
+    	if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') 
+        	|| location.hostname == this.hostname) {
+
+        	var target = $(this.hash);
+        	target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+           	if (target.length) {
+            	$('html,body').animate({
+                	scrollTop: target.offset().top
+            	}, 1000);
+            	return false;
+        	}
+    	}
+	});
+  	
+  	
+}); 
+
+  
+  /*** Navigation menu toggle ***/
+  $('.nav-toggle').on('click', function(){
+    $('.wrapper').toggleClass('open');
+    $('.main-navigation-left').toggleClass('open');
+    $('.nav-toggle').toggleClass('open');
+  });
+  
+  /*Desktop Fixed Nav*/
+  var stickyTop = $('#desktopNav').offset().top;
+  
+  
+  /** Function to see when a div is in view **/
+  $.fn.isOnScreen = function(){
+    var win = $(window);
+    var viewport = {
+        top : win.scrollTop(),
+        left : win.scrollLeft()
+    };
+    
+    viewport.right = viewport.left + win.width();
+    viewport.bottom = viewport.top + win.height();
+    
+    var bounds = this.offset();
+    bounds.right = bounds.left + this.outerWidth();
+    bounds.bottom = bounds.top + this.outerHeight();
+    
+    return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
+  };
+</script></html>
