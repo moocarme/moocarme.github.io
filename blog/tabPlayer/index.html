@@ -47,6 +47,14 @@
     <!-- alphaSynth Plugin -->
     <script type="text/javascript" src="lib/alphaTab/jquery.alphaTab.alphaSynth.js"></script>
     
+
+	<script type="text/javascript" src="/js/shCore.js"></script>
+	<script type="text/javascript" src="/js/shBrushPython.js"></script>
+	<script type="text/javascript" src="/js/shBrushSql.js"></script>
+	<script type="text/javascript" src="/js/shBrushPlain.js"></script>
+	<link href="/css/shCore.css" rel="stylesheet" type="text/css" />
+	<link href="/css/shThemeDefault.css" rel="stylesheet" type="text/css" />
+
     <!-- Demo Styles and Scripts -->
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
@@ -223,14 +231,14 @@ height:312px;
 <h3>Guitar tablature Example</h3>
 <div class="panel-group">
       <h2 class="panel-title">
-        <a data-toggle="collapse" href="#collapse_guitartab"><p>See here</p></a>
+        <a data-toggle="collapse" href="#collapse_guitartab"><p>See here &#9660;</p></a>
       </h2>
  
     <div id="collapse_guitartab" class="panel-collapse collapse">
       
 
         <p>Below is an example of typical guitar tablature from ultimate-guitar.com</p>
-        <pre class="python"><code>Band- Metallica
+        <pre class="brush: plain">Band- Metallica
 Song- TuesdAYS gONE
 
   A5                   E5                   F#5                   D
@@ -310,7 +318,7 @@ Gtr IV (Eb Ab Db Gb Bb Eb) - 'acoustic'
 |-------------2---|---------4------|----------------4---|----------|
 |-----------------|--2-------------|--------------------|----------|
 
-        </code></pre>
+        </pre>
     </div>
 </div>
 <p>This is an example of the kind of tabs I scraped in previous work on country music, that can be found <a target = "_blank" href="/RiffCode/">here</a>. While the guitar tab may seem quite orderly, because the tabs are user-submitted, they can differ tab to tab. Also,  additional data, such as whether the guitar is <a target = "_blank" href="https://en.wikipedia.org/wiki/Palm_mute">palm-muted</a>, may often be ommited.</p>
@@ -323,11 +331,11 @@ Gtr IV (Eb Ab Db Gb Bb Eb) - 'acoustic'
 <h3>Scraper to get all guitar pro files</h3>
 <div class="panel-group">
       <h2 class="panel-title">
-        <a data-toggle="collapse" href="#collapse_gtab"><p>See here</p></a>
+        <a data-toggle="collapse" href="#collapse_gtab"><p>See here &#9660;</p></a>
       </h2>
     <div id="collapse_gtab" class="panel-collapse collapse">
         <p>Below is an python script of grabbing guitar pro files from ultimate-guitar.com.</p>
-        <pre class="python"><code># -*- coding: utf-8 -*-
+        <pre class="brush: python"># -*- coding: utf-8 -*-
 """
 Created on July 30th
 @author: matt
@@ -435,19 +443,19 @@ def main():
     
         
 if __name__=='__main__':
-    main() </code></pre>
+    main() </pre>
     </div>
 </div>
-<p>The scraper grabs 123 songs, which seems pretty good, since there are a total of <a href="http://www.spin.com/2015/07/every-metallica-song-ranked/">151 songs</a> in Metallica's catalog. </p>
-<p>I can use the same recurrent neural network to <a href="/blog/RNNCountryLyrics">generate country music lyrics</a> that seems to work pretty well. To use this model the guitar pro files need to be in text file format. I do this by extracting all the pertinent information from the guitar pro files and write them to a txt file. This method has to be reversible since the neural network will output text in the same format.</p>
+<p>The scraper grabs 123 songs, which seems pretty good, since there are a total of <a target = "_blank" href="http://www.spin.com/2015/07/every-metallica-song-ranked/">151 songs</a> in Metallica's catalog. </p>
+<p>I can use the same recurrent neural network to <a target = "_blank" href="/blog/RNNCountryLyrics">generate country music lyrics</a> that seems to work pretty well. To use this model the guitar pro files need to be in text file format. I do this by extracting all the pertinent information from the guitar pro files and write them to a txt file. This method has to be reversible since the neural network will output text in the same format.</p>
 <h3>Python script to convert guitar pro files to txt file</h3>
 <div class="panel-group">
       <h2 class="panel-title">
-        <a data-toggle="collapse" href="#collapse_GP2txt"><p>See here</p></a>
+        <a data-toggle="collapse" href="#collapse_GP2txt"><p>See here &#9660;</p></a>
       </h2>
     <div id="collapse_GP2txt" class="panel-collapse collapse">
         <p>Below is an python script of how guitar pro files are converted to a txt file for the neural network to read.</p>
-        <pre class="python"><code>
+        <pre class="brush: python">
 # -*- coding: utf-8 -*-
 """
 Created on Sat Jul 30 14:26:22 2016
@@ -508,21 +516,21 @@ def main():
     myfile.close()
 
 if __name__== '__main__':
-    main()</code></pre>    </div>
+    main()</pre>    </div>
 </div>
 <p>Now that all the guitar pro files are converted to one large text file it can be fed into the recurrent neural network. The model comes from Andrej Karpathy’s great <a target = "_blank" href="https://github.com/karpathy/char-rnn">char-rnn</a> library for Lua/Torch. Recurrent neural networks can use the output of the current node as the input for the next node.</p><p>The model takes a few days to run on my poor laptop with 400 nodes and 3 layers in the network, which corresponds to about 5 million parameters in the network.</p>
 <p>The output of the model is in the same text format of the input of the model. I take a guitar pro file and modify the measures, notes, and metadata. Creating a guitar pro file from scrtach in python is quite difficult due to the number of settings that have to be included in order to save the file properly, so this method was a compromise. </p>
 <h3>Python script to convert txt to GP5 file</h3>
 <div class="panel-group">
       <h2 class="panel-title">
-        <a data-toggle="collapse" href="#collapse_txt2GP"><p>See here</p></a>
+        <a data-toggle="collapse" href="#collapse_txt2GP"><p>See here &#9660;</p></a>
       </h2>
  
     <div id="collapse_txt2GP" class="panel-collapse collapse">
       
 
         <p>Below is an python script of how txt is converted back to guitar pro files.</p>
-        <pre class="python"><code># -*- coding: utf-8 -*-
+        <pre class="brush: python"># -*- coding: utf-8 -*-
 """
 Created on Sat Aug  6 15:53:06 2016
 
@@ -663,13 +671,13 @@ def main():
     guitarpro.write(curl, 'genMetallica.gp5')
     
 if __name__ == '__main__':
-    main() </code></pre>
+    main() </pre>
     </div>
 </div>
 <hr>
 <h2>Results</h2>
-    <p>The model works well, with the training error decreasing as the model runs, and the validation error being slightly higher than the trtaining error, the sign of good model parameters. An example output of the model is shown below and can be played by hitting the play button, the tab is played using <a href="http://www.alphatab.net/">AlphaTab</a>, that is able to play guitar pro files online. This example is an output consisting of 7000 characters and can be modified accordingly, ot seems that a whole song may consist of 15-20,000 characters in the text format the model requires, or about 70 musical measures. <b>Works best on google chrome!</b></p>
-    <p>The model is able to pick up on the song structure, and even <a href="https://en.wikipedia.org/wiki/Power_chord">power chords</a>, which are often played in Metallica's music. Though the song is a little out-of-order we can see that it starts with a solo or interlude, and continues to a chorus or verse.</p> 
+    <p>The model works well, with the training error decreasing as the model runs, and the validation error being slightly higher than the trtaining error, the sign of good model parameters. An example output of the model is shown below and can be played by hitting the play button, the tab is played using <a target = "_blank" href="http://www.alphatab.net/">AlphaTab</a>, that is able to play guitar pro files online. This example is an output consisting of 7000 characters and can be modified accordingly, ot seems that a whole song may consist of 15-20,000 characters in the text format the model requires, or about 70 musical measures. <b>Works best on google chrome!</b></p>
+    <p>The model is able to pick up on the song structure, and even <a target = "_blank"  href="https://en.wikipedia.org/wiki/Power_chord">power chords</a>, which are often played in Metallica's music. Though the song is a little out-of-order we can see that it starts with a solo or interlude, and continues to a chorus or verse.</p> 
     <p>This model could be used to generate other original music in the style of other artists dependent on the input files, for example, pearl jam or nirvana songs could be used or even a combination of both to get songs in the style of 90's alternative. To take this even further guitar pro file exist for bass guitar, drum, and piano music, as well as lyrics, so it is conceivable that whole songs could be generated using this model. It would take a very long time though, scaling linearly with the size of the imput file. I would recommend having at least 75 songs to accurately train the model for the various characteristic features of the songs, especially if multiple artists are used, where common features may be more subtle.</p>
     <p><big>For the meantime I'll be Master of puppets I’m pulling your strings. Twisting your mind and smashing your dreams.</big></p>
     <p><br></p>
@@ -732,7 +740,9 @@ if __name__ == '__main__':
     </nav>
     
     <div id="alphaTab" data-file="files/genMetallica2.gp5" data-tracks="0"></div>
-    
+    <script type="text/javascript">
+	     SyntaxHighlighter.all()
+	</script>
     <script type="text/javascript">
         var playerReady = false;
         var playerState = 0;
