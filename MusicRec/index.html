@@ -3,6 +3,7 @@
     <head>
   	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 		<script src="/js/jquery.collapse.js"></script>
+    
 		<script type="text/javascript" src="/js/shCore.js"></script>
 		<script type="text/javascript" src="/js/shBrushPython.js"></script>
 		<script type="text/javascript" src="/js/shBrushSql.js"></script>
@@ -400,6 +401,13 @@ p, .container .sideText5 p {
  #bootstrap-overrides  hr.star-light:after {
 background-color: white;
 color: #2C3E50;}
+#bootstrap-overrides div.post-overlay-header{
+  display:inline-block;
+margin-left:30px;
+margin-right:auto;
+width:400px;
+height:312px;
+}
 canvas {
     padding-left: 0;
     padding-right: 0;
@@ -435,7 +443,7 @@ canvas {
                           <li><a href="/examples/SmoothPageScroll/#six">Recommending Songs Based on Metadata</a></li>
                           <!--<li><a href="/examples/SmoothPageScroll/#seven">Emailing Results and Scheduling the Model</a></li>-->
                           <li><a href="/examples/SmoothPageScroll/#eight">Conclusion</a></li>
-                          <li><a href="/examples/SmoothPageScroll/#forecast">Other Projects</a></li>
+                          <li><a href="/examples/SmoothPageScroll/#forecast">Related Projects</a></li>
                       </ul>
                     </li>
 
@@ -1231,11 +1239,32 @@ upbeatSongs<- function(user){
     			<!-- Resolution 9-->      
     			<article id="forecast" style=" display: block; margin-bottom: 0px; ">
       					<div class="center"> 
-              				<h2>Other Projects</h2>        
+              				
               				<p><br></p>
-              				<p><big>For more similar projects check out my blog posts on <a href="/blog/Spark-Music-Rec/">predicting song listens with Apache Spark</a>, <a href="/blog/Ultimate-Playlist-Title/">what makes the ultimate playlist title</a>, and <a href="/blog/Two-Listeners/">the two types of music streamers</a>.</big></p>
+                      <h2>Related Projects</h2>
+                      <p><br></p>
+                      <div id="twoimages" style = "display:inline-block;">
+                      <div class="post-overlay-header" style="background-image: url(/img/playlist.png);background-position: center; background-size: 600px ;">
+                                <div class="post-overlay-header-title">
+                                  <h1 class="post-title">
+                                    <a href="/blog/Ultimate-Playlist-Title/">
+                                      The Ulimate Playlist Title
+                                    </a>
+                                  </h1>       
+                                </div>
+                              </div>
 
-              				<p><br></p>
+                              <div class="post-overlay-header" style="background-image: url(/img/two-listeners.jpg); background-position: center; background-size: 600px ;">
+                                <div class="post-overlay-header-title">
+                                  <h1 class="post-title">
+                                    <a href="/blog/Two-Listeners/">
+                                      Two Types of Music Streamer
+                                    </a>
+                                  </h1>
+                                </div>
+                              </div>
+
+                      </div>  
               				<p><br></p>
               				<p><br></p>
               				<p><br></p>
