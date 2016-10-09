@@ -426,6 +426,7 @@ var myChart = new Chart(ctx, {
             }
     ]},
     options: {
+      responsive: false,
     	title: {
             display: true,
             text: 'Cumulative Distribution Function',
