@@ -11,7 +11,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-      	
+
     <title>Using Google Trends to Predict Stock Market Returns</title>
     <link rel="icon" type="image/png" href="/img/profile.png">
     <link rel="stylesheet" href="../style.css">
@@ -28,412 +28,196 @@
 
     <script type="text/javascript" src="//use.typekit.net/sjt4iho.js"></script>
  		<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-      
+
       	<script src="../node_modules/chart.js/dist/Chart.js"></script>
 		<script src="../js/jquery-1.11.0.js"></script>
 
-		
-      	<style> 
-        /***** BASE STYLES *****/ 
-        
-        code {
-      		  color: inherit;
-      		  background-color: rgba(0, 0, 0, 0.04);
-      		}
-		 pre:not([class]) {
-		    background-color: white;
-		  }
-        blockquote {
-          font-size: 21px;  
-          margin: 90px 0 90px 0; 
-          font-family: proxima-nova,proxima-nova,'proxima nova','helvetica neue',helvetica,sans-serif
-        }
 
-        cite {
-          display: block;
-          text-align: right;
-          margin-top: 15px;
-        }
+    <style>
+    /***** BASE STYLES *****/
 
-        .firstcharacter { 
-          float: left; 
-          font-size: 54px; 
-          line-height: 60px;  
-          padding-right: 7px;  
-        }  
+    code {
+        color: inherit;
+        background-color: rgba(0, 0, 0, 0.04);
+      }
+ pre:not([class]) {
+    background-color: white;
+  }
 
-        .fa {
-          cursor: pointer;
-        }  
+    .fa {
+      cursor: pointer;
+    }
 
-        /** Navigation **/ 
-          .main-navigation, .nav-toggle  {
-            display: none;
-          }
+    nav ul li a {
+      font-family: Lato, proxima-nova,proxima-nova,'proxima nova','helvetica neue',helvetica,sans-serif;
+      color: #E8E8E8;
+      text-decoration: none;
+      transition: color 0.1s;
+      letter-spacing: 1px;
+    }
 
-          #desktopNav	{
-            position: absolute;
-            height: 100%;
-            background-color: #233140;
-            top: 0;
-            left: 0;
-            z-index: 9999;
-            width: 230px;
-          }
+    nav ul li a:hover {
+      color: #B82601;
+    }
+     #bootstrap-overrides  .nav-toggle.show {
+        height: 50px;
+        transform: translateY(0%);
+        transition: transform 0.9s ease;
+      }
 
-          #desktopNav.fixedElement {
-            position: fixed;
-            height: 100%;
-            top: 0;
-            left: 0;
-          } 
+     #bootstrap-overrides  .main-navigation {
+        position: fixed;
+        top: 0;
+        left:0;
+        width: 270px;
+        height: 100%;
+        background: rgba(29, 55, 69, 0.9);
+      }
+
+    .center {
+      max-width: 1170px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .img-center{
+      margin-left: 115px;
+      margin-top: 40px;
+      margin-bottom: 40px;
+    }
+
+    .wrapper {
+      margin-left: 230px;
+    }
+
+    /** Exeptions **/
+    article#one {
+        margin-bottom: 50px;
+        padding: 0;
+    }
+
+    article#two {
+        padding-top: 0
+    }
+
+    article#four h2 {
+        margin-top:.5em;
+    }
+
+    article#eight .quote {
+        margin-top: 30px 0 75px 0;
+    }
+
+    article#eight .center .left, article#six .center .left {
+        margin-right: 5%;
+    }
+
+    article#eight .right, article#six .right {
+        width: 45%;
+    }
+
+    article#eight .right img, article#six .right img {
+        width: 100%;
+    }
+
+    /*** Footer ***/
+      footer {
+        background-color: #1D3745;
+        width: 100%;
+        position: absolute;
+        z-index: 9999;
+        bottom: -70px;
+      }
+
+       footer p {
+        float: left;
+      }
+
+      .mktoForm {
+        width: auto!important;
+      }
 
 
-        nav ul li a {
-          font-family: proxima-nova,proxima-nova,'proxima nova','helvetica neue',helvetica,sans-serif;
-          color: #E8E8E8;
-          text-decoration: none;
-          transition: color 0.3s;
-          letter-spacing: 1px;
-        } 
-
-        nav ul li a:hover {
-          color: #C7C7C7;
-        } 
-
-         .secondUL li {
-            padding: 10px 10px 0 0;
-          }
-
-          .navHeadline {
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600; 
-            color: #4C91B8;
-          }
-
-        .navSection {
-            margin-bottom: 20px;
-          } 
-
-          .nav-toggle {
-            transform: translateY(-100%);
-            overflow: hidden;
-            height: 50px;
-            background: rgba(29, 55, 69, 0.9);
-            transition: transform 0.9s ease;
-            color: #E9A857;
-            font-size: 20px;
-          } 
-
-         #bootstrap-overrides  .nav-toggle.show {
-            height: 50px;
-            transform: translateY(0%);
-            transition: transform 0.9s ease;
-          }
-
-         #bootstrap-overrides  .main-navigation {
-            position: fixed;
-            top: 0;
-            left:0; 
-            width: 270px;
-            height: 100%;
-            background: rgba(29, 55, 69, 0.9);
-          }
-
-        
-
-        
-
+      /***** Desktop Small *****/
+      @media screen and (max-width: 1441px) {
         .center {
-          max-width: 1170px;
-          margin: 0 auto;
-          position: relative;
+            max-width: 970px;
         }
-        .img-center{
-          margin-left: 115px;
-          margin-top: 40px;
-          margin-bottom: 40px;
+        .container .sideText1, .container .sideText2, .container .sideText3, .container .sideText4, .container .sideText5 {
+          margin-left: 60px;
+          margin-right: auto;
         }
 
-        .wrapper {
-          margin-left: 230px;
-        } 	  
-          
-        .left {
-          width: 50%;
-          float:left;
-        }
-
-        .right {
-          position: relative; 
-          float:left;
-          width: 50%;
-        }  
-
-        .introLetterDiv, .outroLetterDiv {
-            background-color: #fff; 
-            padding: 70px;  
-            text-align: left; 
-            max-width: 600px; 
-            margin: 0 auto;
-        }
-
-        .introLetterDiv h3 {
-            font-size: 21px;
-            font-weight: 400;
-            margin-bottom: 35px;
-            margin-top: -20px;
-        }
-
-        .introLetterDiv .signature {
-            text-align: right;
-        } 
-
-        .introLetterDiv .signatureBox {
-            text-align: center;
-            display: inline-block;
-        } 
-
-        .introLetterDiv p, .outroLetterDiv p {
-          max-width: 600px;
-          margin-left: 0;
-        } 
-
-        .main_title {
-          text-align: center;
-        }  
-
-        .letterOrange {
-          width: 85px; 
-          height:7px; 
-          display: block; 
-          background-color: #E9A857; 
-          margin:40px 0;" 
-        } 
-
-        .firstOrangeBar {
-            background-color: #E9A857;
-            display: block; 
-            height: 254px; 
-            width: 27px;
-        }
-
-        .headerThree h2 {
-          margin-top: 30px;
-          display: inline-block;
-          width: 450px;
-          vertical-align: top;
-        }
-
-        #three .thickOrangeLine {
-          position: absolute;
-          top: 160px;
-        }
-
-        .bulkUpImage {
-          margin-left: 22%; 
-        }
-
-        .nasties {
-           width: 60%;
-           position: absolute;
-           top: 50px;
-        }
-
-        .badHabbit {
-          width: 300px;
-          line-height: 94px;
-          display: inline-block;
-          margin-top: 0.83em;
-        }  
-
-        .thickOrangeLine { 
-          width: 82px; 
-          height: 27px; 
-          background-color: #E9A857; 
-          position: absolute;
-          top: 50px;
-        }
-
-        .learnMobile {
-            display: none;
-        }
-
-        
-
-        /** Exeptions **/
-        article#one {
-            margin-bottom: 50px;
-          	padding: 0;
-        }
-          
-        article#two {
-            padding-top: 0
-        } 
-          
-        article#four h2 {
-            margin-top:.5em;
-        } 
-          
-        article#eight .quote {
-            margin-top: 30px 0 75px 0;
-        } 
-          
-        article#eight .center .left, article#six .center .left {
-            margin-right: 5%;
-        } 
-          
-        article#eight .right, article#six .right {
-            width: 45%;
-        }
-          
-        article#eight .right img, article#six .right img {
-            width: 100%;
-        }  
-
-        /*** Footer ***/
-          footer {
-            background-color: #1D3745; 
-            width: 100%; 
-            position: absolute; 
-            z-index: 9999; 
-            bottom: -70px;
-          } 
-          
-           footer p {
-            float: left;
-          }
-
-          .mktoForm {
-            width: auto!important;
-          }
-
-          .bulkUpImage {
-          	width: 46%;
-          }	
-          
-          /***** Desktop Small *****/
-          @media screen and (max-width: 1441px) {
-
-            .center {
-                max-width: 970px;
-            }
-
-            .nasties {
-              top: 165px;
-              width: 60%;
-            }
-
-            .container .sideText1, .container .sideText2, .container .sideText3, .container .sideText4, .container .sideText5 {
-              margin-left: 60px;
-              margin-right: auto;
-            }
-
-            .container .sideText1 p, 
-.container .sideText2 p, .container .sideText3 p, .container .sideText4 
+        .container .sideText1 p,
+.container .sideText2 p, .container .sideText3 p, .container .sideText4
 p, .container .sideText5 p {
-              margin-left: 0;
-            }
-
-            .thickOrangeLine {
-              display: none;
-              top: 30px;
-              width: 43px;
-            }
-
-            .bulkUpImage {
-              width: 65%;
-            }
-          }  
-
-          @media screen and (max-width: 1225px) {
-            .center {
-              max-width: 870px;
-            }
-
-            .bulkUpImage {
-              width: 78%;
-            }
-          }
-
-          @media screen and (max-width: 1170px) {
-            .center {
-              max-width: 770px;
-            }
-
-            footer {
-              display: none;
-            }
-
-            .bulkUpImage { 
-              width: 100%;
-              margin-left: 10%;
-            }
-          }   
-
-          @media screen and (max-width: 1024px) {
-
-            .learnDesktop {
-              right: -155px
-            }
-
-            .center {
-              max-width: 670px;
-            }
-          }  
-
-        
-
-          
-        </style>
+          margin-left: 0;
+        }
+      }
+      @media screen and (max-width: 1225px) {
+        .center {
+          max-width: 870px;
+        }
+      }
+      @media screen and (max-width: 1170px) {
+        .center {
+          max-width: 770px;
+        }
+        footer {
+          display: none;
+        }
+      }
+      @media screen and (max-width: 1024px) {
+        .center {
+          max-width: 670px;
+        }
+      }
+    </style>
 
 
 <style>.mktoGen.mktoImg {display:inline-block; line-height:0;}</style>
-  	</head>
-  	<body id="bootstrap-overrides">
-<style type="text/css"> 
-#bootstrap-overrides hr.star-light {  
-  border-color: #18BC9C;
-	margin-left: auto;
-    margin-right: auto;}
- #bootstrap-overrides  hr.star-light:after {
-background-color: white;
-color: #2C3E50;}
+</head>
+<body id="bootstrap-overrides">
+<style type="text/css">
+#bootstrap-overrides hr.star-light {
+border-color: #000000;
+margin-left: auto;
+margin-right: auto;}
+
 #bootstrap-overrides div.post-overlay-header{
-  display:inline-block;
+display:inline-block;
 margin-left:30px;
 margin-right:auto;
-width:400px;
+width:350px;
 height:312px;
+
 }
 canvas {
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    width: 90px;
+padding-left: 0;
+padding-right: 0;
+margin-left: auto;
+margin-right: auto;
+display: block;
+width: 90px;
 }
 </style>
   	</body>
 	<body class="layout" id="bodyId">
-      	
-		<div class="extraWrapper" style="position:relative;">	
+
+		<div class="extraWrapper" style="position:relative;">
 			<!-- DESKTOP FIXED NAV -->
          	<div id="desktopNav">
             <div style="position: relative; height: 100%;">
                <nav>
-                  <ul class="firstUL">	
+                  <ul class="firstUL">
                     <br>
-                    <li class="navSection"><span class="navHeadline"><a style="color: #4C91B8;" href="/">Home</a></span>
-                      <ul class="secondUL"> 
+                    <li class="navSection"><span class="navHeadline"><a style="color: #B82601;" href="/">Home</a></span>
+                      <ul class="secondUL">
                           <li><a href="/#portfolio">Portfolio</a></li>
                           <li><a href="/blog/">Blog</a></li>
                       </ul>
                     </li>
                     <li class="navSection"><span class="navHeadline">Contents</span>
-                      <ul class="secondUL">	
+                      <ul class="secondUL">
                           <li><a href="/examples/SmoothPageScroll/#one">Goal</a></li>
                           <li><a href="/examples/SmoothPageScroll/#two">Results</a></li>
                           <li><a href="/examples/SmoothPageScroll/#three">Model Details</a></li>
@@ -446,8 +230,8 @@ canvas {
                       </ul>
                     </li>
 
-                  </ul> 
-              </nav> 
+                  </ul>
+              </nav>
             </div>
           	</div>
 	<div class="wrapper" id="header">
@@ -466,15 +250,15 @@ canvas {
                       <p>Stock market prices vary according to the <a target ="_blank" href="http://www.wsj.com/articles/the-tesla-effect-elon-musks-tweet-saps-samsungs-battery-1465384221">court of public opinion</a>. With this knowledge my goal is to build a trading simulator that incorporate internet-generated sentiment to a better forecast stock market returns using a time-series model based on <a target ="_blank" href="https://en.wikipedia.org/wiki/Autoregressive_integrated_moving_average">ARIMA</a> and <a target ="_blank" href="https://en.wikipedia.org/wiki/Autoregressive_conditional_heteroskedasticity">GARCH</a> models.</p>
               			</div>
               			<div class="left"></div>
-      				</div>  
-    			</article>  
+      				</div>
+    			</article>
     			<!-- End Resolution 1 -->
-    
+
 				<!-- Resolution 2 -->
-				<article id="two">  
-          			
-         	 			<div class="center">    
-            				<h2>Results</h2>  
+				<article id="two">
+
+         	 			<div class="center">
+            				<h2>Results</h2>
 								<p>Overall I found good results and the model ran in about 29% of the time when the signals (google trend and news sentiments) are incorporated to the ARIMA-GARCH model compared to without. </p>
                 <p>To use, simply choose the company, and the graphs will update, showing the google trend index, representing the popularity of the search of that company on google, the google news index, which uses text analysis to determine the sentiment of news headlines related to the company, where positive indexes correlate to positive sentiments and vice versa. Also shown on the top row is the stock price. The bottom row shows the output of the ARIMA-GARCH model, showing the buying position, 1 represents having possession of stock, and 0 without, short positions are represented by -1. The total profit per share of stock is also shown with comparision to a 'buy and hold' strategy. The <a href="#ModelDeets">model details</a> are shown below.</p>
                 <p><br></p>
@@ -489,13 +273,13 @@ canvas {
                   						<p></p>
                 					</div>
               					</div>
-              					
-            				</div>   
+
+            				</div>
          				</div>
-         			  
+
       			</article>
       			<!-- End Resolution 2 -->
-    
+
 	  			<!-- Resolution 3 -->
 	  			<article id="three" style="background-color:#f7f7f7;">
           			<div class="center">
@@ -527,17 +311,17 @@ canvas {
 <p>The trend is by no means clear though, which may lend credibility to the idea of looking at google trends and/or sentiments derived goole news headlines as a more reliable indicator for stock market returns.</p>
 <p><br></p>
 
-            			<div class="left"> 
-          				</div>   
-       				</div>    
+            			<div class="left">
+          				</div>
+       				</div>
       			</article>
      			<!-- End Resolution 3 -->
-      
+
     			<!-- Resolution 4 -->
     			<article id="four">
     				<div style="position: relative;">
-      					<div class="center">  
-          					
+      					<div class="center">
+
 							<h2>Using Google Trends and News Data</h2>
 							<p><br></p>
 							<h4>Google Trends</h4>
@@ -555,8 +339,8 @@ alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
  -36.68956 -35.17677
 sample estimates:
-    mean of x     mean of y 
--5.959825e-05  3.593311e+01 
+    mean of x     mean of y
+-5.959825e-05  3.593311e+01
 </pre>
 </p>
 <p>The p-value is within machine precision indicating that the relationship is statistically very significant, so should act as a good predictor of stock market returns and signal for my model.</p>
@@ -592,7 +376,7 @@ sample estimates:
     <td>What We Got Wrong About Apple</td>
     <td>0.40</td>
   </tr>
-</table> 
+</table>
 <p><br></p>
 <p>We can see that the sentiment seems plausible. </p>
 <p>To see if is a good predictor of the stock market returns we can perform a t-test between the sentiment and the stock market returns.</p>
@@ -605,30 +389,30 @@ alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
  -0.06442960 -0.01766792
 sample estimates:
-    mean of x     mean of y 
--5.959825e-05  4.098916e-02 
+    mean of x     mean of y
+-5.959825e-05  4.098916e-02
 </pre>
 </p>
 <p>Again, the p-value is less than 0.05, though not as strong as the google trend, but we can still say that the relationship is statistically significant, and will compliment the google trend as signals for the model.</p>
 <p><br></p>
 
-          					<div class="left">     	
+          					<div class="left">
               					<div class="container">
                 					<div class="sideText3">
                   						<span class="line"></span>
                 	  					<p></p>
                 					</div>
-              					</div>	   
-								
+              					</div>
+
          	 				</div>
       					</div>
     				</div>
 				</article>
-  				<!-- End Resolution 4 --> 
-  
-  				<!-- Resolution 5 --> 
+  				<!-- End Resolution 4 -->
+
+  				<!-- Resolution 5 -->
     			<article id="five" style="background-color:#f7f7f7;">
-      				<div class="center">      
+      				<div class="center">
       					<p><br></p>
           				<h2>Time-Series Model</h2>
 <p>We will attempt to predict the stock market price using the ARIMA model, in which the stock market return is a weighted linear sum of the <span class="math inline">\(n\)</span> last daily stock returns. The ARIMA model has <span class="math inline">\(p\)</span> auto-regressive terms, <span class="math inline">\(d\)</span> differencing operations, and <span class="math inline">\(q\)</span> moving average terms. To select the best number of parameters we will run through all combinations in parameter space and pick the best one.</p>
@@ -649,20 +433,20 @@ sample estimates:
 </ul>
 <p><br></p>
 
-          				
+
           				<div class="left">
-							
-                  				
+
+
           				</div>
           				<div class="right">
           				</div>
       				</div>
     			</article>
-  				<!-- End Resolution 5 --> 
+  				<!-- End Resolution 5 -->
 
-				<!-- Resolution 6 --> 
+				<!-- Resolution 6 -->
     			<article id="six">
-      				<div class="center">  
+      				<div class="center">
 						<div id="adjusting-the-risk-tolerance">
 <h2>Adjusting the risk tolerance</h2>
 <p>The ARIMA-GARCH model predicts the expected return of the next day given a certain number of previous days. To remind ourselves, if the expected return is positive the price of the asset is expected to increase, similarly, if the expected return is negative the price will decrease.</p>
@@ -675,25 +459,25 @@ sample estimates:
 </div>
 <p><br></p>
 
-						
+
           				<div class="left">
-            				<p></p> 
+            				<p></p>
             				<div class="container">
                					<div class="sideText5">
                   					<span class="line"></span>
                 	 				<p></p>
                 				</div>
-            				</div>	
+            				</div>
       						<p></p>
         				</div>
           				<div class="right">
-        				</div> 
-       				</div>       
+        				</div>
+       				</div>
     			</article>
-    			<!-- End Resolution 6 --> 
+    			<!-- End Resolution 6 -->
 
-				<!-- Resolution 7 -->  
-    			<article id="seven" style="background-color:#f7f7f7; padding-bottom: 0;">	 
+				<!-- Resolution 7 -->
+    			<article id="seven" style="background-color:#f7f7f7; padding-bottom: 0;">
 					<div class="center">
 						<p><br></p>
           				<h2>Emailing Results and Scheduling the Model</h2>
@@ -707,7 +491,7 @@ sample estimates:
   From = &quot;moocarme@gmail.com&quot;,
   Subject = paste(toString(Sys.Date()),
                   &quot;Stock prediction finished&quot;),
-  body = paste0('The trading prediction has finished for ',toString(Sys.Date()), 
+  body = paste0('The trading prediction has finished for ',toString(Sys.Date()),
                 '. \n', 'The predridction for AAPL was', toString(ind[1]),
                 '. \n', 'You should ', toString(ifelse(ind[1]&gt;0, 'buy', 'sell')),
                 '. \n',
@@ -732,42 +516,42 @@ send_message(complete_email)</pre>
 <p>The first two entries represent the minute and the hour, in 24 hour format, so this is scheduled to run at 7pm. The third and fourth are the day and month for the script to run, and asterisk represents all instances, the fifth entry represents the day of the week, ‘1-5’ represents Monday through Friday. The last part of the command tells crontab to run the file in the file-location by the program R.</p>
 <p>The program is set to run at 7pm when the trading markets have closed.</p>
 </div>
-<p><br></p>    	
-                
-					         				<div style="clear:both;"></div>	
-          				
-      				</div>   	
+<p><br></p>
+
+					         				<div style="clear:both;"></div>
+
+      				</div>
     			</article>
-  				<!-- End Resolution 7 --> 
-  	
-				<!-- Resolution 8 -->  
+  				<!-- End Resolution 7 -->
+
+				<!-- Resolution 8 -->
     			<article id="eight">
-      				<div class="center">	
+      				<div class="center">
               			<h2>Conclusion</h2><p>The model has been adjusted for user preference, and a complete data prediction product has been built that needs little supervision. As it stands the model runs, has good predictive results (makes money), often performing better than buy-and-hold strategies. The only action the user needs to take is provided in the email, whether to buy, sell or hold the asset which is dependent on their risk tolerance. Only two risk tolerances are provided here, but this could easily be expanded.</p>
                 <p>For better performance more signals could be added to the model, for example, twitter sentiments can also be explored to gauge public opinion publicly traded comapnies that may reflect in the market returns. Quarterly earnings reports could also be estimated, as the <a target = "_blank" href="http://www.cnbc.com/2016/07/26/apple-reports-fy-third-quarter-earnings.html">stock price can drastically change with the news of companies earnings over the quarter</a>.</p>
                 <p>This process could also be setup with some trading software such as e-trade, or scott-trade, such that the process is completely automated. To do this, I would implement a python script using the selenium package, which is useful for interacting with websites, so the product could be a completely hands-free money-making machine.</p>
             <p><br></p>
-              			<div class="left"> 	
+              			<div class="left">
                 			<div class="container">
                 				<div class="sideText4">
                   					<span class="line"></span>
                 		  			<p></p>
                 				</div>
-              				</div>	  
+              				</div>
       						<p></p>
             			</div>
               			<div class="right">
-              			</div>  
+              			</div>
               			<div style="clear: both;"></div>
-                     </div> 
+                     </div>
               		 <div class="center">
-              		</div>  	
+              		</div>
     			</article>
-  				<!-- End Resolution 8 --> 
-	
-    			<!-- Resolution 9-->      
+  				<!-- End Resolution 8 -->
+
+    			<!-- Resolution 9-->
     			<article id="forecast" style=" display: block; margin-bottom: 0px; ">
-      					<div class="center"> 
+      					<div class="center">
               				 <p><br></p>
                       <h2>Related Projects</h2>
                       <p><br></p>
@@ -778,7 +562,7 @@ send_message(complete_email)</pre>
                                     <a href="/Vision-Zero/">
                                       Has Vision Zero Worked?
                                     </a>
-                                  </h1>       
+                                  </h1>
                                 </div>
                               </div>
 
@@ -792,7 +576,7 @@ send_message(complete_email)</pre>
                                 </div>
                               </div>
 
-                      </div>  
+                      </div>
               				<p><br></p>
               				<p><br></p>
               				<p><br></p>
@@ -800,10 +584,10 @@ send_message(complete_email)</pre>
               				<p><br></p>
               				<p class style="font-style: italic; margin-bottom: 33px;">
       					</div>
-      				
+
     			</article>
-    			<!-- End Resolution 9 --> 
-              
+    			<!-- End Resolution 9 -->
+
         	</div> <!--extra wrapper-->
          	<footer class="text-center">
         <div class="footer-below">
@@ -831,78 +615,78 @@ send_message(complete_email)</pre>
 </script>
 <script>
 $(document).ready(function() {
-  
-    
-  
-	var sections = $('article'), 
-        nav = $('nav'), 
+
+
+
+	var sections = $('article'),
+        nav = $('nav'),
         nav_height = nav.outerHeight();
- 
+
 	$(window).on('scroll', function () {
 
   		var cur_pos = $(this).scrollTop();
- 
+
   		sections.each(function() {
     	var top = $(this).offset().top - nav_height,
         bottom = top + $(this).outerHeight();
- 
+
     	if (cur_pos >= top && cur_pos <= bottom) {
       		nav.find('a').removeClass('active');
       		sections.removeClass('active');
- 
+
       		$(this).addClass('active');
       		nav.find('a[href="/examples/SmoothPageScroll/#'+$(this).attr('id')+'"]').addClass('active');
     	}
   		});
-      
+
       	if ($('#one .left').isOnScreen()) {
     		var wScroll = $(this).scrollTop();
           	var $sideText1 = $('.sideText1');
             var containerScroll = wScroll - $sideText1.parent().offset().top + 1000;
       		$sideText1.css({
-       			'transform' : 'translate(0px, +'+ containerScroll/10 +'%)' 
-      		});  
+       			'transform' : 'translate(0px, +'+ containerScroll/10 +'%)'
+      		});
       	}
-      	
+
       	if ($('#two .left').isOnScreen()) {
     		var wScroll = $(this).scrollTop();
           	var $sideText2 = $('.sideText2');
           	var containerScroll2 = wScroll - $sideText2.parent().offset().top + 1000;
       		$sideText2.css({
-       			'transform' : 'translate(0px, +'+ containerScroll2/10 +'%)' 
-      		});  
+       			'transform' : 'translate(0px, +'+ containerScroll2/10 +'%)'
+      		});
       	}
-      	
+
       	 if ($('#four .left').isOnScreen()) {
     		var wScroll = $(this).scrollTop();
           	var $sideText3 = $('.sideText3');
           	var containerScroll3 = wScroll - $sideText3.parent().offset().top + 1000;
       		$sideText3.css({
-       			'transform' : 'translate(0px, +'+ containerScroll3/10 +'%)' 
-      		});  
+       			'transform' : 'translate(0px, +'+ containerScroll3/10 +'%)'
+      		});
       	}
-      
+
       	if ($('#eight .left').isOnScreen()) {
     		var wScroll = $(this).scrollTop();
           	var $sideText4 = $('.sideText4');
           	var containerScroll4 = wScroll - $sideText4.parent().offset().top + 1000;
       		$sideText4.css({
-       			'transform' : 'translate(0px, +'+ containerScroll4/10 +'%)' 
-      		});  
+       			'transform' : 'translate(0px, +'+ containerScroll4/10 +'%)'
+      		});
       	}
-      
+
       	if ($('#six .left').isOnScreen()) {
     		var wScroll = $(this).scrollTop();
           	var $sideText5 = $('.sideText5');
           	var containerScroll5 = wScroll - $sideText5.parent().offset().top + 1000;
       		$sideText5.css({
-       			'transform' : 'translate(0px, +'+ containerScroll5/10 +'%)' 
-      		});  
+       			'transform' : 'translate(0px, +'+ containerScroll5/10 +'%)'
+      		});
       	}
-      
+
       	/** Measures the height of hero then nav bar appears after it **/
       	var heroHeight = $('.hero').height();
-      
+
       	if ($(this).scrollTop() > heroHeight) {
           $('.nav-toggle').addClass('show');
         } else {
@@ -910,16 +694,16 @@ $(document).ready(function() {
         }
 
       	/** For Desktop Nav only (from 1170px wide) **/
-      	if ($(this).scrollTop() > heroHeight){ 
-    		$('#desktopNav').addClass('fixedElement'); 
+      	if ($(this).scrollTop() > heroHeight){
+    		$('#desktopNav').addClass('fixedElement');
   		} else {
-    		$('#desktopNav').removeClass('fixedElement'); 
-  		}	
-	});  
-  
+    		$('#desktopNav').removeClass('fixedElement');
+  		}
+	});
+
   	/**** Smooth Scrolling ****/
 	$('a[href*=#]:not([href=#])').click(function() {
-    	if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') 
+    	if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
         	|| location.hostname == this.hostname) {
 
         	var target = $(this.hash);
@@ -932,22 +716,22 @@ $(document).ready(function() {
         	}
     	}
 	});
-  	
-  	
-}); 
 
-  
+
+});
+
+
   /*** Navigation menu toggle ***/
   $('.nav-toggle').on('click', function(){
     $('.wrapper').toggleClass('open');
     $('.main-navigation-left').toggleClass('open');
     $('.nav-toggle').toggleClass('open');
   });
-  
+
   /*Desktop Fixed Nav*/
   var stickyTop = $('#desktopNav').offset().top;
-  
-  
+
+
   /** Function to see when a div is in view **/
   $.fn.isOnScreen = function(){
     var win = $(window);
@@ -955,14 +739,14 @@ $(document).ready(function() {
         top : win.scrollTop(),
         left : win.scrollLeft()
     };
-    
+
     viewport.right = viewport.left + win.width();
     viewport.bottom = viewport.top + win.height();
-    
+
     var bounds = this.offset();
     bounds.right = bounds.left + this.outerWidth();
     bounds.bottom = bounds.top + this.outerHeight();
-    
+
     return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
   };
 </script></html>

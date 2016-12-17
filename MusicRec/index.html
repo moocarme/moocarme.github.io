@@ -3,7 +3,7 @@
     <head>
   	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 		<script src="/js/jquery.collapse.js"></script>
-    
+
 		<script type="text/javascript" src="/js/shCore.js"></script>
 		<script type="text/javascript" src="/js/shBrushPython.js"></script>
 		<script type="text/javascript" src="/js/shBrushSql.js"></script>
@@ -12,7 +12,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-      	
+
     <title>Generating Custom Music Recommendation Systems</title>
     <link rel="icon" type="image/png" href="/img/profile.png">
     <link rel="stylesheet" href="../style.css">
@@ -29,412 +29,196 @@
 
     <script type="text/javascript" src="//use.typekit.net/sjt4iho.js"></script>
  		<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-      
+
       	<script src="../node_modules/chart.js/dist/Chart.js"></script>
 		<script src="../js/jquery-1.11.0.js"></script>
 
-		
-      	<style> 
-        /***** BASE STYLES *****/ 
-        
-        code {
-      		  color: inherit;
-      		  background-color: rgba(0, 0, 0, 0.04);
-      		}
-		 pre:not([class]) {
-		    background-color: white;
-		  }
-        blockquote {
-          font-size: 21px;  
-          margin: 90px 0 90px 0; 
-          font-family: proxima-nova,proxima-nova,'proxima nova','helvetica neue',helvetica,sans-serif
-        }
 
-        cite {
-          display: block;
-          text-align: right;
-          margin-top: 15px;
-        }
+    <style>
+    /***** BASE STYLES *****/
 
-        .firstcharacter { 
-          float: left; 
-          font-size: 54px; 
-          line-height: 60px;  
-          padding-right: 7px;  
-        }  
+    code {
+        color: inherit;
+        background-color: rgba(0, 0, 0, 0.04);
+      }
+ pre:not([class]) {
+    background-color: white;
+  }
 
-        .fa {
-          cursor: pointer;
-        }  
+    .fa {
+      cursor: pointer;
+    }
 
-        /** Navigation **/ 
-          .main-navigation, .nav-toggle  {
-            display: none;
-          }
+    nav ul li a {
+      font-family: Lato, proxima-nova,proxima-nova,'proxima nova','helvetica neue',helvetica,sans-serif;
+      color: #E8E8E8;
+      text-decoration: none;
+      transition: color 0.1s;
+      letter-spacing: 1px;
+    }
 
-          #desktopNav	{
-            position: absolute;
-            height: 100%;
-            background-color: #233140;
-            top: 0;
-            left: 0;
-            z-index: 9999;
-            width: 230px;
-          }
+    nav ul li a:hover {
+      color: #B82601;
+    }
+     #bootstrap-overrides  .nav-toggle.show {
+        height: 50px;
+        transform: translateY(0%);
+        transition: transform 0.9s ease;
+      }
 
-          #desktopNav.fixedElement {
-            position: fixed;
-            height: 100%;
-            top: 0;
-            left: 0;
-          } 
+     #bootstrap-overrides  .main-navigation {
+        position: fixed;
+        top: 0;
+        left:0;
+        width: 270px;
+        height: 100%;
+        background: rgba(29, 55, 69, 0.9);
+      }
+
+    .center {
+      max-width: 1170px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .img-center{
+      margin-left: 115px;
+      margin-top: 40px;
+      margin-bottom: 40px;
+    }
+
+    .wrapper {
+      margin-left: 230px;
+    }
+
+    /** Exeptions **/
+    article#one {
+        margin-bottom: 50px;
+        padding: 0;
+    }
+
+    article#two {
+        padding-top: 0
+    }
+
+    article#four h2 {
+        margin-top:.5em;
+    }
+
+    article#eight .quote {
+        margin-top: 30px 0 75px 0;
+    }
+
+    article#eight .center .left, article#six .center .left {
+        margin-right: 5%;
+    }
+
+    article#eight .right, article#six .right {
+        width: 45%;
+    }
+
+    article#eight .right img, article#six .right img {
+        width: 100%;
+    }
+
+    /*** Footer ***/
+      footer {
+        background-color: #1D3745;
+        width: 100%;
+        position: absolute;
+        z-index: 9999;
+        bottom: -70px;
+      }
+
+       footer p {
+        float: left;
+      }
+
+      .mktoForm {
+        width: auto!important;
+      }
 
 
-        nav ul li a {
-          font-family: proxima-nova,proxima-nova,'proxima nova','helvetica neue',helvetica,sans-serif;
-          color: #E8E8E8;
-          text-decoration: none;
-          transition: color 0.3s;
-          letter-spacing: 1px;
-        } 
-
-        nav ul li a:hover {
-          color: #C7C7C7;
-        } 
-
-         .secondUL li {
-            padding: 10px 10px 0 0;
-          }
-
-          .navHeadline {
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600; 
-            color: #4C91B8;
-          }
-
-        .navSection {
-            margin-bottom: 20px;
-          } 
-
-          .nav-toggle {
-            transform: translateY(-100%);
-            overflow: hidden;
-            height: 50px;
-            background: rgba(29, 55, 69, 0.9);
-            transition: transform 0.9s ease;
-            color: #E9A857;
-            font-size: 20px;
-          } 
-
-         #bootstrap-overrides  .nav-toggle.show {
-            height: 50px;
-            transform: translateY(0%);
-            transition: transform 0.9s ease;
-          }
-
-         #bootstrap-overrides  .main-navigation {
-            position: fixed;
-            top: 0;
-            left:0; 
-            width: 270px;
-            height: 100%;
-            background: rgba(29, 55, 69, 0.9);
-          }
-
-        
-
-        
-
+      /***** Desktop Small *****/
+      @media screen and (max-width: 1441px) {
         .center {
-          max-width: 1170px;
-          margin: 0 auto;
-          position: relative;
+            max-width: 970px;
         }
-        .img-center{
-          margin-left: 115px;
-          margin-top: 40px;
-          margin-bottom: 40px;
+        .container .sideText1, .container .sideText2, .container .sideText3, .container .sideText4, .container .sideText5 {
+          margin-left: 60px;
+          margin-right: auto;
         }
 
-        .wrapper {
-          margin-left: 230px;
-        } 	  
-          
-        .left {
-          width: 50%;
-          float:left;
-        }
-
-        .right {
-          position: relative; 
-          float:left;
-          width: 50%;
-        }  
-
-        .introLetterDiv, .outroLetterDiv {
-            background-color: #fff; 
-            padding: 70px;  
-            text-align: left; 
-            max-width: 600px; 
-            margin: 0 auto;
-        }
-
-        .introLetterDiv h3 {
-            font-size: 21px;
-            font-weight: 400;
-            margin-bottom: 35px;
-            margin-top: -20px;
-        }
-
-        .introLetterDiv .signature {
-            text-align: right;
-        } 
-
-        .introLetterDiv .signatureBox {
-            text-align: center;
-            display: inline-block;
-        } 
-
-        .introLetterDiv p, .outroLetterDiv p {
-          max-width: 600px;
-          margin-left: 0;
-        } 
-
-        .main_title {
-          text-align: center;
-        }  
-
-        .letterOrange {
-          width: 85px; 
-          height:7px; 
-          display: block; 
-          background-color: #E9A857; 
-          margin:40px 0;" 
-        } 
-
-        .firstOrangeBar {
-            background-color: #E9A857;
-            display: block; 
-            height: 254px; 
-            width: 27px;
-        }
-
-        .headerThree h2 {
-          margin-top: 30px;
-          display: inline-block;
-          width: 450px;
-          vertical-align: top;
-        }
-
-        #three .thickOrangeLine {
-          position: absolute;
-          top: 160px;
-        }
-
-        .bulkUpImage {
-          margin-left: 22%; 
-        }
-
-        .nasties {
-           width: 60%;
-           position: absolute;
-           top: 50px;
-        }
-
-        .badHabbit {
-          width: 300px;
-          line-height: 94px;
-          display: inline-block;
-          margin-top: 0.83em;
-        }  
-
-        .thickOrangeLine { 
-          width: 82px; 
-          height: 27px; 
-          background-color: #E9A857; 
-          position: absolute;
-          top: 50px;
-        }
-
-        .learnMobile {
-            display: none;
-        }
-
-        
-
-        /** Exeptions **/
-        article#one {
-            margin-bottom: 50px;
-          	padding: 0;
-        }
-          
-        article#two {
-            padding-top: 0
-        } 
-          
-        article#four h2 {
-            margin-top:.5em;
-        } 
-          
-        article#eight .quote {
-            margin-top: 30px 0 75px 0;
-        } 
-          
-        article#eight .center .left, article#six .center .left {
-            margin-right: 5%;
-        } 
-          
-        article#eight .right, article#six .right {
-            width: 45%;
-        }
-          
-        article#eight .right img, article#six .right img {
-            width: 100%;
-        }  
-
-        /*** Footer ***/
-          footer {
-            background-color: #1D3745; 
-            width: 100%; 
-            position: absolute; 
-            z-index: 9999; 
-            bottom: -70px;
-          } 
-          
-           footer p {
-            float: left;
-          }
-
-          .mktoForm {
-            width: auto!important;
-          }
-
-          .bulkUpImage {
-          	width: 46%;
-          }	
-          
-          /***** Desktop Small *****/
-          @media screen and (max-width: 1441px) {
-
-            .center {
-                max-width: 970px;
-            }
-
-            .nasties {
-              top: 165px;
-              width: 60%;
-            }
-
-            .container .sideText1, .container .sideText2, .container .sideText3, .container .sideText4, .container .sideText5 {
-              margin-left: 60px;
-              margin-right: auto;
-            }
-
-            .container .sideText1 p, 
-.container .sideText2 p, .container .sideText3 p, .container .sideText4 
+        .container .sideText1 p,
+.container .sideText2 p, .container .sideText3 p, .container .sideText4
 p, .container .sideText5 p {
-              margin-left: 0;
-            }
-
-            .thickOrangeLine {
-              display: none;
-              top: 30px;
-              width: 43px;
-            }
-
-            .bulkUpImage {
-              width: 65%;
-            }
-          }  
-
-          @media screen and (max-width: 1225px) {
-            .center {
-              max-width: 870px;
-            }
-
-            .bulkUpImage {
-              width: 78%;
-            }
-          }
-
-          @media screen and (max-width: 1170px) {
-            .center {
-              max-width: 770px;
-            }
-
-            footer {
-              display: none;
-            }
-
-            .bulkUpImage { 
-              width: 100%;
-              margin-left: 10%;
-            }
-          }   
-
-          @media screen and (max-width: 1024px) {
-
-            .learnDesktop {
-              right: -155px
-            }
-
-            .center {
-              max-width: 670px;
-            }
-          }  
-
-        
-
-          
-        </style>
+          margin-left: 0;
+        }
+      }
+      @media screen and (max-width: 1225px) {
+        .center {
+          max-width: 870px;
+        }
+      }
+      @media screen and (max-width: 1170px) {
+        .center {
+          max-width: 770px;
+        }
+        footer {
+          display: none;
+        }
+      }
+      @media screen and (max-width: 1024px) {
+        .center {
+          max-width: 670px;
+        }
+      }
+    </style>
 
 
 <style>.mktoGen.mktoImg {display:inline-block; line-height:0;}</style>
-  	</head>
-  	<body id="bootstrap-overrides">
-<style type="text/css"> 
-#bootstrap-overrides hr.star-light {  
-  border-color: #18BC9C;
-	margin-left: auto;
-    margin-right: auto;}
- #bootstrap-overrides  hr.star-light:after {
-background-color: white;
-color: #2C3E50;}
+</head>
+<body id="bootstrap-overrides">
+<style type="text/css">
+#bootstrap-overrides hr.star-light {
+border-color: #000000;
+margin-left: auto;
+margin-right: auto;}
+
 #bootstrap-overrides div.post-overlay-header{
-  display:inline-block;
+display:inline-block;
 margin-left:30px;
 margin-right:auto;
-width:400px;
+width:350px;
 height:312px;
+
 }
 canvas {
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    width: 90px;
+padding-left: 0;
+padding-right: 0;
+margin-left: auto;
+margin-right: auto;
+display: block;
+width: 90px;
 }
 </style>
   	</body>
 	<body class="layout" id="bodyId">
-      	
-		<div class="extraWrapper" style="position:relative;">	
+
+		<div class="extraWrapper" style="position:relative;">
 			<!-- DESKTOP FIXED NAV -->
          	<div id="desktopNav">
             <div style="position: relative; height: 100%;">
                <nav>
-                  <ul class="firstUL">	
+                  <ul class="firstUL">
                     <br>
-                    <li class="navSection"><span class="navHeadline"><a style="color: #4C91B8;" href="/">Home</a></span>
-                      <ul class="secondUL"> 
+                    <li class="navSection"><span class="navHeadline"><a style="color: #B82601;" href="/">Home</a></span>
+                      <ul class="secondUL">
                           <li><a href="/#portfolio">Portfolio</a></li>
                           <li><a href="/blog/">Blog</a></li>
                       </ul>
                     </li>
                     <li class="navSection"><span class="navHeadline">Contents</span>
-                      <ul class="secondUL">	
+                      <ul class="secondUL">
                           <li><a href="/examples/SmoothPageScroll/#one">Goal</a></li>
                           <li><a href="/examples/SmoothPageScroll/#two">Approach</a></li>
                           <li><a href="/examples/SmoothPageScroll/#three">Exploratory Data Analysis</a></li>
@@ -447,8 +231,8 @@ canvas {
                       </ul>
                     </li>
 
-                  </ul> 
-              </nav> 
+                  </ul>
+              </nav>
             </div>
           	</div>
 	<div class="wrapper" id="header">
@@ -468,15 +252,15 @@ canvas {
                       <p>The complete code can be found on github <a target='_blank' href="https://github.com/moocarme/Music-Recommendation-System">here</a>.</p>
               			</div>
               			<div class="left"></div>
-      				</div>  
-    			</article>  
+      				</div>
+    			</article>
     			<!-- End Resolution 1 -->
-    
+
 				<!-- Resolution 2 -->
-				<article id="two">  
-          			
-         	 			<div class="center">    
-            				<h2>Approach</h2>  
+				<article id="two">
+
+         	 			<div class="center">
+            				<h2>Approach</h2>
 								<p>I will first determine the the best method to recommend songs to users based on the most listened songs, song-song similarity, and user-user similarity. This will form the basis of the playlist creator. The specific playlist will then be constructed from these songs, since the ultimate goal is to create a playlist of songs the user likes. The songs will be chosen based on the type of playlist, i.e., workout, chillout, discover new artists, etc, and the songs are chosen based on their metadata.</p>
                 <p>The data comes from the <a target='_blank' href="http://labrosa.ee.columbia.edu/millionsong/pages/getting-dataset">Million Song Dataset</a> which has metadata on 1 million songs. The metadata comes from the <a target='_blank' target='_blank' href="http://the.echonest.com/">The Echo Nest</a>, that is know taken over by <a target='_blank' href="https://developer.spotify.com/spotify-echo-nest-api/">Spotify</a> earlier in 2016. The dataset of users listener histories comes from <a target='_blank' href="https://www.kaggle.com/c/msdchallenge">kaggle</a> that had a competition on the subject a few years ago. The listening history was kept hidden by kaggle, so half the total data was not available to me, however this can be supplemented by the million song dataset that can be found on the <a target='_blank' href="https://archive.ics.uci.edu/ml/datasets/YearPredictionMSD">UCI Machine Learning Repository</a>. However for a single machine the kaggle dataset with 110000 unique users and 149029 unique songs is enough to test hypotheses.</p>
             				<div class="left">
@@ -486,13 +270,13 @@ canvas {
                   						<p></p>
                 					</div>
               					</div>
-              					
-            				</div>   
+
+            				</div>
          				</div>
-         			  
+
       			</article>
       			<!-- End Resolution 2 -->
-    
+
 	  			<!-- Resolution 3 -->
 	  			<article id="three" style="background-color:#f7f7f7;">
           			<div class="center">
@@ -524,7 +308,7 @@ colnames(song_data) <- c('Song_ID', 'index')
 triplets <- as.data.frame(read_table('data/kaggle/kaggle_visible_evaluation_triplets.txt'))
 colnames(triplets) <- c('User_ID', 'Song_ID', 'Plays')
 
-# dataframe to convert song ID to track ID since metadata is from different source 
+# dataframe to convert song ID to track ID since metadata is from different source
 song2track <- as.data.frame(read.table('data/kaggle/taste_profile_song_to_tracks.txt', fill= TRUE))
 colnames(song2track) <- c('Song_ID', 'Track_ID')
 
@@ -543,20 +327,20 @@ sim_Artists <- dbGetQuery(con_simArt, 'SELECT * FROM songs')
 
 # Join all data sources and remove unnecessary columns
 totdf2 <- totdf %>% left_join(songs, by = c('Track_ID' = 'track_id')) %>%
-  filter(!is.na(title)) %>% 
+  filter(!is.na(title)) %>%
   left_join(song_metadata, by = c('Track_ID' = 'track_id')) %>%
   select(-song_id, -track_7digitalid, -shs_perf, -shs_work)
 
 # Exploratory data analysis
-popular_songs <- totdf2 %>% 
-  dplyr::group_by(title, artist_name) %>% 
-  dplyr::summarise(Total.plays = sum(Plays)) %>% 
+popular_songs <- totdf2 %>%
+  dplyr::group_by(title, artist_name) %>%
+  dplyr::summarise(Total.plays = sum(Plays)) %>%
   dplyr::arrange(desc(Total.plays)) %>%
   dplyr::top_n(100)
 
-popular_artists <- totdf2 %>% 
-  dplyr::group_by(artist_name) %>% 
-  dplyr::summarise(Total.plays = sum(Plays)) %>% 
+popular_artists <- totdf2 %>%
+  dplyr::group_by(artist_name) %>%
+  dplyr::summarise(Total.plays = sum(Plays)) %>%
   dplyr::arrange(desc(Total.plays)) %>%
   dplyr::top_n(100)
 
@@ -573,7 +357,7 @@ hottest_songs <- totdf2 %>%
   dplyr::top_n(100)
 
 songs_per_user <- totdf2 %>%
-  dplyr::select(User_ID, Song_ID) %>% 
+  dplyr::select(User_ID, Song_ID) %>%
   dplyr::group_by(User_ID) %>%
   dplyr::summarize(Total.Songs = n()) %>%
   dplyr::arrange(Total.Songs) %>%
@@ -591,20 +375,20 @@ users_per_song <- totdf2 %>%
   dplyr::summarise(Total.Count = n()) %>%
   dplyr::mutate(Cum.Sum = cumsum(Total.Count))
 
-ggplot() + 
-  geom_line(data = users_per_song, aes(x = Total.Users, y = Cum.Sum/max(Cum.Sum))) + 
+ggplot() +
+  geom_line(data = users_per_song, aes(x = Total.Users, y = Cum.Sum/max(Cum.Sum))) +
   scale_x_log10()
 
-ggplot() + geom_histogram(data = filter(totdf2, year>1900), aes(x = year), binwidth = 1, 
-                          fill = '#18BC9C', color = '#2C3E50') +  xlim(1940,2012) + 
+ggplot() + geom_histogram(data = filter(totdf2, year>1900), aes(x = year), binwidth = 1,
+                          fill = '#18BC9C', color = '#2C3E50') +  xlim(1940,2012) +
   labs(title = 'Number of Songs per Year', x = 'Year', y = 'Count')+
   theme(plot.title = element_text(size=22), axis.text.x = element_text(size=18),
         axis.text.y = element_text(size=18), text = element_text(size = 20))
 
-ggplot(data = filter(totdf2, year>1900), 
+ggplot(data = filter(totdf2, year>1900),
        aes(x = as.factor(year), y = loudness) ) + geom_boxplot(aes(fill = (year))) +
-  scale_fill_gradient(low = 'yellow', high = 'red') + 
-  scale_x_discrete(breaks = seq(1920, 2010, 10)) + 
+  scale_fill_gradient(low = 'yellow', high = 'red') +
+  scale_x_discrete(breaks = seq(1920, 2010, 10)) +
   labs(title = 'Loudness vs Year', x = 'Year', y = 'Loudness (dB)')+
   theme(plot.title = element_text(size=22), axis.text.x = element_text(size=18),
         axis.text.y = element_text(size=18), text = element_text(size = 20))
@@ -672,7 +456,7 @@ ggplot(data = filter(totdf2, year>1900),
     <td>Canada</td>
     <td>9921</td>
   </tr>
-</table> 
+</table>
 <p><br></p>
 <h4>Hotttest Songs</h4>
 <p>Song hotttnesss[sic] is a metric defined by how much buzz the song is getting right now. This is derived from many sources, including mentions on the web, mentions in music blogs, music reviews, play counts, etc. </p>
@@ -733,7 +517,7 @@ ggplot(data = filter(totdf2, year>1900),
     <td>Marry Me</td>
     <td>1</td>
   </tr>
-</table> 
+</table>
 </p>
 <p><br></p>
 <p> Interestingly, despite song hotttness being defned from the amount of buzz the song is currently getting, we see songs that are relatively old, such as Pearl Jam's 'Black', and Jimmy Eat World's 'The Middle', that are from 1991 and 2001 respectively.</p>
@@ -744,24 +528,24 @@ ggplot(data = filter(totdf2, year>1900),
 <p><b>Cumulative distribution function showing total number of songs have listened by less than x users.</b> For example, cumulative sum for 10 total users is around 137,000, this means that 137,000 songs have been listened to by at most 10 unique users.</p>
 <center><img class="img-responsive" src="figs/users_per_song.png"  width="700" align="center"></center>
 <p><br></p>
-<p><b>Cumulative distribution function of the total number of users have listened to less than x total songs.</b> For example, the cumulative sum for 20 total songs is around 90,000, which means that 90,000 users have listened to at most 20 unique songs.</p> 
+<p><b>Cumulative distribution function of the total number of users have listened to less than x total songs.</b> For example, the cumulative sum for 20 total songs is around 90,000, which means that 90,000 users have listened to at most 20 unique songs.</p>
 <center><img class="img-responsive" src="figs/songs_per_user.png"   width="700" align="center"></center>
 <p><br></p>
-<p><b>Loudness versus year.</b> Although we acknowledge that comparing features over time may not help in recommending songs, it may be valuable for visualizing trends in data and discovering any possible insights. One relationship we see confirms the <a target='_blank' href="http://www.npr.org/2009/12/31/122114058/the-loudness-wars-why-music-sounds-worse">"loudness wars"</a>, that refers to the trend of increasing the audio levels of music. The concept derives from the principle that if the audio levels are higher than other songs, when played on the radio the song will be louder, and listeners may pay attention to the song more. This is captured below in the boxplot graph. </p> 
+<p><b>Loudness versus year.</b> Although we acknowledge that comparing features over time may not help in recommending songs, it may be valuable for visualizing trends in data and discovering any possible insights. One relationship we see confirms the <a target='_blank' href="http://www.npr.org/2009/12/31/122114058/the-loudness-wars-why-music-sounds-worse">"loudness wars"</a>, that refers to the trend of increasing the audio levels of music. The concept derives from the principle that if the audio levels are higher than other songs, when played on the radio the song will be louder, and listeners may pay attention to the song more. This is captured below in the boxplot graph. </p>
 <center><img class="img-responsive" src="figs/loudness_per_year.png"   width="900" align="center"></center>
 <p><br></p>
 
-            			<div class="left"> 
-          				</div>   
-       				</div>    
+            			<div class="left">
+          				</div>
+       				</div>
       			</article>
      			<!-- End Resolution 3 -->
-      
+
     			<!-- Resolution 4 -->
     			<article id="four">
     				<div style="position: relative;">
-      					<div class="center">  
-          					
+      					<div class="center">
+
 							<h2>Methods to Recommend Songs</h2>
 							<p><br></p>
 							<h3>Cosine Similarity</h3>
@@ -769,15 +553,15 @@ ggplot(data = filter(totdf2, year>1900),
 <p> To solve the similarity between users and songs we construct a sparse matrix, <span class = "math">\(R(i,j)\)</span>, that is <span class = "math">\(m\times n\)</span>, where <i>m</i> is the total number of users, and <i>n</i> is the total number of songs. The entry of the matrix for user <i>i</i> at song <i>j</i> represents the relative number of plays that of the song compared to the total number of songs the user listens to, i.e., is the user listens to a song 6 times out of listening to 60 songs total, the relative play would be 0.1. We use relative plays as it will make constructing the similarity matrices easier.</p>
 <p>We define the cosine similarity for two arbitrary vectors as:</p>
 <div style="text-align: center;">
-<p><span class="math">Cosine similarity = \(\frac{u^Tv}{\lVert u \rVert \lVert v \rVert}\) </span></p>  
+<p><span class="math">Cosine similarity = \(\frac{u^Tv}{\lVert u \rVert \lVert v \rVert}\) </span></p>
 </div>
 <p>The user-user similarity matrix can be computed as:</p>
 <div style="text-align: center;">
-<p><span class="math">User-user similarity = \( RR^T\) </span></p>  
+<p><span class="math">User-user similarity = \( RR^T\) </span></p>
 </div>
 <p>which produces a symmetric <span class = "math">\(m\times m\)</span> matrix, where <span class = "math">\(m\)</span> is the total number of users. The item-item similarity can be calculated in a similar way:</p>
 <div style="text-align: center;">
-<p><span class="math">Item-item similarity = \( R^TR\) </span></p>  
+<p><span class="math">Item-item similarity = \( R^TR\) </span></p>
 </div>
 <p>which produces a symmetric <span class = "math">\(n\times n\)</span> matrix, where <span class = "math">\(n\)</span> is the total number of songs. </p>
 <p><br></p>
@@ -786,11 +570,11 @@ ggplot(data = filter(totdf2, year>1900),
 <p>We use the mean average precision (MAP) as the evaluation metric. </p>
 <p>For any k, define the <i>precision-at-k</i> <span class = "math">\(P_k\)</span> as the proportion of correct recommendations within the top-<i>k</i> of the predicted ranking:</p>
 <div style="text-align: center;">
-<p><span class="math">\( P_k(u,y)=\frac{1}{k}\sum_{j=1}^kM_{u,y(j)}\), </span></p>  
+<p><span class="math">\( P_k(u,y)=\frac{1}{k}\sum_{j=1}^kM_{u,y(j)}\), </span></p>
 </div>
 <p>next we take the average of the computed precisions:</p>
 <div style="text-align: center;">
-<p><span class="math">\( AP(u,y)=\frac{1}{n_u}\sum_{k=1}^\tau P_k(u,y)\times M_{u,y_u(k)}\) </span></p> 
+<p><span class="math">\( AP(u,y)=\frac{1}{n_u}\sum_{k=1}^\tau P_k(u,y)\times M_{u,y_u(k)}\) </span></p>
 </div>
 <p>where <span class = "math">\(\tau\)</span> is the threshold that represents how many of the top predictions in <span class = "math">\(y_u\)</span> to include and <span class = "math">\(n_u\)</span> is the number of songs in the users hidden history.</p>
 <p>Finally, we take the average over all users precisions:</p>
@@ -806,7 +590,7 @@ ggplot(data = filter(totdf2, year>1900),
     if (predicted[i] %in% actual && !(predicted[i] %in% predicted[0:(i-1)]))
     {
       cnt <- cnt + 1
-      score <- score + cnt/i 
+      score <- score + cnt/i
     }
   }
   score <- score / min(length(actual), k)
@@ -841,7 +625,7 @@ valid_data <- setdiff(triplets, train_data)</pre>
 <p><br></p>
 <p>The top 1000 songs are chosen based on total number number of plays across all users.</p>
 <pre class="brush: python"># baseline is to recommend top n most played songs,
-top1000songs <- train_data %>% 
+top1000songs <- train_data %>%
   dplyr::group_by(Song_ID) %>%
   dplyr::summarise(Total.Plays = sum(Plays)) %>%
   dplyr::arrange(desc(Total.Plays)) %>%
@@ -850,7 +634,7 @@ top1000songs <- train_data %>%
 
 getBaseline_AveragePrecision(user){
   actual.songs <- filter(valid_data, User_ID == unique_users$User_ID[user])
-  avg.Pres <- average_precision_at_k(k=500, actual = actual.songs$Song_ID, 
+  avg.Pres <- average_precision_at_k(k=500, actual = actual.songs$Song_ID,
                                      predicted = top1000songs$Song_ID[1:500])
   return(avg.Pres)
 }
@@ -879,18 +663,18 @@ train_data$User_ID <- as.character(train_data$User_ID)
 train_data$Song_ID <- as.character(train_data$Song_ID)
 
 # Join datasets
-train_data_2 <- train_data %>% 
+train_data_2 <- train_data %>%
   dplyr::left_join(as.data.frame(unique_users), by = 'User_ID') %>%
   dplyr::left_join(as.data.frame(unique_songs), by =  'Song_ID') %>%
   dplyr::group_by(User_ID) %>%
   dplyr::mutate(Relative.Plays = Plays/sum(Plays))
 
 # remove all NAs
-train_data_2[is.na(train_data_2)] <- 0 
+train_data_2[is.na(train_data_2)] <- 0
 
 # Create sparse matrix
-sparse_rating_df <- sparseMatrix(i = as.numeric(train_data_2$UID), 
-                                 j = as.numeric(train_data_2$SID), 
+sparse_rating_df <- sparseMatrix(i = as.numeric(train_data_2$UID),
+                                 j = as.numeric(train_data_2$SID),
                                  x = train_data_2$Relative.Plays)</code></pre>
 <p><br></p>
 <p>The method used to recommend the songs will be to recommend songs that are similar to songs already in the users list of listened songs. This is shown using the Venn diagram below.</p>
@@ -903,23 +687,23 @@ multMat1 <- t(sparse_rating_df) %*% (sparse_rating_df)
 
 # Get top 500 similar songs of a given song
 gettop500simSong <- function(song){
-  user_sim <- multMat1[song,] 
+  user_sim <- multMat1[song,]
   user_sim <- as.data.frame(cbind(user_sim, seq(length(user_sim))))
   colnames(user_sim) <- c('Similarity', 'SID')
   user_sim <- user_sim %>%
     dplyr::left_join(unique_songs, by = 'SID') %>%
     dplyr::arrange(desc(Similarity)) %>%
-    dplyr::top_n(500, Similarity) 
+    dplyr::top_n(500, Similarity)
   return(user_sim)
 }
 
 # Get average precision of user via song similarity
 getSong_Average_Precision<- function(user){
-  # Get the visible song in users song list 
+  # Get the visible song in users song list
   songs <- train_data_2 %>%
     filter(UID == user) %>%
     select(SID)
-  
+
   # If SID is of factor class change to integer
   if (class(songs$SID) == "factor"){
     songs$SID <- as.integer(levels(songs$SID))[songs$SID]
@@ -931,7 +715,7 @@ getSong_Average_Precision<- function(user){
     distinct() %>%                   # remove duplicates
     arrange(desc(Similarity)) %>%    # order by similarity
     top_n(500, Similarity)           # take top 500
-  
+
   # Get actual songs from validation datset
   actual.songs <- filter(valid_data, User_ID == unique_users$User_ID[user])
 
@@ -954,15 +738,15 @@ multMat2 <- sparse_rating_df %*% t(sparse_rating_df)
 # Function that recommends songs based on 2 users song list
 recommend_by_user <- function(user1, user2){
   # Get song intersection of 2 users
-  user1.songs <- train_data %>% 
+  user1.songs <- train_data %>%
     dplyr::filter(User_ID == user1) %>%
     dplyr::select(Song_ID, Plays)
-  user2.songs <- train_data %>% 
+  user2.songs <- train_data %>%
     dplyr::filter(User_ID == user2) %>%
     dplyr::select(Song_ID, Plays)
 
-  # Get songs in user2, that not in user1 
-  recommend.songs <- dplyr::anti_join(user2.songs, user1.songs, 
+  # Get songs in user2, that not in user1
+  recommend.songs <- dplyr::anti_join(user2.songs, user1.songs,
                                       by = 'Song_ID') %>%
     dplyr::arrange(desc(Plays)) %>%  # sort by number of plays
     dplyr::select(-Plays)
@@ -970,15 +754,15 @@ recommend_by_user <- function(user1, user2){
 }
 
 getUser_Average_Precision<- function(user){
-  # Get top 100 unique users  
-  user1_sim <- multMat2[user,] 
+  # Get top 100 unique users
+  user1_sim <- multMat2[user,]
   user1_sim <- as.data.frame(cbind(user1_sim, seq(length(user1_sim))))
   colnames(user1_sim) <- c('Similarity', 'UID')
   user1_sim <- user1_sim %>%
     dplyr::arrange(desc(Similarity)) %>%
     dplyr::top_n(100, Similarity) %>%
     dplyr::left_join(unique_users, by = 'UID')
-  
+
   # Initialsize empty data frame
   rec.songs <- data.frame()
   i = 1
@@ -987,17 +771,17 @@ getUser_Average_Precision<- function(user){
     if(user1_sim$Similarity[i] > 0.00000){
       new.songs <- recommend_by_user(user1_sim$User_ID[user], user1_sim$User_ID[i])
       rec.songs <- unique(rbind(rec.songs, new.songs))
-    } 
+    }
     # otherwise choose from top 1000 songs
     else{
-      new.songs <- as.data.frame(top1000songs$Song_ID[1:(1000-nrow(rec.songs))+1], 
+      new.songs <- as.data.frame(top1000songs$Song_ID[1:(1000-nrow(rec.songs))+1],
                                  stringsAsFactors = FALSE)
       colnames(new.songs) <- 'Song_ID'
       rec.songs <- unique(rbind(rec.songs, new.songs))
     }
     i = i + 1
   }
-  
+
   # Get actual songs from validation datset
   actual.songs <- filter(valid_data, User_ID == unique_users$User_ID[user])
 
@@ -1009,23 +793,23 @@ getUser_Average_Precision<- function(user){
 mAP <- mean(pbsapply(seq(nrow(multMat2)), getUser_Average_Precision))</code></pre>
 <p><br></p>
 
-          					<div class="left">     	
+          					<div class="left">
               					<div class="container">
                 					<div class="sideText3">
                   						<span class="line"></span>
                 	  					<p></p>
                 					</div>
-              					</div>	   
-								
+              					</div>
+
          	 				</div>
       					</div>
     				</div>
 				</article>
-  				<!-- End Resolution 4 --> 
-  
-  				<!-- Resolution 5 --> 
+  				<!-- End Resolution 4 -->
+
+  				<!-- Resolution 5 -->
     			<article id="five" style="background-color:#f7f7f7;">
-      				<div class="center">      
+      				<div class="center">
       					<p><br></p>
           				<h2>Results</h2>
                   <p><br></p>
@@ -1083,26 +867,26 @@ mAP <- mean(pbsapply(seq(nrow(multMat2)), getUser_Average_Precision))</code></pr
                           }
                       }
                   });
-                  </script> 
+                  </script>
                   <p><br></p>
                   <p>We can see that item/item similarity has the largest MAP score, slightly outperforming the user-user similarity strategy. In terms of run time, the base-line strategy is unsurprisingly the quickest, at around 0.72 seconds/user, followed by item-item similarity at around 4.23 seconds per user, and finally the user-user similarity was significantly slower at 121.2 seconds/user. This may be due to the user-user similarity matrix, while smaller than the item-item similarity (110000<sup>2</sup> vs 149029<sup>2</sup>), it is not as sparse, so sorting through the matrix, in looking for common users, as well as allocating memory is more expensive.</p>
                   <p><br></p>
 
-          				
+
           				<div class="left">
-							
-                  				
+
+
           				</div>
           				<div class="right">
           				</div>
       				</div>
     			</article>
-  				<!-- End Resolution 5 --> 
+  				<!-- End Resolution 5 -->
 
-				<!-- Resolution 6 --> 
+				<!-- Resolution 6 -->
     			<article id="six">
-      				<div class="center">  
-						
+      				<div class="center">
+
 <h2>Recommending Songs based on Metadata</h2>
 <p><br></p>
 <h3>Discovering new artists</h3>
@@ -1111,24 +895,24 @@ mAP <- mean(pbsapply(seq(nrow(multMat2)), getUser_Average_Precision))</code></pr
 <p>To discover new artists we follow a similar method however in the top 500 similar artists we will order in the list in terms of artist ascending familiarity, and suggest those at the top first. The 'artist familiarity' corresponds to how well known in artist is. You can look at familiarity as the likelihood that any person selected at random will have heard of the artist. Kanye West has a familiarity close to 1, while a band like ‘Hot Rod Shopping Cart’ has a familiarity close to zero. In this way songs are both similar to songs in the users lists of listened songs, and unlikely to be heard by the user.</p>
 <p>This can be achieved using the R code below.</p>
 <pre class = 'brush: python'><code>discoverNewSongs<- function(user){
-  # Get users songs   
+  # Get users songs
   usersongs <- train_data_2 %>%
     filter(UID == user) %>%
     select(SID)
-  
+
   # If SID is of factor class change to integer
   if (class(usersongs$SID) == "factor"){
     usersongs$SID <- as.integer(levels(usersongs$SID))[usersongs$SID]
   }
 
   # Get top 500 similar songs for each song in user song list
-  top500total <- ldply(usersongs$SID, gettop500simSong) %>% 
+  top500total <- ldply(usersongs$SID, gettop500simSong) %>%
     dplyr::anti_join(usersongs, by = 'SID') %>%                 # remove songs already in song list
     dplyr::distinct() %>%                                       # remove duplicates
     dplyr::top_n(500, Similarity) %>%                           # take top 500 based on similarity
     dplyr::left_join(songs, by = c('Song_ID' = 'song_id')) %>%  # join with metadata dataset
     dplyr::arrange(artist_familiarity) %>%                      # sort based on artist familiarity
-    dplyr::select(artist_name, title, artist_familiarity, Song_ID) 
+    dplyr::select(artist_name, title, artist_familiarity, Song_ID)
   return(top500total)
 }</code></pre>
 <p><br></p>
@@ -1140,14 +924,14 @@ downbeatSongs<- function(user){
   usersongs <- train_data_2 %>%
     filter(UID == user) %>%
     select(SID)
-  
+
   # If SID is of factor class change to integer
   if (class(usersongs$SID) == "factor"){
     usersongs$SID <- as.integer(levels(usersongs$SID))[usersongs$SID]
   }
 
   # Get top 500 similar songs for each song in user song list
-  top500total <- ldply(usersongs$SID, gettop500simSong) %>%                
+  top500total <- ldply(usersongs$SID, gettop500simSong) %>%
     dplyr::distinct() %>%                                 # Remove duplicates
     dplyr::top_n(500, Similarity) %>%                     # get 500 most popular songs
     dplyr::left_join(song2track, by = 'Song_ID') %>%      # to convert song_id to trackid
@@ -1163,7 +947,7 @@ upbeatSongs<- function(user){
   usersongs <- train_data_2 %>%
     filter(UID == user) %>%
     select(SID)
-  
+
   # If SID is of factor class change to integer
   if (class(usersongs$SID) == "factor"){
     usersongs$SID <- as.integer(levels(usersongs$SID))[usersongs$SID]
@@ -1173,7 +957,7 @@ upbeatSongs<- function(user){
   top500total <- ldply(usersongs$SID, gettop500simSong) %>%
     dplyr::distinct() %>%                                 # Remove duplicates
     dplyr::top_n(500, Similarity) %>%                     # get 500 most popular songs
-    dplyr::left_join(song2track, by = 'Song_ID') %>%      # to convert song_id to trackid, 
+    dplyr::left_join(song2track, by = 'Song_ID') %>%      # to convert song_id to trackid,
     dplyr::left_join(song_metadata, by = c('Track_ID' = 'track_id')) %>% # join with metadata
     dplyr::arrange(desc(tempo)) %>%                       # order with respect to tempo
     dplyr::select(Song_ID, tempo) %>%                     # select releveant columns
@@ -1187,59 +971,59 @@ upbeatSongs<- function(user){
 
 <p><br></p>
 
-						
+
           				<div class="left">
-            				<p></p> 
+            				<p></p>
             				<div class="container">
                					<div class="sideText5">
                   					<span class="line"></span>
                 	 				<p></p>
                 				</div>
-            				</div>	
+            				</div>
       						<p></p>
         				</div>
           				<div class="right">
-        				</div> 
-       				</div>       
+        				</div>
+       				</div>
     			</article>
-    			<!-- End Resolution 6 --> 
+    			<!-- End Resolution 6 -->
 
-				<!-- Resolution 7 -->  
-    			<article id="seven" style="/*background-color:#f7f7f7;*/ padding-bottom: 0;">	 
+				<!-- Resolution 7 -->
+    			<article id="seven" style="/*background-color:#f7f7f7;*/ padding-bottom: 0;">
 					<div class="center">
-					   <div style="clear:both;"></div>	
-      				</div>   	
+					   <div style="clear:both;"></div>
+      				</div>
     			</article>
-  				<!-- End Resolution 7 --> 
-  	
-				<!-- Resolution 8 -->  
+  				<!-- End Resolution 7 -->
+
+				<!-- Resolution 8 -->
     			<article id="eight">
-      				<div class="center">	
+      				<div class="center">
               			<h2>Conclusion</h2>
                     <p>Overall, a successful recommendation system is made and has been applied to create custom mood-based playlists ready for A/B/n testing. It is shown that recommendation system based on item-item gives the largest mean average precision for the dataset. All strategies can be combined with different weights, however this in unrealistic with a single machine. Other methods to recommend songs is to find the user-user and item-item similarity via singular value decomposition, as this is fast and efficient, yet has a tendency to overfit, without regularization.</p>
 <p><br></p>
-              			<div class="left"> 	
+              			<div class="left">
                 			<div class="container">
                 				<div class="sideText4">
                   					<span class="line"></span>
                 		  			<p></p>
                 				</div>
-              				</div>	  
+              				</div>
       						<p></p>
             			</div>
               			<div class="right">
-              			</div>  
+              			</div>
               			<div style="clear: both;"></div>
-                     </div> 
+                     </div>
               		 <div class="center">
-              		</div>  	
+              		</div>
     			</article>
-  				<!-- End Resolution 8 --> 
-	
-    			<!-- Resolution 9-->      
+  				<!-- End Resolution 8 -->
+
+    			<!-- Resolution 9-->
     			<article id="forecast" style=" display: block; margin-bottom: 0px; ">
-      					<div class="center"> 
-              				
+      					<div class="center">
+
               				<p><br></p>
                       <h2>Related Projects</h2>
                       <p><br></p>
@@ -1250,7 +1034,7 @@ upbeatSongs<- function(user){
                                     <a href="/blog/Ultimate-Playlist-Title/">
                                       The Ulimate Playlist Title
                                     </a>
-                                  </h1>       
+                                  </h1>
                                 </div>
                               </div>
 
@@ -1264,7 +1048,7 @@ upbeatSongs<- function(user){
                                 </div>
                               </div>
 
-                      </div>  
+                      </div>
               				<p><br></p>
               				<p><br></p>
               				<p><br></p>
@@ -1272,10 +1056,10 @@ upbeatSongs<- function(user){
               				<p><br></p>
               				<p class style="font-style: italic; margin-bottom: 33px;">
       					</div>
-      				
+
     			</article>
-    			<!-- End Resolution 9 --> 
-              
+    			<!-- End Resolution 9 -->
+
         	</div> <!--extra wrapper-->
          	<footer class="text-center">
         <div class="footer-below">
@@ -1303,78 +1087,78 @@ upbeatSongs<- function(user){
 </script>
 <script>
 $(document).ready(function() {
-  
-    
-  
-	var sections = $('article'), 
-        nav = $('nav'), 
+
+
+
+	var sections = $('article'),
+        nav = $('nav'),
         nav_height = nav.outerHeight();
- 
+
 	$(window).on('scroll', function () {
 
   		var cur_pos = $(this).scrollTop();
- 
+
   		sections.each(function() {
     	var top = $(this).offset().top - nav_height,
         bottom = top + $(this).outerHeight();
- 
+
     	if (cur_pos >= top && cur_pos <= bottom) {
       		nav.find('a').removeClass('active');
       		sections.removeClass('active');
- 
+
       		$(this).addClass('active');
       		nav.find('a[href="/examples/SmoothPageScroll/#'+$(this).attr('id')+'"]').addClass('active');
     	}
   		});
-      
+
       	if ($('#one .left').isOnScreen()) {
     		var wScroll = $(this).scrollTop();
           	var $sideText1 = $('.sideText1');
             var containerScroll = wScroll - $sideText1.parent().offset().top + 1000;
       		$sideText1.css({
-       			'transform' : 'translate(0px, +'+ containerScroll/10 +'%)' 
-      		});  
+       			'transform' : 'translate(0px, +'+ containerScroll/10 +'%)'
+      		});
       	}
-      	
+
       	if ($('#two .left').isOnScreen()) {
     		var wScroll = $(this).scrollTop();
           	var $sideText2 = $('.sideText2');
           	var containerScroll2 = wScroll - $sideText2.parent().offset().top + 1000;
       		$sideText2.css({
-       			'transform' : 'translate(0px, +'+ containerScroll2/10 +'%)' 
-      		});  
+       			'transform' : 'translate(0px, +'+ containerScroll2/10 +'%)'
+      		});
       	}
-      	
+
       	 if ($('#four .left').isOnScreen()) {
     		var wScroll = $(this).scrollTop();
           	var $sideText3 = $('.sideText3');
           	var containerScroll3 = wScroll - $sideText3.parent().offset().top + 1000;
       		$sideText3.css({
-       			'transform' : 'translate(0px, +'+ containerScroll3/10 +'%)' 
-      		});  
+       			'transform' : 'translate(0px, +'+ containerScroll3/10 +'%)'
+      		});
       	}
-      
+
       	if ($('#eight .left').isOnScreen()) {
     		var wScroll = $(this).scrollTop();
           	var $sideText4 = $('.sideText4');
           	var containerScroll4 = wScroll - $sideText4.parent().offset().top + 1000;
       		$sideText4.css({
-       			'transform' : 'translate(0px, +'+ containerScroll4/10 +'%)' 
-      		});  
+       			'transform' : 'translate(0px, +'+ containerScroll4/10 +'%)'
+      		});
       	}
-      
+
       	if ($('#six .left').isOnScreen()) {
     		var wScroll = $(this).scrollTop();
           	var $sideText5 = $('.sideText5');
           	var containerScroll5 = wScroll - $sideText5.parent().offset().top + 1000;
       		$sideText5.css({
-       			'transform' : 'translate(0px, +'+ containerScroll5/10 +'%)' 
-      		});  
+       			'transform' : 'translate(0px, +'+ containerScroll5/10 +'%)'
+      		});
       	}
-      
+
       	/** Measures the height of hero then nav bar appears after it **/
       	var heroHeight = $('.hero').height();
-      
+
       	if ($(this).scrollTop() > heroHeight) {
           $('.nav-toggle').addClass('show');
         } else {
@@ -1382,16 +1166,16 @@ $(document).ready(function() {
         }
 
       	/** For Desktop Nav only (from 1170px wide) **/
-      	if ($(this).scrollTop() > heroHeight){ 
-    		$('#desktopNav').addClass('fixedElement'); 
+      	if ($(this).scrollTop() > heroHeight){
+    		$('#desktopNav').addClass('fixedElement');
   		} else {
-    		$('#desktopNav').removeClass('fixedElement'); 
-  		}	
-	});  
-  
+    		$('#desktopNav').removeClass('fixedElement');
+  		}
+	});
+
   	/**** Smooth Scrolling ****/
 	$('a[href*=#]:not([href=#])').click(function() {
-    	if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') 
+    	if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
         	|| location.hostname == this.hostname) {
 
         	var target = $(this.hash);
@@ -1404,22 +1188,22 @@ $(document).ready(function() {
         	}
     	}
 	});
-  	
-  	
-}); 
 
-  
+
+});
+
+
   /*** Navigation menu toggle ***/
   $('.nav-toggle').on('click', function(){
     $('.wrapper').toggleClass('open');
     $('.main-navigation-left').toggleClass('open');
     $('.nav-toggle').toggleClass('open');
   });
-  
+
   /*Desktop Fixed Nav*/
   var stickyTop = $('#desktopNav').offset().top;
-  
-  
+
+
   /** Function to see when a div is in view **/
   $.fn.isOnScreen = function(){
     var win = $(window);
@@ -1427,14 +1211,14 @@ $(document).ready(function() {
         top : win.scrollTop(),
         left : win.scrollLeft()
     };
-    
+
     viewport.right = viewport.left + win.width();
     viewport.bottom = viewport.top + win.height();
-    
+
     var bounds = this.offset();
     bounds.right = bounds.left + this.outerWidth();
     bounds.bottom = bounds.top + this.outerHeight();
-    
+
     return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
   };
 </script></html>

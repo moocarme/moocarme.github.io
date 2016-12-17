@@ -11,14 +11,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-      	
+
     <title>Why All Country Music Sounds the Same</title>
     <link rel="icon" type="image/png" href="/img/profile.png">
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="/style.css">
     <link href="/css/shCore.css" rel="stylesheet" type="text/css" />
 		<link href="/css/shThemeDefault.css" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
-    <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href="//fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
 		<link rel="favicon-144-precomposed"  href="/img/profile.png">
@@ -28,14 +27,14 @@
 
     <script type="text/javascript" src="//use.typekit.net/sjt4iho.js"></script>
  		<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-      
+
       	<script src="../node_modules/chart.js/dist/Chart.js"></script>
 		<script src="../js/jquery-1.11.0.js"></script>
 
-		
-      	<style> 
-        /***** BASE STYLES *****/ 
-        
+
+      	<style>
+        /***** BASE STYLES *****/
+
         code {
       		  color: inherit;
       		  background-color: rgba(0, 0, 0, 0.04);
@@ -43,89 +42,22 @@
 		 pre:not([class]) {
 		    background-color: white;
 		  }
-        blockquote {
-          font-size: 21px;  
-          margin: 90px 0 90px 0; 
-          font-family: proxima-nova,proxima-nova,'proxima nova','helvetica neue',helvetica,sans-serif
-        }
-
-        cite {
-          display: block;
-          text-align: right;
-          margin-top: 15px;
-        }
-
-        .firstcharacter { 
-          float: left; 
-          font-size: 54px; 
-          line-height: 60px;  
-          padding-right: 7px;  
-        }  
 
         .fa {
           cursor: pointer;
-        }  
-
-        /** Navigation **/ 
-          .main-navigation, .nav-toggle  {
-            display: none;
-          }
-
-          #desktopNav	{
-            position: absolute;
-            height: 100%;
-            background-color: #233140;
-            top: 0;
-            left: 0;
-            z-index: 9999;
-            width: 230px;
-          }
-
-          #desktopNav.fixedElement {
-            position: fixed;
-            height: 100%;
-            top: 0;
-            left: 0;
-          } 
-
+        }
 
         nav ul li a {
-          font-family: proxima-nova,proxima-nova,'proxima nova','helvetica neue',helvetica,sans-serif;
+          font-family: Lato, proxima-nova,proxima-nova,'proxima nova','helvetica neue',helvetica,sans-serif;
           color: #E8E8E8;
           text-decoration: none;
-          transition: color 0.3s;
+          transition: color 0.1s;
           letter-spacing: 1px;
-        } 
+        }
 
         nav ul li a:hover {
-          color: #C7C7C7;
-        } 
-
-         .secondUL li {
-            padding: 10px 10px 0 0;
-          }
-
-          .navHeadline {
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600; 
-            color: #4C91B8;
-          }
-
-        .navSection {
-            margin-bottom: 20px;
-          } 
-
-          .nav-toggle {
-            transform: translateY(-100%);
-            overflow: hidden;
-            height: 50px;
-            background: rgba(29, 55, 69, 0.9);
-            transition: transform 0.9s ease;
-            color: #E9A857;
-            font-size: 20px;
-          } 
-
+          color: #B82601;
+        }
          #bootstrap-overrides  .nav-toggle.show {
             height: 50px;
             transform: translateY(0%);
@@ -135,15 +67,11 @@
          #bootstrap-overrides  .main-navigation {
             position: fixed;
             top: 0;
-            left:0; 
+            left:0;
             width: 270px;
             height: 100%;
             background: rgba(29, 55, 69, 0.9);
           }
-
-        
-
-        
 
         .center {
           max-width: 1170px;
@@ -158,149 +86,47 @@
 
         .wrapper {
           margin-left: 230px;
-        } 	  
-          
-        .left {
-          width: 50%;
-          float:left;
         }
-
-        .right {
-          position: relative; 
-          float:left;
-          width: 50%;
-        }  
-
-        .introLetterDiv, .outroLetterDiv {
-            background-color: #fff; 
-            padding: 70px;  
-            text-align: left; 
-            max-width: 600px; 
-            margin: 0 auto;
-        }
-
-        .introLetterDiv h3 {
-            font-size: 21px;
-            font-weight: 400;
-            margin-bottom: 35px;
-            margin-top: -20px;
-        }
-
-        .introLetterDiv .signature {
-            text-align: right;
-        } 
-
-        .introLetterDiv .signatureBox {
-            text-align: center;
-            display: inline-block;
-        } 
-
-        .introLetterDiv p, .outroLetterDiv p {
-          max-width: 600px;
-          margin-left: 0;
-        } 
-
-        .main_title {
-          text-align: center;
-        }  
-
-        .letterOrange {
-          width: 85px; 
-          height:7px; 
-          display: block; 
-          background-color: #E9A857; 
-          margin:40px 0;" 
-        } 
-
-        .firstOrangeBar {
-            background-color: #E9A857;
-            display: block; 
-            height: 254px; 
-            width: 27px;
-        }
-
-        .headerThree h2 {
-          margin-top: 30px;
-          display: inline-block;
-          width: 450px;
-          vertical-align: top;
-        }
-
-        #three .thickOrangeLine {
-          position: absolute;
-          top: 160px;
-        }
-
-        .bulkUpImage {
-          margin-left: 22%; 
-        }
-
-        .nasties {
-           width: 60%;
-           position: absolute;
-           top: 50px;
-        }
-
-        .badHabbit {
-          width: 300px;
-          line-height: 94px;
-          display: inline-block;
-          margin-top: 0.83em;
-        }  
-
-        .thickOrangeLine { 
-          width: 82px; 
-          height: 27px; 
-          background-color: #E9A857; 
-          position: absolute;
-          top: 50px;
-        }
-
-        .learnMobile {
-            display: none;
-        }
-
-        
 
         /** Exeptions **/
         article#one {
             margin-bottom: 50px;
           	padding: 0;
         }
-          
+
         article#two {
             padding-top: 0
-        } 
-          
+        }
+
         article#four h2 {
             margin-top:.5em;
-        } 
-          
+        }
+
         article#eight .quote {
             margin-top: 30px 0 75px 0;
-        } 
-          
+        }
+
         article#eight .center .left, article#six .center .left {
             margin-right: 5%;
-        } 
-          
+        }
+
         article#eight .right, article#six .right {
             width: 45%;
         }
-          
+
         article#eight .right img, article#six .right img {
             width: 100%;
-        }  
+        }
 
         /*** Footer ***/
           footer {
-            background-color: #1D3745; 
-            width: 100%; 
-            position: absolute; 
-            z-index: 9999; 
+            background-color: #1D3745;
+            width: 100%;
+            position: absolute;
+            z-index: 9999;
             bottom: -70px;
-          } 
-          
+          }
+
            footer p {
             float: left;
           }
@@ -309,97 +135,53 @@
             width: auto!important;
           }
 
-          .bulkUpImage {
-          	width: 46%;
-          }	
-          
+
           /***** Desktop Small *****/
           @media screen and (max-width: 1441px) {
-
             .center {
                 max-width: 970px;
             }
-
-            .nasties {
-              top: 165px;
-              width: 60%;
-            }
-
             .container .sideText1, .container .sideText2, .container .sideText3, .container .sideText4, .container .sideText5 {
               margin-left: 60px;
               margin-right: auto;
             }
 
-            .container .sideText1 p, 
-.container .sideText2 p, .container .sideText3 p, .container .sideText4 
+            .container .sideText1 p,
+.container .sideText2 p, .container .sideText3 p, .container .sideText4
 p, .container .sideText5 p {
               margin-left: 0;
             }
-
-            .thickOrangeLine {
-              display: none;
-              top: 30px;
-              width: 43px;
-            }
-
-            .bulkUpImage {
-              width: 65%;
-            }
-          }  
-
+          }
           @media screen and (max-width: 1225px) {
             .center {
               max-width: 870px;
             }
-
-            .bulkUpImage {
-              width: 78%;
-            }
           }
-
           @media screen and (max-width: 1170px) {
             .center {
               max-width: 770px;
             }
-
             footer {
               display: none;
             }
-
-            .bulkUpImage { 
-              width: 100%;
-              margin-left: 10%;
-            }
-          }   
-
+          }
           @media screen and (max-width: 1024px) {
-
-            .learnDesktop {
-              right: -155px
-            }
-
             .center {
               max-width: 670px;
             }
-          }  
-
-        
-
-          
+          }
         </style>
 
 
 <style>.mktoGen.mktoImg {display:inline-block; line-height:0;}</style>
   	</head>
   	<body id="bootstrap-overrides">
-<style type="text/css"> 
-#bootstrap-overrides hr.star-light {  
-  border-color: #18BC9C;
+<style type="text/css">
+#bootstrap-overrides hr.star-light {
+  border-color: #000000;
 	margin-left: auto;
     margin-right: auto;}
- #bootstrap-overrides  hr.star-light:after {
-background-color: white;
-color: #2C3E50;}
+
  #bootstrap-overrides div.post-overlay-header{
   display:inline-block;
 margin-left:30px;
@@ -419,22 +201,22 @@ canvas {
 </style>
   	</body>
 	<body class="layout" id="bodyId">
-      	
-		<div class="extraWrapper" style="position:relative;">	
+
+		<div class="extraWrapper" style="position:relative;">
 			<!-- DESKTOP FIXED NAV -->
          	<div id="desktopNav">
             <div style="position: relative; height: 100%;">
                <nav>
-                  <ul class="firstUL">	
+                  <ul class="firstUL">
                     <br>
-                    <li class="navSection"><span class="navHeadline"><a style="color: #4C91B8;" href="/">Home</a></span>
-                      <ul class="secondUL"> 
+                    <li class="navSection"><span class="navHeadline"><a style="color: #B82601;" href="/">Home</a></span>
+                      <ul class="secondUL">
                           <li><a href="/#portfolio">Portfolio</a></li>
                           <li><a href="/blog/">Blog</a></li>
                       </ul>
                     </li>
                     <li class="navSection"><span class="navHeadline">Contents</span>
-                      <ul class="secondUL">	
+                      <ul class="secondUL">
                           <li><a href="/examples/SmoothPageScroll/#one">Hypothesis</a></li>
                           <li><a href="/examples/SmoothPageScroll/#two">Getting Chords</a></li>
                           <li><a href="/examples/SmoothPageScroll/#three">Analyzing Chords</a></li>
@@ -447,8 +229,8 @@ canvas {
                       </ul>
                     </li>
 
-                  </ul> 
-              </nav> 
+                  </ul>
+              </nav>
             </div>
           	</div>
 	<div class="wrapper" id="header">
@@ -468,21 +250,21 @@ canvas {
 <p>The complete code can be found on github <a target="_blank" href="https://github.com/moocarme/Coding-Samples/tree/master/Python-Webscraping">here</a>.</p>
               			</div>
               			<div class="left"></div>
-      				</div>  
-    			</article>  
+      				</div>
+    			</article>
     			<!-- End Resolution 1 -->
-    
+
 				<!-- Resolution 2 -->
-				<article id="two">  
-          			
-         	 			<div class="center">    
-            				<h2>Method</h2>  
-								<p>A chord progression is the different chords used in songs, as well as the order in which they are used. For example Pearl Jam's <a target="_blank" href = "https://www.youtube.com/watch?v=2z0cKtSlHOU">'Elderly woman...'</a> uses a chord progression D C G G for the much of the verse and chorus. Both the notes used and their respective order is needed. The assumption that the guitar plays the characteristic 'sound' of the song and can be infered from the data gained from the chord progression of the guitar.</p>  
+				<article id="two">
+
+         	 			<div class="center">
+            				<h2>Method</h2>
+								<p>A chord progression is the different chords used in songs, as well as the order in which they are used. For example Pearl Jam's <a target="_blank" href = "https://www.youtube.com/watch?v=2z0cKtSlHOU">'Elderly woman...'</a> uses a chord progression D C G G for the much of the verse and chorus. Both the notes used and their respective order is needed. The assumption that the guitar plays the characteristic 'sound' of the song and can be infered from the data gained from the chord progression of the guitar.</p>
                 <p>A python webscraper mines guitar tabluture from the internet, specifically <a target="_blank" href="https://ultimate-guitar.com">ultimate-guitar.com</a> and reads them to obtain the chords used in songs. The python code retrives the chords that users of the site have entered. Because the guitar tablature is user submitted, only 5 star rated tablatures are used in standard tuning, for greatest accuracy. A 5 star rating is achieved when all users of the tablature rate the tab as 5-star. Mining the tablature for data on the various chord progressions played in songs, the end goal would be analyze different genres of music to show that country music shows less variation in the chords and chord progressions used compared to other genres of music.</p>
                 <h3>Guitar tablature Example</h3>
 <div data-collapse>
       <h4>See here &#9660;</h4>
- 
+
     <div>
 
     <p>Below is an example of typical guitar tablature from ultimate-guitar.com</p>
@@ -599,7 +381,7 @@ def removeTags(string):
     Function to remove html tags
     '''
     return re.sub('<[^<]+?>', '', string)
-    
+
 def getArtist(webTree):
     '''
     Function to get the artist name from html
@@ -608,7 +390,7 @@ def getArtist(webTree):
     ArtistStrList = [tostring(track, with_tail=False) for track in list(ArtistLoc[0].iter('a'))]
     Artist = removeTags(ArtistStrList[0])
     return Artist
-    
+
 def getTrack(webTree):
     '''
     Function to get the track name from html
@@ -629,7 +411,7 @@ def getChordsList(webTree):
     except IndexError:
         chords = []
     return chords
-    
+
 def getChordsArtistTrack(url):
     '''
     Function to get chords from a webpage in str format
@@ -638,22 +420,22 @@ def getChordsArtistTrack(url):
     webTree = html.fromstring(webPage.content)
     Artist = getArtist(webTree)
     Track = getTrack(webTree)
-    Chords = getChordsList(webTree)    
-    return Artist, Track, Chords 
+    Chords = getChordsList(webTree)
+    return Artist, Track, Chords
 
 def getGenreTree(genrekey, page):
     '''
     Function to get xml tree given the genre
-    '''    
+    '''
     if type(page) == int:
         page = str(page)
     theURL = 'https://www.ultimate-guitar.com/search.php?type[2]=300&type2[0]=40000&rating[4]=5' \
         + '\&tuning[standard]=standard&genres[0]=' + str(genrekey)+ '&page=' + page \
         + '&view_state=advanced&tab_type_group=text&app_name=ugt&order=myweight'
-        
+
     pageBand = requests.get(theURL)
     return html.fromstring(pageBand.content)
-    
+
 
 def getChordProg(chordList, progLen = 4):
     '''
@@ -665,10 +447,10 @@ def getChordProg(chordList, progLen = 4):
     except IndexError: # If there are no chords
         chordProg = ''
     return chordProg
-    
+
 def getGenreDict():
     '''
-    Function to get all the genres and output to a dict of dicts where the keys 
+    Function to get all the genres and output to a dict of dicts where the keys
     to the outer dict is the main genre the values are dicts, with the inner
     values being the sub genre
     '''
@@ -696,38 +478,38 @@ def getGenreDict():
 # ============================================================================
 
 def main()
-    # = Set up SQL 
+    # = Set up SQL
     conn = sqlite3.connect('chordProgdb2.sqlite')
     cur = conn.cursor()
     cur.executescript('''
     /*
     Uncomment out the bottom section is want to reset the tables
     */
-  
+
     /*
     DROP TABLE IF EXISTS Artist;
     DROP TABLE IF EXISTS ChordProg;
     DROP TABLE IF EXISTS Genre;
     DROP TABLE IF EXISTS Song;
-  
+
     CREATE TABLE Artist (
         id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
         name    TEXT UNIQUE
     );
-  
+
     CREATE TABLE ChordProg (
         id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
         prog   TEXT UNIQUE
     );
-  
+
     CREATE TABLE Genre (
         id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
         name    TEXT UNIQUE
-    
+
     );
 
     CREATE TABLE Song (
-        id  INTEGER NOT NULL PRIMARY KEY 
+        id  INTEGER NOT NULL PRIMARY KEY
             AUTOINCREMENT UNIQUE,
         title TEXT,
         artist_id INTEGER,
@@ -743,22 +525,22 @@ def main()
 
     allGenresDict = getGenreDict()
     #to find all genres: allGenresDict.keys()
-    
+
     mainGenre = 'Alternative'
     genresDict = allGenresDict[mainGenre]
-    
-    cur.execute('''INSERT OR IGNORE INTO Genre (name) 
+
+    cur.execute('''INSERT OR IGNORE INTO Genre (name)
         VALUES ( ? )''', (mainGenre, ) )
     cur.execute('SELECT id FROM Genre WHERE name = ? ', (mainGenre, ))
-    main_genre_id = cur.fetchone()[0]   
-    
+    main_genre_id = cur.fetchone()[0]
+
     page = '1' # start at page 1, in str format as will be added to html str
-    
+
     for genre, genrekey in genresDict.iteritems():
         # = Get xml tree for first page
         tree1 = getGenreTree(genrekey, page)
         pages = tree1.find_class('paging')
-        try: 
+        try:
             maxPage = len(list(pages[0].iter('a'))) # see what the max number of pages is
             print('Max Page: '+ str(maxPage))
         except IndexError:
@@ -767,8 +549,8 @@ def main()
         songs = tree1.find_class('song result-link')
         songLinks = []
         for i in songs:
-            songLinks.append(i.get('href'))        
-        
+            songLinks.append(i.get('href'))
+
         # = Iterate through the remaining pages and add song links
         for i in range(maxPage -1):
             looppage = i + 2
@@ -776,36 +558,36 @@ def main()
             loopsongs = looptree.find_class('song result-link')
             for song in loopsongs:
                 songLinks.append(song.get('href'))
-        
+
         print('No of tabs: ' + str(len(songLinks)))
-        
-        cur.execute('''INSERT OR IGNORE INTO Genre (name) 
+
+        cur.execute('''INSERT OR IGNORE INTO Genre (name)
             VALUES ( ? )''', (genre, ) )
         cur.execute('SELECT id FROM Genre WHERE name = ? ', (genre, ))
         subgenre_id = cur.fetchone()[0]
-             
-        
+
+
         progLen = 4
         for i in songLinks:
             Artist, Song, Chords = getChordsArtistTrack(i)
             chordProg = getChordProg(Chords, progLen)
-            
-            cur.execute('''INSERT OR IGNORE INTO Artist (name) 
+
+            cur.execute('''INSERT OR IGNORE INTO Artist (name)
                 VALUES ( ? )''', ( Artist, ) )
             cur.execute('SELECT id FROM Artist WHERE name = ? ', (Artist, ))
-            artist_id = cur.fetchone()[0]    
-            
-            cur.execute('''INSERT OR IGNORE INTO ChordProg (prog) 
+            artist_id = cur.fetchone()[0]
+
+            cur.execute('''INSERT OR IGNORE INTO ChordProg (prog)
                 VALUES ( ? )''', (chordProg, ) )
             cur.execute('SELECT id FROM ChordProg WHERE prog = ? ', (chordProg, ))
             chordProg_id = cur.fetchone()[0]
-            
+
             cur.execute('''INSERT OR REPLACE INTO Song
-                (title, artist_id, genre_id, subgenre_id, chordProg_id) 
-                VALUES ( ?, ?, ?, ?, ? )''', 
+                (title, artist_id, genre_id, subgenre_id, chordProg_id)
+                VALUES ( ?, ?, ?, ?, ? )''',
                 ( Song, artist_id, main_genre_id, subgenre_id, chordProg_id, ) )
             conn.commit()
-        
+
 if __name__=='__main__':
     main()</pre>
     </div>
@@ -863,7 +645,7 @@ if __name__=="__main__":
   main()
 
       </pre>
-      <pre class="brush: plain">out: [(u'DGDG', 7), (u'CGAmC', 6), (u'GCGC', 6), (u'GEmGEm', 6), (u'B7EAE', 5), (u'CFCF', 5), 
+      <pre class="brush: plain">out: [(u'DGDG', 7), (u'CGAmC', 6), (u'GCGC', 6), (u'GEmGEm', 6), (u'B7EAE', 5), (u'CFCF', 5),
 (u'EEEE', 5), (u'DADA', 4), (u'DEmCG', 4), (u'DGCG', 4)]</pre>
     </div>
   </div>
@@ -876,13 +658,13 @@ if __name__=="__main__":
                   						<p></p>
                 					</div>
               					</div>
-              					
-            				</div>   
+
+            				</div>
          				</div>
-         			  
+
       			</article>
       			<!-- End Resolution 2 -->
-    
+
 	  			<!-- Resolution 3 -->
 	  			<article id="three" style="background-color:#f7f7f7;">
           			<div class="center">
@@ -1027,24 +809,24 @@ if __name__=="__main__":
             <ul><ul><p><big>- <a target="_blank" href="http://willienelson.com/">Willie Nelson</a></big></p></ul></ul>
             <hr>
 
-            			<div class="left"> 
-          				</div>   
-       				</div>    
+            			<div class="left">
+          				</div>
+       				</div>
       			</article>
      			<!-- End Resolution 3 -->
-      
+
     			<!-- Resolution 4 -->
     			<article id="four">
     				<div style="position: relative;">
-      					<div class="center">  
-          					
+      					<div class="center">
+
 							<header>
                   <hr class="star-light">
               </header>
               <h1>Country Music Lyrics</h1>
               <p><br></p>
               <h2>Getting Country Music Lyrics</h2>
-              <p>The hypothesis that country music sounds similar due similarity of the lyrics can also be examined. The country music lyrics are also scraped from the website <a target="_blank" href="http://www.anycountrymusiclyrics.com">www.anycountrymusiclyrics.com</a>. The scraper goes through all the songs on the website, and pulls the main text, which are the lyrics. Following, the lyrics are cleaned up, by converting them all to lowercase, removing punctuation and any extraneous spaces, and put into a list of lists, the outer list is for the various songs, and the inner list contains the words for each song, or a complete corpus. The list is then saved using the python pickle function, since the scraping takes about 35 minutes to run in total. This process was in general easier to scrape than the guitar tablature since there is more of a standard to submitting lyrics opposed to guitar tablature.</p> 
+              <p>The hypothesis that country music sounds similar due similarity of the lyrics can also be examined. The country music lyrics are also scraped from the website <a target="_blank" href="http://www.anycountrymusiclyrics.com">www.anycountrymusiclyrics.com</a>. The scraper goes through all the songs on the website, and pulls the main text, which are the lyrics. Following, the lyrics are cleaned up, by converting them all to lowercase, removing punctuation and any extraneous spaces, and put into a list of lists, the outer list is for the various songs, and the inner list contains the words for each song, or a complete corpus. The list is then saved using the python pickle function, since the scraping takes about 35 minutes to run in total. This process was in general easier to scrape than the guitar tablature since there is more of a standard to submitting lyrics opposed to guitar tablature.</p>
 
               <h3>Python script - Country Lyric Webscraper</h3>
               <div data-collapse>
@@ -1074,7 +856,7 @@ def strClean(strList):
     newRes=strList[276:-57]
     newRes2 = []
     for i in range(len(newRes)-1):
-        if newRes[i+1]!='\n' and newRes[i]!='\n': 
+        if newRes[i+1]!='\n' and newRes[i]!='\n':
             t1 = ' '.join(str(newRes[i]).split()) # removes the \n, which may be needed
             t1 = t1.translate(string.maketrans("",""), string.punctuation)
             newRes2.extend(str.split(t1.lower()))
@@ -1094,9 +876,9 @@ def main():
           print link['href']
           artistAlphaLinks.append(link['href'])
 
-  # = Get all links of artists 
+  # = Get all links of artists
   artistLinks = []
-  for alphaLink in artistAlphaLinks:    
+  for alphaLink in artistAlphaLinks:
       newurl = urllib.urlopen(alphaLink).read()
       for link in BeautifulSoup(newurl, parseOnlyThese=SoupStrainer('a')):
           if link.has_attr('href') and '.com/show/artist' in link['href']:
@@ -1104,9 +886,9 @@ def main():
               artistLinks.append(link['href'])
   print(len(artistLinks))
 
-  # = Get all links of songs 
+  # = Get all links of songs
   songLinks = []
-  for artistLink in artistLinks:    
+  for artistLink in artistLinks:
       newArtisturl = urllib.urlopen(artistLink).read()
       for link in BeautifulSoup(newArtisturl, parseOnlyThese=SoupStrainer('a')):
           if link.has_attr('href') and '.com/lyrics/' in link['href']:
@@ -1114,10 +896,10 @@ def main():
               songLinks.append(link['href'])
   print(len(songLinks))
 
-  # = Get the lyrics of all songs 
+  # = Get the lyrics of all songs
   songLyrics = []
   for songLink in songLinks:
-      songSoup = BeautifulSoup(urllib.urlopen(songLink).read())    
+      songSoup = BeautifulSoup(urllib.urlopen(songLink).read())
       songData = songSoup.findAll(text=True)
       songResult = filter(visible, songData)
       songLyrics.append(strClean(songResult)) ## Extend -> one long list, append -> list length of songs
@@ -1178,7 +960,7 @@ def main():
   # = have to reverse since the sort is in ascending order
   sortedKeys.reverse(); sortedVals.reverse()
 
-  # = Plot in bar chart        
+  # = Plot in bar chart
   plt.figure(44); plt.clf(); res = 40
   plt.bar(range(res), sortedVals[:res]/sum(sortedVals)*100., align='center')
   plt.xticks(range(res), sortedKeys[:res], rotation = 60)
@@ -1190,23 +972,23 @@ if __name__=="__main__":
 </div>
 <p><br></p>
 
-          					<div class="left">     	
+          					<div class="left">
               					<div class="container">
                 					<div class="sideText3">
                   						<span class="line"></span>
                 	  					<p></p>
                 					</div>
-              					</div>	   
-								
+              					</div>
+
          	 				</div>
       					</div>
     				</div>
 				</article>
-  				<!-- End Resolution 4 --> 
-  
-  				<!-- Resolution 5 --> 
+  				<!-- End Resolution 4 -->
+
+  				<!-- Resolution 5 -->
     			<article id="five" style="background-color:#f7f7f7;">
-      				<div class="center">      
+      				<div class="center">
       					<p><br></p>
           				<h2>Results</h2>
                   <script>
@@ -1240,7 +1022,7 @@ var myChart = new Chart(ctx, {
             backgroundColor: 'rgba(24, 188, 156, 0.6)',
             borderColor: 'rgba(9, 74, 61, 1)',
             borderWidth: 2,
-            
+
         }]
     },
     options: {
@@ -1281,21 +1063,21 @@ var myChart = new Chart(ctx, {
 <p>In order to understand the context all the stop words have been removed, taken from the <a target="_blank" href = "www.nltk.org/nltk_data/">natural language toolkit</a>, and a more accurate description of the language of contry music is achieved. We find that the just 40 words are needed make up 22.48% of all lyrics, and only about 1000 words are needed to account for 80% of all words in country music. If we look at type of language of the words from the top 40 words, they are almost all heartbreak/love kind of songs, or could be used in that context. This idea is confirmed when we look at the <a target="_blank" href="http://www.radioveronica.us/classiccountry500.htm">Top 500 country songs</a>, we can see that many songs have title such as <i>"I Don't Call Him Daddy"</i> by Doug Supernaw, or <i>"We Danced"</i> by Brad Paisley, and we might be able to infer, after looking at the data our lyrics analysis, what kind of lyrics these songs may contain.</p>
 <p><br></p>
 
-          				
+
           				<div class="left">
-							
-                  				
+
+
           				</div>
           				<div class="right">
           				</div>
       				</div>
     			</article>
-  				<!-- End Resolution 5 --> 
+  				<!-- End Resolution 5 -->
 
-				<!-- Resolution 6 --> 
+				<!-- Resolution 6 -->
     			<article id="six">
-      				<div class="center">  
-						
+      				<div class="center">
+
 <h2>Generating Country Music Lyrics</h2>
             <p>We can take this approach further, and use a naive-Bayes approach to generate our own country music lyrics. By taking a word, we can use the nested dictionary to see what likely words follow that word. We can continue this until we get one lyric, which consists of 8-10 words. Typically, a chorus or verse consists of 4-6 lyrics. From this we can create a song. This process is similar to <a target="_blank" href="https://en.wikipedia.org/wiki/Markov_chain">Markov chains</a>, a random mathematical system in which the outcome of a state is based on the current state a system is in, and not the one that came before it. Here, the predictive text generator will only offer suggestions based on the last word entered. However this process differs from Markov chains, in that the user has to enter a word to begin with, or a random one is generated from the dictionary. </p>
             <p><br></p>
@@ -1328,9 +1110,9 @@ def createVerse(mydict, verseLen, lyricLen):
     for j in range(verseLen):
         for i in range(lyricLen):
             robo_lyric.append(WeightedPick(lyricDict[robo_lyric[-1]]))
-    
+
     for i in range(verseLen):
-        robo_lyric.insert((i+1)*lyricLen+i,'\n')  
+        robo_lyric.insert((i+1)*lyricLen+i,'\n')
     return(' '.join(robo_lyric))
 
 # =============================================================================
@@ -1361,7 +1143,7 @@ def main():
   chorus = createVerse(lyricDict, chorusLen,lyricLen)
   verse1 = createVerse(lyricDict, chorusLen,lyricLen)
   verse2 = createVerse(lyricDict, chorusLen,lyricLen)
-  mySong = verse1 + '\n\r\n' + chorus + '\n\r\n' + verse2 + '\n\r\n' + chorus 
+  mySong = verse1 + '\n\r\n' + chorus + '\n\r\n' + verse2 + '\n\r\n' + chorus
   print(mySong)
 
 if __name__=="__main__":
@@ -1371,24 +1153,24 @@ if __name__=="__main__":
 </div>
 </div>
 <p>A typical song produced, with both chorus and verse having 4 lyrics, and 10 words per lyric, in format verse 1, chorus, verse 2, chorus.</p>
-<pre class="brush: plain"> teen havin fun there are times there’s at school football 
- team and there was was custommade to do nothing before 
- anywhere that it feels its the things that lullaby 
+<pre class="brush: plain"> teen havin fun there are times there’s at school football
+ team and there was was custommade to do nothing before
+ anywhere that it feels its the things that lullaby
  of the chance to sing stuff we ain’t funny more try
 
- couldve lied but when i was thinking bout as long 
- as i was in her name in love me that 
- looks like a different then well ive been grand daddy 
+ couldve lied but when i was thinking bout as long
+ as i was in her name in love me that
+ looks like a different then well ive been grand daddy
  ain’t muddy and shes a little moments like hes alright now
 
- check every day i think its funny well this worlds 
- too much like there i’d like deja vu because when 
- im outta here forever in some people take it to 
+ check every day i think its funny well this worlds
+ too much like there i’d like deja vu because when
+ im outta here forever in some people take it to
  the second grade i was in the caribbean sun well that
 
- couldve lied but when i was thinking bout as long 
- as i was in her name in love me that 
- looks like a different then well ive been grand daddy 
+ couldve lied but when i was thinking bout as long
+ as i was in her name in love me that
+ looks like a different then well ive been grand daddy
  ain’t muddy and shes a little moments like hes alright now
 
 </pre>
@@ -1396,62 +1178,62 @@ if __name__=="__main__":
 <p>To implement this better I have impletented a training model using recurrent neural networks, which can be found on my blog post <a href="../blog/RNNCountryLyrics">here</a>, that more accurately recreates the gramatical syntax of country music lyrics.</p>
 <p><br></p>
 
-						
+
           				<div class="left">
-            				<p></p> 
+            				<p></p>
             				<div class="container">
                					<div class="sideText5">
                   					<span class="line"></span>
                 	 				<p></p>
                 				</div>
-            				</div>	
+            				</div>
       						<p></p>
         				</div>
           				<div class="right">
-        				</div> 
-       				</div>       
+        				</div>
+       				</div>
     			</article>
-    			<!-- End Resolution 6 --> 
+    			<!-- End Resolution 6 -->
 
-				<!-- Resolution 7 -->  
-    			<article id="seven" style="/*background-color:#f7f7f7;*/ padding-bottom: 0;">	 
+				<!-- Resolution 7 -->
+    			<article id="seven" style="/*background-color:#f7f7f7;*/ padding-bottom: 0;">
 					<div class="center">
             <p><br></p>
-                  <h2>Conclusion</h2> 
+                  <h2>Conclusion</h2>
                   <p>To conclude, we have seen that while chord progressions show as much variation as other genres, there is significantly less variation in the actual chords used in the chord progressions that may lead to the reason I believe that many country music sounds similar. Also, the language used in country music has little variation and the theme of the songs is also similar, and generated lyrics, if we take grammar out, is pretty convincing, and subscribes to the successful <i>"formula"</i> that has dominated country music.</p>
             <p>In the end it's not just me that thinks all country music sounds the same, as Buzzfeed <a target="_blank" href="https://www.buzzfeed.com/maycie/this-video-proves-that-all-country-music-sounds-the-same?utm_term=.sl3kkr2QA#.cr5gg4ERe">reports</a>, song writer Gregory Todd <a target="_blank" href="https://www.youtube.com/channel/UCviDRYUvXRn7m9UrEx_nnVg">shows</a> that different country songs, from differnt artists, can be mixed the result can be seemless. </p>
             <p><br></p>
-					   <div style="clear:both;"></div>	
-      				</div>   	
+					   <div style="clear:both;"></div>
+      				</div>
     			</article>
-  				<!-- End Resolution 7 --> 
-  	
-				<!-- Resolution 8 -->  
+  				<!-- End Resolution 7 -->
+
+				<!-- Resolution 8 -->
     			<article id="eight">
-      				<div class="center">	
+      				<div class="center">
               			<h2></h2>
                     <p></p>
-              			<div class="left"> 	
+              			<div class="left">
                 			<div class="container">
                 				<div class="sideText4">
                   					<span class="line"></span>
                 		  			<p></p>
                 				</div>
-              				</div>	  
+              				</div>
       						<p></p>
             			</div>
               			<div class="right">
-              			</div>  
+              			</div>
               			<div style="clear: both;"></div>
-                     </div> 
+                     </div>
               		 <div class="center">
-              		</div>  	
+              		</div>
     			</article>
-  				<!-- End Resolution 8 --> 
-	
-    			<!-- Resolution 9-->      
+  				<!-- End Resolution 8 -->
+
+    			<!-- Resolution 9-->
     			<article id="forecast" style=" display: block; margin-bottom: 0px; ">
-      					<div class="center"> 
+      					<div class="center">
 
                       <p><br></p>
                       <h2>Related Projects</h2>
@@ -1463,7 +1245,7 @@ if __name__=="__main__":
                                     <a href="/blog/Spark-Music-Rec/">
                                       Recommending Music with Apache Spark
                                     </a>
-                                  </h1>       
+                                  </h1>
                                 </div>
                               </div>
 
@@ -1477,8 +1259,8 @@ if __name__=="__main__":
                                 </div>
                               </div>
 
-                      </div>     
-              				
+                      </div>
+
               				<p><br></p>
               				<p><br></p>
               				<p><br></p>
@@ -1487,22 +1269,12 @@ if __name__=="__main__":
               				<p><br></p>
               				<p class style="font-style: italic; margin-bottom: 33px;">
       					</div>
-      				
+
     			</article>
-    			<!-- End Resolution 9 --> 
-              
+    			<!-- End Resolution 9 -->
+
         	</div> <!--extra wrapper-->
-         	<footer class="text-center">
-        <div class="footer-below">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h4>Matthew Moocarme - moocarme@gmail.com</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+
     	</div><!-- end wrapper -->
  	<script type="text/javascript" src="//munchkin.marketo.net//munchkin-beta.js"></script><script>Munchkin.init('062-HAC-076', {customName: 'past-forward-2016', wsInfo: 'j1RR'});</script>
  	</body>
@@ -1518,78 +1290,78 @@ if __name__=="__main__":
 </script>
 <script>
 $(document).ready(function() {
-  
-    
-  
-	var sections = $('article'), 
-        nav = $('nav'), 
+
+
+
+	var sections = $('article'),
+        nav = $('nav'),
         nav_height = nav.outerHeight();
- 
+
 	$(window).on('scroll', function () {
 
   		var cur_pos = $(this).scrollTop();
- 
+
   		sections.each(function() {
     	var top = $(this).offset().top - nav_height,
         bottom = top + $(this).outerHeight();
- 
+
     	if (cur_pos >= top && cur_pos <= bottom) {
       		nav.find('a').removeClass('active');
       		sections.removeClass('active');
- 
+
       		$(this).addClass('active');
       		nav.find('a[href="/examples/SmoothPageScroll/#'+$(this).attr('id')+'"]').addClass('active');
     	}
   		});
-      
+
       	if ($('#one .left').isOnScreen()) {
     		var wScroll = $(this).scrollTop();
           	var $sideText1 = $('.sideText1');
             var containerScroll = wScroll - $sideText1.parent().offset().top + 1000;
       		$sideText1.css({
-       			'transform' : 'translate(0px, +'+ containerScroll/10 +'%)' 
-      		});  
+       			'transform' : 'translate(0px, +'+ containerScroll/10 +'%)'
+      		});
       	}
-      	
+
       	if ($('#two .left').isOnScreen()) {
     		var wScroll = $(this).scrollTop();
           	var $sideText2 = $('.sideText2');
           	var containerScroll2 = wScroll - $sideText2.parent().offset().top + 1000;
       		$sideText2.css({
-       			'transform' : 'translate(0px, +'+ containerScroll2/10 +'%)' 
-      		});  
+       			'transform' : 'translate(0px, +'+ containerScroll2/10 +'%)'
+      		});
       	}
-      	
+
       	 if ($('#four .left').isOnScreen()) {
     		var wScroll = $(this).scrollTop();
           	var $sideText3 = $('.sideText3');
           	var containerScroll3 = wScroll - $sideText3.parent().offset().top + 1000;
       		$sideText3.css({
-       			'transform' : 'translate(0px, +'+ containerScroll3/10 +'%)' 
-      		});  
+       			'transform' : 'translate(0px, +'+ containerScroll3/10 +'%)'
+      		});
       	}
-      
+
       	if ($('#eight .left').isOnScreen()) {
     		var wScroll = $(this).scrollTop();
           	var $sideText4 = $('.sideText4');
           	var containerScroll4 = wScroll - $sideText4.parent().offset().top + 1000;
       		$sideText4.css({
-       			'transform' : 'translate(0px, +'+ containerScroll4/10 +'%)' 
-      		});  
+       			'transform' : 'translate(0px, +'+ containerScroll4/10 +'%)'
+      		});
       	}
-      
+
       	if ($('#six .left').isOnScreen()) {
     		var wScroll = $(this).scrollTop();
           	var $sideText5 = $('.sideText5');
           	var containerScroll5 = wScroll - $sideText5.parent().offset().top + 1000;
       		$sideText5.css({
-       			'transform' : 'translate(0px, +'+ containerScroll5/10 +'%)' 
-      		});  
+       			'transform' : 'translate(0px, +'+ containerScroll5/10 +'%)'
+      		});
       	}
-      
+
       	/** Measures the height of hero then nav bar appears after it **/
       	var heroHeight = $('.hero').height();
-      
+
       	if ($(this).scrollTop() > heroHeight) {
           $('.nav-toggle').addClass('show');
         } else {
@@ -1597,16 +1369,16 @@ $(document).ready(function() {
         }
 
       	/** For Desktop Nav only (from 1170px wide) **/
-      	if ($(this).scrollTop() > heroHeight){ 
-    		$('#desktopNav').addClass('fixedElement'); 
+      	if ($(this).scrollTop() > heroHeight){
+    		$('#desktopNav').addClass('fixedElement');
   		} else {
-    		$('#desktopNav').removeClass('fixedElement'); 
-  		}	
-	});  
-  
+    		$('#desktopNav').removeClass('fixedElement');
+  		}
+	});
+
   	/**** Smooth Scrolling ****/
 	$('a[href*=#]:not([href=#])').click(function() {
-    	if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') 
+    	if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
         	|| location.hostname == this.hostname) {
 
         	var target = $(this.hash);
@@ -1619,22 +1391,22 @@ $(document).ready(function() {
         	}
     	}
 	});
-  	
-  	
-}); 
 
-  
+
+});
+
+
   /*** Navigation menu toggle ***/
   $('.nav-toggle').on('click', function(){
     $('.wrapper').toggleClass('open');
     $('.main-navigation-left').toggleClass('open');
     $('.nav-toggle').toggleClass('open');
   });
-  
+
   /*Desktop Fixed Nav*/
   var stickyTop = $('#desktopNav').offset().top;
-  
-  
+
+
   /** Function to see when a div is in view **/
   $.fn.isOnScreen = function(){
     var win = $(window);
@@ -1642,14 +1414,14 @@ $(document).ready(function() {
         top : win.scrollTop(),
         left : win.scrollLeft()
     };
-    
+
     viewport.right = viewport.left + win.width();
     viewport.bottom = viewport.top + win.height();
-    
+
     var bounds = this.offset();
     bounds.right = bounds.left + this.outerWidth();
     bounds.bottom = bounds.top + this.outerHeight();
-    
+
     return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
   };
 </script></html>

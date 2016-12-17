@@ -1,3 +1,16 @@
-_site
+
+# Extra data folders
+_site/
 .sass-cache
 .jekyll-metadata
+test/
+_sass/
+_includes/
+_layouts/
+SoundCheck/
+feed.xml
+maincss-for-reference.css
+
+# Gemfiles
+Gemfile
+Gemfile.lock

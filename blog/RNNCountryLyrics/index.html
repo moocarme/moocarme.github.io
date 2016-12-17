@@ -166,12 +166,11 @@ $(document).ready(function () {
 <link href="//fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
 <body id="bootstrap-overrides">
-<style type="text/css"> 
-#bootstrap-overrides hr.star-light {  
-  border-color: #18BC9C;}
- #bootstrap-overrides  hr.star-light:after {
-background-color: white;
-color: #2C3E50;}
+<style type="text/css">
+#bootstrap-overrides hr.star-light {
+  border-color: #000000;
+	margin-left: auto;
+    margin-right: auto;}
  #bootstrap-overrides div.post-overlay-header{
  	display:inline-block;
 margin-left:30px;
@@ -195,18 +194,18 @@ height:312px;
 <ul><p><big><i>"Anywhere that it feels its the things that lullaby"</i></big></p></ul>
 <ul><ul><p><big>- Naive-Bayes Generated Lyrics</a></big></p></ul></ul>
 <hr>
-<p><br></p>	
+<p><br></p>
 <h3>Motivation</h3>
 <p>I already found out that <a target='_blank' href="/riffCode">all country music sounds similar</a>, and I was even able to generate some country music lyrics using a <a target='_blank' href="https://en.wikipedia.org/wiki/Naive_Bayes_classifier"></a>naive-Bayes approach. The naive-Bayes approach that I used took a simple probablistic approach that depends on the going through each word and choosing the next word dependent on probable words that have followed from a database of scraped lyrics. For the word "hotel" was proceeded by the word "room" 3 times, "wall" once, "bed" once, "sign" once, and  "with" once. So, when generatin the lyrics randomly I come across the word "hotel", I will take a weighted probablitly of the proceeding words, to choose that proceeding word in the generated song lyric. An example of it's generation is:</p>
 <p><br></p>
-<pre><code> teen havin fun there are times there’s at school football 
- team and there was was custommade to do nothing before 
- anywhere that it feels its the things that lullaby 
+<pre><code> teen havin fun there are times there’s at school football
+ team and there was was custommade to do nothing before
+ anywhere that it feels its the things that lullaby
  of the chance to sing stuff we ain’t funny more try
 
- couldve lied but when i was thinking bout as long 
- as i was in her name in love me that 
- looks like a different then well ive been grand daddy 
+ couldve lied but when i was thinking bout as long
+ as i was in her name in love me that
+ looks like a different then well ive been grand daddy
  ain’t muddy and shes a little moments like hes alright now
 </code></pre>
 <p><br></p>
@@ -230,9 +229,9 @@ function reload() {
       <h2 class="panel-title">
         <a data-toggle="collapse" href="#collapse_ws"><p>See here</p></a>
       </h2>
- 
+
     <div id="collapse_ws" class="panel-collapse collapse">
-      
+
 
 <div id="r" class="section level2">
 <pre class="python"><code># -*- coding: utf-8 -*-
@@ -261,12 +260,12 @@ def visible(element):
 
 def strClean(strList):
     '''
-    string cleaning function, gets only the lyrics of the text, and removes 
+    string cleaning function, gets only the lyrics of the text, and removes
     text enclosed with parenthsis and square brackets
     '''
     headerLength, footerLength = 220, 313
     subList=strList[headerLength:-footerLength] # country-lyrics.com
-    cleanList = []    
+    cleanList = []
     for lines in subList:
         noParen = re.sub(r'\([^)]*\)', '', lines)
         noSquare = re.sub(r'\[[^)]*\]', '', noParen)
@@ -290,9 +289,9 @@ for link in soup.find_all('a', href=True):
         artistAlphaLinks.append(link['href'])
 artistAlphaLinks = list(set(artistAlphaLinks)) # remove duplicates
 
-# = Get all links of artists 
+# = Get all links of artists
 artistLinks = []
-for alphaLink in artistAlphaLinks:    
+for alphaLink in artistAlphaLinks:
     newurl = BeautifulSoup(requests.get(alphaLink).content)
     for link in newurl.find_all('a', href=True):
         if link.has_attr('href') and '.com/lyrics' in link['href']:
@@ -302,9 +301,9 @@ artistLinks = list(set(artistLinks)) # remove duplicates
 print(len(artistLinks))
 
 
-# = Get all links of songs 
+# = Get all links of songs
 songLinks = []
-for artistLink in artistLinks:    
+for artistLink in artistLinks:
     newArtisturl = BeautifulSoup(requests.get(artistLink).content)
     for link in newArtisturl.find_all('a', href=True):
         if link.has_attr('href') and '.com/lyrics/' in link['href']:
@@ -316,7 +315,7 @@ print(len(songLinks))
 
 songLyrics = []
 for songLink in songLinks:
-    songSoup = BeautifulSoup(requests.get(songLink).content)    
+    songSoup = BeautifulSoup(requests.get(songLink).content)
     songData = songSoup.findAll(text=True)
     songResult = filter(visible, songData)
     cleanLyrics = strClean(songResult)
@@ -343,115 +342,115 @@ The model comes from Andrej Karpathy’s great <a target='_blank' href="https://
 <p><br></p>
 <p>Ideally, we want the number of parameters of the model to be around the same size as the number of characters in the training dataset, which is around 6 million. To get an idea of the model I trained with around 500,000 parameters, so I anticipate the model to underfit, but I can run this on my laptop in about half a day, so I'll take it. </p>
 <p>After every 1000 iterations of the model outputs a checkpoint that can be used to see how the model is progessing. We can look at the output after 5000 iterations:</p>
-<p><pre><code>Hey I'm canyed and the better wey the line 
-You don't do that we're and sang 
-How it wint that they wonder a one 
-I tell you and in the lool like the beas 
-I don't know you don't know a beaked 
-And wourd you say 
- 
-And I’m no love and doing me  
-Gord a a coming be wound 
-How not you deally tong the hought and don't morning 
-When it ain't hold and a great over a pearing we pet amed 
-The pilling chinder 
-To let it always me 
- 
-We like call for the gonna my best now 
-I plight the big in of the goon 
-I can like the peonbing now 
-They was all it wantin'  
-I would think you hear it moon and you could the day 
-On the will 
-Now you want to go this chould, 
-Put in hove nearing to make, some hell 
-It's so compor toull crack 
-Said you want you that there 
-Hould me the sweet not good 
-Sighter up and more me of a ream at the done 
+<p><pre><code>Hey I'm canyed and the better wey the line
+You don't do that we're and sang
+How it wint that they wonder a one
+I tell you and in the lool like the beas
+I don't know you don't know a beaked
+And wourd you say
+
+And I’m no love and doing me
+Gord a a coming be wound
+How not you deally tong the hought and don't morning
+When it ain't hold and a great over a pearing we pet amed
+The pilling chinder
+To let it always me
+
+We like call for the gonna my best now
+I plight the big in of the goon
+I can like the peonbing now
+They was all it wantin'
+I would think you hear it moon and you could the day
+On the will
+Now you want to go this chould,
+Put in hove nearing to make, some hell
+It's so compor toull crack
+Said you want you that there
+Hould me the sweet not good
+Sighter up and more me of a ream at the done
 </code></pre></p>
 <p><br></p>
 <p>After 5000 iterations the model seems to have the line structure down pretty well, however since the model has to learn how to spell, and grammatical syntax we can see there is a lot of misspelled words, and the text often doen't make sense.</p>
 <p>After 40,000 iterations the model seems to have converged, and we can look an example of some of the lyrics it generates:</p>
-<!--<p><pre><code>And I was so bright like the little heart 
-Rocks now so we can bit erest grace 
-So but I want a day and a country sees 
-And when nothing really can be 
-I've been stuck and it open man 
-They can say, we're burning to 
-Don't wanna go to the mountain 
-So you say I'm gonna have to be the sand 
-Would want it away 
-You want to wake you of the mountains 
-Can you want to leave, a would even all the love when you think then 
-It hate to live the way you do it in the way that that I can have 
-When you try to care without it in those while 
-The day you wanna take your sun 
-I'm meant to say what you wanna go 
-My she was it on my road of your hand 
-And I could be a everything it's down 
-I thought I go time with you 
-The world that you wanna fare  
-When you will there’s down to last star 
-Oh like a country stars to let the weather 
-I want to so her like a bone  
-He were the night on the sand 
-Without you 
-And you think I don't know 
-And I'm long the dead like you 
-'Cause the was on the stars 
-It's the world to think you cross 
-It's the call in the bottom love 
-And it was just a retter 
-I'm not starting before a friend 
-I got a believer and gone 
-And drow a bit of wither 
-Oh I want to be the big girl 
-I wanna be the bones friend 
+<!--<p><pre><code>And I was so bright like the little heart
+Rocks now so we can bit erest grace
+So but I want a day and a country sees
+And when nothing really can be
+I've been stuck and it open man
+They can say, we're burning to
+Don't wanna go to the mountain
+So you say I'm gonna have to be the sand
+Would want it away
+You want to wake you of the mountains
+Can you want to leave, a would even all the love when you think then
+It hate to live the way you do it in the way that that I can have
+When you try to care without it in those while
+The day you wanna take your sun
+I'm meant to say what you wanna go
+My she was it on my road of your hand
+And I could be a everything it's down
+I thought I go time with you
+The world that you wanna fare
+When you will there’s down to last star
+Oh like a country stars to let the weather
+I want to so her like a bone
+He were the night on the sand
+Without you
+And you think I don't know
+And I'm long the dead like you
+'Cause the was on the stars
+It's the world to think you cross
+It's the call in the bottom love
+And it was just a retter
+I'm not starting before a friend
+I got a believer and gone
+And drow a bit of wither
+Oh I want to be the big girl
+I wanna be the bones friend
 </code></pre></p> -->
 <p><code><pre>
-Tied right now 
-I got life now he never thought I got by the all 
-Going up like a house four boy 
-Nothing his thing out of hands 
-No one with the danger in the world 
-I love my black fire as I know 
-But the short knees just around me 
-Fun the heart couldnes fall to back 
-I see a rest of my wild missing far 
-When I was missing to wait 
-And if I think 
-It's a real tame 
-I say I belong is every long night 
-Maybe lovin' you 
-I'm scared caught here bowe 
-the capnt in a never fishing from dark   
-I drark good justed like beer 
-Oat on a revivin', four freezuss leavin go 
-I found the whiskey up wheels 
- 
-You are in your name 
-I guess it could do come for the music of love 
-I looked like my mind turned my days hour 
-Love on my san 
+Tied right now
+I got life now he never thought I got by the all
+Going up like a house four boy
+Nothing his thing out of hands
+No one with the danger in the world
+I love my black fire as I know
+But the short knees just around me
+Fun the heart couldnes fall to back
+I see a rest of my wild missing far
+When I was missing to wait
+And if I think
+It's a real tame
+I say I belong is every long night
+Maybe lovin' you
+I'm scared caught here bowe
+the capnt in a never fishing from dark
+I drark good justed like beer
+Oat on a revivin', four freezuss leavin go
+I found the whiskey up wheels
 
-Honey love me one time 
-Whiskey, everybody gone forgotta find the harsless. 
-And the fall's were over my life is a star, 
-But when you'll start the world in the window 
-Say I know this is not to know that you have to go 
-But your days, your raintast miles 
-I don't like trouble I'm boued to tell you a puttred eyes he used to hold me to a 
-While anymore are going to wear it 
-What it's a right, but I will burn around your mind 
-And the childrens daddy played by the end.  
- 
-Singing when it feels on over, I can surver  
-But you’ve been better than I found you  
-Before me looking for 
-Wondering I'd go alone  
- 
-The leovet good wides. 
+You are in your name
+I guess it could do come for the music of love
+I looked like my mind turned my days hour
+Love on my san
+
+Honey love me one time
+Whiskey, everybody gone forgotta find the harsless.
+And the fall's were over my life is a star,
+But when you'll start the world in the window
+Say I know this is not to know that you have to go
+But your days, your raintast miles
+I don't like trouble I'm boued to tell you a puttred eyes he used to hold me to a
+While anymore are going to wear it
+What it's a right, but I will burn around your mind
+And the childrens daddy played by the end.
+
+Singing when it feels on over, I can surver
+But you’ve been better than I found you
+Before me looking for
+Wondering I'd go alone
+
+The leovet good wides.
 I feel it </pre></code></p>
 <p><br></p>
 <p>Now the lyrics are starting to make sense and there are much less spelling mistakes. The spelling and grammatical mistakes are a result of the underfitting due to the insufficient number of parameters. </p>
@@ -474,7 +473,7 @@ I feel it </pre></code></p>
               <a href="/blog/Spark-Music-Rec/">
                 Recommending Music with Apache Spark
               </a>
-            </h1>       
+            </h1>
           </div>
         </div>
 
@@ -504,19 +503,6 @@ I feel it </pre></code></p>
   width: 100%;
   }
 </style>
-<div class="main-container-new">
-<footer class="text-center">
-        <div class="footer-below">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h4>Matthew Moocarme - moocarme@gmail.com</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-</div>
 
 </body>
 </html>

@@ -106,7 +106,7 @@ h6 {
                     <li class="page-scroll">
                         <a href="../">Blog</a>
                     </li>
-                 
+
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -159,12 +159,11 @@ $(document).ready(function () {
 <link href="//fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
 <body id="bootstrap-overrides">
-<style type="text/css"> 
-#bootstrap-overrides hr.star-light {  
-  border-color: #18BC9C;}
- #bootstrap-overrides  hr.star-light:after {
-background-color: white;
-color: #2C3E50;}
+<style type="text/css">
+#bootstrap-overrides hr.star-light {
+  border-color: #000000;
+	margin-left: auto;
+    margin-right: auto;}
 #bootstrap-overrides div.post-overlay-header{
   display:inline-block;
 margin-left:30px;
@@ -183,14 +182,14 @@ height:312px;
 <header>
     <hr class="star-light">
 </header>
-<p><br></p>	
+<p><br></p>
 <h3>Hypothesis</h3>
 <p>I hypothesize that the links between the categories of the webpages in wikipedia will show the connections between various categories and may reveal origins of fields that may be unintuitive.</p>
 <p>The complete code can be found on github <a target = "_blank" href="https://github.com/moocarme/Coding-Samples/tree/master/Python-with-SQL">here</a>.</p>
 <p><br></p>
 <h4>Method</h4>
 <p>
-To solve this problem I separate the problem into 2. 
+To solve this problem I separate the problem into 2.
 To begin, I create a web-scraper that starts at either a page from a sqlite database, or begins at the wikipedia homepage. The home page has a variation of different links that change every day so it is a good place to start to ensure a variation of wikipedia pages of different categories. The web-scraper iterates through the links on a wikipedia page and stores them in a sqlite database. </p>
 
 <p>Once it has stored all the links in a given page, it moves to the next page in the database. Obviously this can go on ad infinitum so the pages are limited (to say 60) at a time, so we don't anger the internet service provider. The ultimate goal would be a databse of all the links in wikipedia.</p>
@@ -200,9 +199,9 @@ To begin, I create a web-scraper that starts at either a page from a sqlite data
       <h2 class="panel-title">
         <a data-toggle="collapse" href="#collapse_ws"><p>See here &#9660;</p></a>
       </h2>
- 
+
     <div id="collapse_ws" class="panel-collapse collapse">
-      
+
 
 <div id="r" class="section level2">
 <pre class="python"><code>
@@ -244,7 +243,7 @@ def get_urls(url_tree, parent_id):
         try:
             if child.tag == 'a':
 #               print(child.get('href'))
-               cur.execute('''INSERT OR IGNORE INTO Links (link, parent) 
+               cur.execute('''INSERT OR IGNORE INTO Links (link, parent)
                    VALUES ( ?, ? )''', ( child.get('href'), parent_id) )
         except: continue
     return None
@@ -262,7 +261,7 @@ for i in range(pages):
     cur.execute('SELECT link FROM Links WHERE id = ? ', (init + i, ))
     try: url = cur.fetchone()[0]
     except: url = None
-    
+
     if url:
         cur.execute('SELECT id FROM Links WHERE link = ? ', (init_url, ))
         parenturl_id = cur.fetchone()[0]
@@ -270,7 +269,7 @@ for i in range(pages):
             page = requests.get('https://en.wikipedia.org' + url)
             tree = html.fromstring(page.content)
             # all the links in the main content in the class 'mw-content-ltr'
-            tree_body = tree.find_class('mw-content-ltr') 
+            tree_body = tree.find_class('mw-content-ltr')
             tree_body=tree_body[0] # in list type for some reason
             t1 = get_urls(tree_body, parenturl_id) # grab the urls from the tree
         except: continue
@@ -292,9 +291,9 @@ Each node of the network represents one webpage, and a connection from one node 
       <h2 class="panel-title">
         <a data-toggle="collapse" href="#collapse_network"><p>See here &#9660;</p></a>
       </h2>
- 
+
     <div id="collapse_network" class="panel-collapse collapse">
-      
+
 
 <div id="r" class="section level2">
 <pre class="python"><code>
@@ -341,7 +340,7 @@ def lookup(d, key):
         if not found:      # keep iterating unitl found is True
             try:
                 if child.tag == 'a' and (key in child.text): # a finds the links
-#                    print(child.text)   
+#                    print(child.text)
                     found = True
             except: continue
         else: # when found is True
@@ -365,11 +364,11 @@ for i in range(testpages): # iterate through links
         t1 = lookup(tree, 'Categories')      # look for link after 'categories'
         newtree = tree
         categories = ['first'] # initialise category list
-        
+
         # while loop to find where catergory list should end
         while t1.text != None and 'categor' not in categories[-1] and categories[-1] not in categories[:-2]:
             t1 = lookup(newtree, 'Categories')
-            categories.append(t1.text)    
+            categories.append(t1.text)
             newurl = 'https://en.wikipedia.org' + t1.get('href')
             if categories[-2] != 'first':
                 G.add_edge(categories[-1], categories[-2]) # add to graph if not the first in the list
@@ -377,10 +376,10 @@ for i in range(testpages): # iterate through links
             newpage = requests.get(newurl)
             newtree = html.fromstring(newpage.content)
 #        print(categories)
-        
+
         # update database
         if len(categories) >= 2:
-            cur.execute('''INSERT OR IGNORE INTO Category (topic) 
+            cur.execute('''INSERT OR IGNORE INTO Category (topic)
                     VALUES ( ? )''', ( categories[-2], ) )
             cur.execute('SELECT id FROM Category WHERE topic = ? ', (categories[-2], ))
             category_id = cur.fetchone()[0]
@@ -396,7 +395,7 @@ pos = nx.spring_layout(G)
 nx.draw_networkx_nodes(G,pos,node_size=100,node_color='b')
 nx.draw_networkx_edges(G,pos,width=1)
 nx.draw_networkx_labels(G,pos,font_size=8,font_family='sans-serif',font_color='r')
-savefig("wikiNetwork.png") 
+savefig("wikiNetwork.png")
 show()
 </code>
 </div>
@@ -413,7 +412,7 @@ show()
 <p><br></p>
 
 <a target = "_blank" href="https://github.com/moocarme/Coding-Samples/tree/master/Python-with-SQL"><h2>Source Code</h2></a>
-                
+
 <p><br></p>
 <p><br></p>
                       <h2>Related Projects</h2>
@@ -425,7 +424,7 @@ show()
                                     <a href="/blog/Ultimate-Playlist-Title/">
                                       The Ultimate Playlist Title
                                     </a>
-                                  </h1>       
+                                  </h1>
                                 </div>
                               </div>
 
@@ -439,7 +438,7 @@ show()
                                 </div>
                               </div>
 
-                      </div>  
+                      </div>
               				<p><br></p>
 <p><br></p>
 <p><br></p>
@@ -455,19 +454,5 @@ show()
   width: 100%;
   }
 </style>
-<div class="main-container-new">
-<footer class="text-center">
-        <div class="footer-below">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h4>Matthew Moocarme - moocarme@gmail.com</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-</div>
-
 </body>
 </html>
