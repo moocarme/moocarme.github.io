@@ -1,0 +1,26 @@
+# Site settings
+title: Matthew Moocarme
+description: Principal ML Engineer at Paramount Global. Building AI systems that personalize entertainment for millions.
+url: https://www.mattmoocar.me
+baseurl: ""
+
+# Author
+author:
+  name: Matthew Moocarme
+  email: moocarme@gmail.com
+  linkedin: moocarme
+  github: moocarme
+  location: Brooklyn, New York
+
+# Build settings
+markdown: kramdown
+permalink: pretty
+
+# Exclude from build
+exclude:
+  - resume.tex
+  - README.md
+  - LICENCE
+  - Gemfile
+  - Gemfile.lock
+  - "*.pdf"
