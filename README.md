@@ -23,7 +23,7 @@ Portfolio website for Matthew Moocarme, Principal ML Engineer at Paramount Globa
 │   ├── css/main.css     # Modern stylesheet
 │   ├── js/main.js       # Theme toggle & navigation
 │   └── img/             # Images
-└── Resume/              # PDF resume
+└── Resume_matt_moocarme.pdf  # PDF resume
 ```
 
 ## Local Development

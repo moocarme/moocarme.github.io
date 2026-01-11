@@ -1,16 +1,14 @@
-
-# Extra data folders
+# Jekyll build
 _site/
 .sass-cache
 .jekyll-metadata
-test/
-_sass/
-_includes/
-_layouts/
-SoundCheck/
-feed.xml
-maincss-for-reference.css
 
 # Gemfiles
 Gemfile
 Gemfile.lock
+
+# Preview file (local only)
+_preview.html
+
+# OS files
+.DS_Store
